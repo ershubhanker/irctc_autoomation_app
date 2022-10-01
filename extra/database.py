@@ -1,3 +1,6 @@
+#------------------program to create table in database mysql----------------
+
+
 from tkinter import *
 def data():
     global v1,v2

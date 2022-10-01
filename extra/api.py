@@ -1,5 +1,4 @@
-# import the following libraries 
-# will convert the image to text string 
+#--------------program for get string from image----------------
 
 import pytesseract       
  

@@ -1,3 +1,5 @@
+#--------program to crop the image & save------------
+
 # Importing Image class from PIL module
 from PIL import Image
 
