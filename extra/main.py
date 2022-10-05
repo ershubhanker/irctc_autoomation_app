@@ -257,10 +257,10 @@ def data():
 
 #tkinter window
 
-def validateLogin(username, password):
-	print("username entered :", username.get())
-	print("password entered :", password.get())
-	return
+# def validateLogin(username, password):
+# 	print("username entered :", username.get())
+# 	print("password entered :", password.get())
+# 	return
 #window
 tkWindow = Tk()  
 tkWindow.geometry('400x280')  
@@ -291,7 +291,7 @@ passwordEntry = Entry(tkWindow, textvariable=password, show='*' ,bg='lightgray')
 Label(text="",bg='white').pack() 
  
 
-validateLogin = partial(validateLogin, username, password)
+# validateLogin = partial(validateLogin, username, password)
 
 #login button
 loginButton = Button(tkWindow, text="Login", command=lambda:[data(),start()]).pack() 
