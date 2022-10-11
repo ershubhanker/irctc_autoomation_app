@@ -34,6 +34,9 @@ root.rowconfigure(0, weight=1)
 root.columnconfigure(0, weight=1)
 root.geometry("1200x600+200+50")
 
+passanger_value={'name':"",'age':"",'gender':"",'ifrom':"",'ito':"",'date':""}
+
+
 def start():
 
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
@@ -45,10 +48,81 @@ def start():
     element = driver.find_element(By.XPATH, "/html/body/app-root/app-home/div[1]/app-header/p-dialog[2]/div/div/div[2]/div/form/div[2]/button")
     element.click()
     time.sleep(1)
-    #get element for login button
-    element2 = driver.find_element(By.XPATH, '/html/body/app-root/app-home/div[1]/app-header/div[2]/div[2]/div[1]/a[1]')
-    element2.click()
-    time.sleep(3)
+    
+    #tap on date 
+    date = driver.find_element(By.XPATH, "/html/body/app-root/app-home/div[3]/div/app-main-page/div/div/div[1]/div[1]/div[1]/app-jp-input/div/form/div[2]/div[2]/div[1]/p-calendar/span/input")
+    date.click()
+    time.sleep(1)
+    # create action chain object
+    action = ActionChains(driver)
+    # click the item
+    action.click(on_element = date)
+    action.double_click(on_element = date)
+    # send keys
+    
+    action.send_keys("12/10/2022")
+    action.perform()
+    time.sleep(2)
+    #tap on from route
+    loc = driver.find_element(By.XPATH, '//*[@id="origin"]/span/input')
+    loc.click()
+    time.sleep(2)
+    # create action chain object
+    action = ActionChains(driver)
+    # click the item
+    action.click(on_element = loc)
+    # send keys
+    
+    action.send_keys(from_entry.get())
+    action.perform()
+    time.sleep(2)
+    #from location
+    loc1 = driver.find_element(By.XPATH, '//*[@id="pr_id_1_list"]/li/span')
+    loc1.click()
+    time.sleep(2)
+    #tap on from route
+    loc3 = driver.find_element(By.XPATH, '//*[@id="destination"]/span/input')
+    loc3.click()
+    time.sleep(2)
+    # create action chain object
+    action = ActionChains(driver)
+    # click the item
+    action.click(on_element = loc3)
+    # send keys
+    action.send_keys(to_entry.get())
+
+    action.perform()
+    time.sleep(2)
+    #destination location
+    loc4 = driver.find_element(By.XPATH, '//*[@id="pr_id_2_list"]/li[1]')
+    loc4.click()
+    time.sleep(2)
+    #SEARCH
+    search = driver.find_element(By.XPATH, '//*[@id="divMain"]/div/app-main-page/div/div/div[1]/div[1]/div[1]/app-jp-input/div/form/div[5]/div/button')
+    search.click()
+    time.sleep(2)
+    #refresh
+    choose = driver.find_element(By.XPATH, '//*[@id="divMain"]/div/app-train-list/div[4]/div/div[5]/div[1]/div[1]/app-train-avl-enq/div[1]/div[5]/div[1]/table/tr/td[1]/div/div[2]/span')
+    choose.click()
+    time.sleep(2)
+    #choose train
+    choose = driver.find_element(By.XPATH, '//*[@id="divMain"]/div/app-train-list/div[4]/div/div[5]/div[1]/div[1]/app-train-avl-enq/div[1]/div[7]/div[1]/div[3]/table/tr/td[2]/div/div[2]')
+    choose.click()
+    time.sleep(2)
+
+    #book
+    book = driver.find_element(By.XPATH, '//*[@id="divMain"]/div/app-train-list/div[4]/div/div[5]/div[1]/div[1]/app-train-avl-enq/div[2]/div/span/span[1]/button')
+    book.click()
+    time.sleep(2)
+    #agree
+    agree = driver.find_element(By.XPATH, '//*[@id="divMain"]/div/app-train-list/p-confirmdialog[1]/div/div/div[3]/button[1]/span[2]')
+    agree.click()
+    time.sleep(4)
+
+    # #get element for login button
+    # element2 = driver.find_element(By.XPATH, '/html/body/app-root/app-home/div[1]/app-header/div[2]/div[2]/div[1]/a[1]')
+    # element2.click()
+    # time.sleep(3)
     # get element for usernme
     element3 = driver.find_element(By.XPATH, '/html/body/app-root/app-home/div[3]/app-login/p-dialog[1]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/div[1]/input')
 
@@ -117,79 +191,13 @@ def start():
 
     time.sleep(1)
     # get element of ok 
-    signup = driver.find_element(By.XPATH, "/html/body/app-root/app-home/div[3]/app-login/p-dialog[1]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/span/button")
+    signup = driver.find_element(By.XPATH, '//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/span/button')
     signup.click()
     print('signup')
     time.sleep(5)
-    #tap on date 
-    date = driver.find_element(By.XPATH, "/html/body/app-root/app-home/div[3]/div/app-main-page/div/div/div[1]/div[2]/div[1]/app-jp-input/div/form/div[2]/div[2]/div[1]/p-calendar/span/input")
-    date.click()
-    time.sleep(1)
-    # create action chain object
-    action = ActionChains(driver)
-    # click the item
-    action.click(on_element = date)
-    action.double_click(on_element = date)
-    # send keys
-    action.send_keys("06/10/2022")
-    action.perform()
-    time.sleep(2)
-    #tap on from route
-    loc = driver.find_element(By.XPATH, '/html/body/app-root/app-home/div[3]/div/app-main-page/div/div/div[1]/div[2]/div[1]/app-jp-input/div/form/div[2]/div[1]/div[1]/p-autocomplete/span/input')
-    loc.click()
-    time.sleep(2)
-    # create action chain object
-    action = ActionChains(driver)
-    # click the item
-    action.click(on_element = loc)
-    # send keys
-    action.send_keys("CDG")
-    action.perform()
-    time.sleep(2)
-    #CHANDIGARH
-    loc1 = driver.find_element(By.XPATH, '/html/body/app-root/app-home/div[3]/div/app-main-page/div/div/div[1]/div[2]/div[1]/app-jp-input/div/form/div[2]/div[1]/div[1]/p-autocomplete/span/div/ul/li[1]/span')
-    loc1.click()
-    time.sleep(2)
-    #tap on from route
-    loc3 = driver.find_element(By.XPATH, '/html/body/app-root/app-home/div[3]/div/app-main-page/div/div/div[1]/div[2]/div[1]/app-jp-input/div/form/div[2]/div[1]/div[2]/p-autocomplete/span/input')
-    loc3.click()
-    time.sleep(2)
-    # create action chain object
-    action = ActionChains(driver)
-    # click the item
-    action.click(on_element = loc3)
-    # send keys
-    action.send_keys("ASR")
 
-    action.perform()
-    time.sleep(2)
-    #asr
-    loc4 = driver.find_element(By.XPATH, "/html/body/app-root/app-home/div[3]/div/app-main-page/div/div/div[1]/div[2]/div[1]/app-jp-input/div/form/div[2]/div[1]/div[2]/p-autocomplete/span/div/ul/li[1]/span")
-    loc4.click()
-    time.sleep(2)
-    #SEARCH
-    search = driver.find_element(By.XPATH, "/html/body/app-root/app-home/div[3]/div/app-main-page/div/div/div[1]/div[2]/div[1]/app-jp-input/div/form/div[5]/div/button")
-    search.click()
-    time.sleep(2)
-    #refresh
-    choose = driver.find_element(By.XPATH, "/html/body/app-root/app-home/div[3]/div/app-train-list/div[4]/div[1]/div[5]/div[1]/div[1]/app-train-avl-enq/div[1]/div[5]/div[1]/table/tr/td[1]/div/div[2]")
-    choose.click()
-    time.sleep(2)
-    #choose train
-    choose = driver.find_element(By.XPATH, "/html/body/app-root/app-home/div[3]/div/app-train-list/div[4]/div[1]/div[5]/div[1]/div[1]/app-train-avl-enq/div[1]/div[7]/div[1]/div[3]/table/tr/td[2]/div/div[2]/strong")
-    choose.click()
-    time.sleep(2)
-
-    #book
-    book = driver.find_element(By.XPATH, "/html/body/app-root/app-home/div[3]/div/app-train-list/div[4]/div[1]/div[5]/div/div[1]/app-train-avl-enq/div[2]/div/span/span[1]/button")
-    book.click()
-    time.sleep(2)
-    #agree
-    agree = driver.find_element(By.XPATH, "/html/body/app-root/app-home/div[3]/div/app-train-list/p-confirmdialog[1]/div/div/div[3]/button[1]/span[2]")
-    agree.click()
-    time.sleep(4)
     #passenger box
-    name = driver.find_element(By.XPATH, "/html/body/app-root/app-home/div[3]/div/app-passenger-input/div[5]/form/div/div[1]/div[4]/p-panel/div/div[2]/div/div[1]/div[2]/div/app-passenger/div/div[1]/span/div[1]/p-autocomplete/span")
+    name = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[1]/div[2]/div/app-passenger/div/div[1]/span/div[1]/p-autocomplete/span/input')
     name.click()
     time.sleep(2)
     # create action chain object
@@ -197,12 +205,12 @@ def start():
     # click the item
     action.click(on_element = name)
     # send keys
-    action.send_keys("sarbjit")
+    action.send_keys(p1.get())
     action.perform()
     time.sleep(2)
 
     #age box
-    age = driver.find_element(By.XPATH, "/html/body/app-root/app-home/div[3]/div/app-passenger-input/div[5]/form/div/div[1]/div[4]/p-panel/div/div[2]/div/div[1]/div[2]/div/app-passenger/div/div[1]/span/div[2]/input")
+    age = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[1]/div[2]/div/app-passenger/div/div[1]/span/div[2]/input')
     age.click()
     time.sleep(2)
     # create action chain object
@@ -210,31 +218,131 @@ def start():
     # click the item
     action.click(on_element = age)
     # send keys
-    action.send_keys("21")
+    action.send_keys(a1.get())
     action.perform()
     time.sleep(2)
 
     #gender box
-    gender = driver.find_element(By.XPATH, "/html/body/app-root/app-home/div[3]/div/app-passenger-input/div[5]/form/div/div[1]/div[4]/p-panel/div/div[2]/div/div[1]/div[2]/div/app-passenger/div/div[1]/span/div[3]/select")
+    gender = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[1]/div[2]/div/app-passenger/div/div[1]/span/div[3]/select')
     gender.click()
     time.sleep(2)
 
-    gender_select = driver.find_element(By.XPATH, "/html/body/app-root/app-home/div[3]/div/app-passenger-input/div[5]/form/div/div[1]/div[4]/p-panel/div/div[2]/div/div[1]/div[2]/div/app-passenger/div/div[1]/span/div[3]/select/option[2]")
+    gender_select = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[1]/div[2]/div/app-passenger/div/div[1]/span/div[3]/select/option[2]')
     gender_select.click()
+
+    # #food box
+    # food = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[1]/div[2]/div/app-passenger/div/div[1]/div[2]/select')
+    # food.click()
+    # time.sleep(1)
+    # #veg choose
+    # food_select = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[1]/div[2]/div/app-passenger/div/div[1]/div[2]/select/option[2]')
+    # food_select.click()
+    # time.sleep(1)
     #pay option
-    pay = driver.find_element(By.XPATH, "/html/body/app-root/app-home/div[3]/div/app-passenger-input/div[5]/form/div/div[1]/div[12]/p-panel/div/div[2]/div/table/tr[2]/label/p-radiobutton/div/div[2]/span")
+    pay = driver.find_element(By.XPATH, '//*[@id="2"]/div/div[2]/span')
     pay.click()
     time.sleep(2)
 
     #continue button
-    submit = driver.find_element(By.XPATH, "/html/body/app-root/app-home/div[3]/div/app-passenger-input/div[5]/form/div/div[1]/div[14]/div/button[2]")
+    submit = driver.find_element(By.XPATH, '//*[@id="psgn-form"]/form/div/div[1]/div[14]/div/button[2]')
     submit.click()
     time.sleep(5)
+
+    img=driver.find_element(By.ID, "nlpImgContainer")
+    img.screenshot("logo2.png")
+    im = PIL.Image.open('logo2.png')
+    left = 0
+    top = 250
+    right = 300
+    bottom = 270
+
+    # Cropped image of above dimension
+    # (It will not change original image)
+    im1 = im.crop((left, top, right, bottom))
+    im1.save("crop2.png" ,quality=100)
+    print('image address:',im1) 
+    captcha = pytesseract.image_to_string(im1) 
+    captcha = captcha.replace(" ", "").strip()
+    
+
+    with open('payment.txt',mode ='w') as file:      
+        file.write(captcha) 
+        print('result',captcha)
+        print('write result',captcha[18:22])
+        
+    #sget element for captcha enter
+    element5 = driver.find_element(By.XPATH, "//*[@id='nlpAnswer']")
+    print('find')
+    # create action chain object
+    action = ActionChains(driver)
+    # click the item
+    action.click(on_element = element5)
+    # send keys
+    action.send_keys(captcha[18:22])
+    action.perform()
+    print('captcha enter')
+    time.sleep(1)
+
+    #continue buttton
+    continue_button = driver.find_element(By.XPATH, '//*[@id="review"]/div[1]/form/div[3]/div/button[2]')
+    continue_button.click()
+    print('continue_button')
+    time.sleep(3)
+
+    #multiple payment buttton
+    upi_choose = driver.find_element(By.XPATH, '//*[@id="pay-type"]/span/div[1]/span')
+    upi_choose.click()
+    print('multiple choose')
+    time.sleep(2)
+
+    
+    #roserpay buttton
+    roserpay = driver.find_element(By.XPATH, '//*[@id="bank-type"]/div/table/tr/span[3]/td/div/div/span')
+    roserpay.click()
+    print('upi choose roserpay')
+    time.sleep(2)
+
+    #pay & book button
+    pay = driver.find_element(By.XPATH,'//*[@id="psgn-form"]/div[1]/div[1]/app-payment/div[2]/button[2]')
+    pay.click()
+    print('upi payment')
+    time.sleep(2)
+
+    #upi or QR
+    roserpay = driver.find_element(By.XPATH, '//*[@id="form-common"]/div[1]/div/div/div/div/div/button[1]')
+    roserpay.click()
+    print('upi choose roserpay')
+    time.sleep(2)
+
+   
+    #clicl and add upi
+    conti_confirm = driver.find_element(By.XPATH,'//*[@id="vpa-upi"]')
+    conti_confirm.click()
+    print('add payment number')
+    # create action chain object
+    action = ActionChains(driver)
+    # click the item
+    action.click(on_element = conti_confirm)
+    # send keys
+    action.send_keys('sarbjitdeol@ybl')
+    action.perform()
+    time.sleep(2)
+
+    #proceed button to paytm
+    paytm_submit = driver.find_element(By.XPATH,'//*[@id="footer-cta"]')
+    paytm_submit.click()
+    print(' pay button')
+    time.sleep(2)
+
+    #proceed button to paytm
+    contine_pay = driver.find_element(By.XPATH,'//*[@id="overlay"]/div/div/div[2]')
+    contine_pay.click()
+    print(' continue button')
+    time.sleep(2)
+
     while True:
         pass
 
-
-       
 def login_screen():
     global e1,e2
     page1=Frame(root,bg='sky blue', width=1200, height=550)
@@ -274,7 +382,7 @@ def login_screen():
     delb.place(x=530, y=80,width=150,height=30)
     upd = Button(f2, text = 'Update',bg='#FFA500',activebackground='black',font=("Times",10,"bold"), command = lambda : update())
     upd.place(x=530, y=140,width=150,height=30)
-    login = Button(f2, text = 'Fill Passanger detail',bg='#FFA500',activebackground='black',font=("Times",10,"bold"), command = lambda : passanger_screen())
+    login = Button(f2, text = 'LOGIN',bg='#FFA500',activebackground='black',font=("Times",10,"bold"), command = lambda : start())
     login.place(x=530, y=200,width=150,height=30)
 
 
@@ -386,8 +494,8 @@ def login_screen():
     listbox.bind("<Double-Button-1>",GetValue)
 
 def passanger_screen():
-    global p1,a2,g1,from_entry,to_entry,date_entry
-
+    global p1,a1,g1,from_entry,to_entry,date_entry,passanger_value
+    
     page2=Frame(root,bg='sky blue', width=1200, height=550)
     page2.place(x=0,y=0)
     font1=tkfont.Font(family='Helvetica', size=10, weight="bold")
@@ -404,13 +512,21 @@ def passanger_screen():
     p_name = StringVar()
     p_age = StringVar()
     p_gender = StringVar()
+
+    p_from.set(passanger_value["ifrom"])
+    p_to.set(passanger_value["ito"])
+    p_date.set(passanger_value["date"])
+    p_name.set(passanger_value["name"])
+    p_age.set(passanger_value["age"])
+    p_gender.set(passanger_value["gender"])
     
+
     #from label & entry
     from_label=Label(pf1,text='From :',bg='sky blue',font=font1)
     from_label.place(x=10,y=60,width=50,height=25)
     from_entry=Entry(pf1,textvariable=p_from)
     from_entry.place(x=120,y=60,width=200,height=25)
-
+    
     #To label & entry
     to_label=Label(pf1,text='To :',bg='sky blue',font=font1)
     to_label.place(x=10,y=100,width=30,height=25)
@@ -422,7 +538,7 @@ def passanger_screen():
     date_label.place(x=10,y=140,width=100,height=25)
     date_entry=DateEntry(pf1,selectmode='day',date_pattern='dd/MM/yyyy',textvariable=p_date)
     date_entry.place(x=222,y=140,width=100,height=25)
-
+    
     #Class label & entry
     class_label=Label(pf1,text='Class :',bg='sky blue',font=font1)
     class_label.place(x=10,y=180,width=50,height=25)
@@ -603,32 +719,41 @@ def passanger_screen():
     l2=Label(pf2,text='Enter Bank & Other Details',bg='light gray',foreground='white',font=font1)
     l2.place(x=0,y=260,width=835,height=40)
     
+
+    
     def pass_add():
+        
         name = p1.get()
-        age = a2.get()
+        age = a1.get()
         gender = g1.get()
         ifrom = from_entry.get()
-        to = to_entry.get()
+        ito = to_entry.get()
         date = date_entry.get()
-    
+
+        passanger_value["name"] = name
+        passanger_value["age"] = age
+        passanger_value["gender"] = gender
+        passanger_value["ifrom"] = ifrom
+        passanger_value["ito"] = ito
+        passanger_value["date"] = date
         mysqldb=mysql.connector.connect(host="localhost",user="root",password="deol9646",database="train_login")
         mycursor=mysqldb.cursor()
     
         try:
-            mycursor.execute('''create table if not exists passanger_data(name text ,gender text ,ifrom text ,ito text)''')
-            sql = "INSERT INTO  passanger_data (NAME,GENDER,IFROM,ITO) VALUES (%s, %s, %s, %s)"
-            val = (name,gender,ifrom,to)
+            my_conn.execute('''create table if not exists passanger_data(name text ,age text ,gender text ,ifrom text ,ito text ,date text)''')
+            sql = "INSERT INTO  passanger_data (NAME,AGE,GENDER,IFROM,ITO,DATE) VALUES (%s, %s, %s, %s, %s,%s)"
+            val = (name,age,gender,ifrom,ito,date)
             mycursor.execute(sql, val)
             mysqldb.commit()
             lastid = mycursor.lastrowid
             messagebox.showinfo("information", "passanger data inserted successfully...")
-            name.delete(0, END)
-            age.delete(0, END)
-            gender.delete(0, END)
-            ifrom.delete(0, END)
-            to.delete(0, END)
-            date.delete(0, END)
-            name.focus_set()
+            p1.delete(0, END)
+            a1.delete(0, END)
+            g1.delete(0, END)
+            from_entry.delete(0, END)
+            to_entry.delete(0, END)
+            date_entry.delete(0, END)
+            p1.focus_set()
         except Exception as e:
             print(e)
             mysqldb.rollback()
@@ -654,7 +779,6 @@ Button3=Button(root,text='PAYMENT',command=lambda:third_screen())
 Button3.place(x=155,y=570)
 Button3=Button(root,text='HOME',command=lambda:fourth_screen())
 Button3.place(x=230,y=570)
-
 
 
 root.mainloop()
