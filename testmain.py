@@ -1,16 +1,15 @@
-from ast import Delete
+# from ast import Delete
 from tkinter import *
 #import tkinter as tk
 from tkinter import ttk,messagebox
-from turtle import heading, width 
-from PIL import Image, ImageTk
-from tkinter.messagebox import askyesno
+# from turtle import heading, width 
+#from PIL import Image, ImageTk
+# from tkinter.messagebox import askyesno
 from tkinter import font  as tkfont
 from functools import partial
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
-# import Action chains 
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.chrome.service import Service
 import time
@@ -23,8 +22,7 @@ import mysql.connector
 connection=mysql.connector.connect(host='localhost',username='root',password='deol9646',database="train_login")
 from tkcalendar import DateEntry
 
-print('successfully connected')
-# ####### end of connection ####
+
 my_conn = connection.cursor()
 my_conn.execute('''create table if not exists login(username text ,password text)''')
 
@@ -35,22 +33,6 @@ root.title("IRCTC")
 root.rowconfigure(0, weight=1)
 root.columnconfigure(0, weight=1)
 root.geometry("1200x600+200+50")
-#root.resizable(False,False)
-
-
-page1=Frame(root,bg='sky blue')
-page2=Frame(root,bg='sky blue')
-page3=Frame(root,bg='sky blue')
-page4=Frame(root,bg='sky blue')
-
-for frame in (page1,page2,page3,page4):
-    frame.grid(row=0, column=0, sticky='nsew') 
-
-def show_frame(frame):
-    frame.tkraise()
-show_frame(page1)
-
-
 
 def start():
 
@@ -251,43 +233,31 @@ def start():
     while True:
         pass
 
-def fetchdata(student):
-    print('1',student)
-def one():
-#---Page-------
-    label1=Label(page1,text='first page',font=('orbitron',45,'bold'),background='#3d3d5c')
-    label1.place(x=10,y=565,width=324,height=30)
-    Button1=Button(label1,text='first page',command=lambda:show_frame(page1))
-    Button1.grid(row=10,column=1)
-    Button2=Button(label1,text='IDS page',command=lambda:show_frame(page2))
-    Button2.grid(row=10,column=2)
-    Button3=Button(label1,text='PASSSENGER page',command=lambda:show_frame(page3))
-    Button3.grid(row=10,column=3)
-    Button3=Button(label1,text='PAYMENT page',command=lambda:show_frame(page4))
-    Button3.grid(row=10,column=4)
-one()
 
-def two():
-    #---Page---
+       
+def login_screen():
+    global e1,e2
+    page1=Frame(root,bg='sky blue', width=1200, height=550)
+    page1.place(x=0,y=0)
     font1=tkfont.Font(family='Times', size=15, weight="bold")
 
     #frames
-    f1=Frame(page2 ,bg='sky blue',bd=5,highlightbackground="white", highlightthickness=1)
+    f1=Frame(page1 ,bg='sky blue',bd=5,highlightbackground="white", highlightthickness=1)
     f1.place(x=10,y=20,width=880,height=200)
     #labels
-    label1=Label(page2,text='IRCTC ID',bg='sky blue',font=font1)
+    label1=Label(page1,text='Login Details',bg='sky blue',font=font1)
     label1.place(x=17, y=10)
-    label2=Label(f1,text='Irstc ID :',bg='sky blue',font=("Times",12,"bold"))
+    label2=Label(f1,text='Irctc ID :',bg='sky blue',font=("Times",12,"bold"))
     label2.place(x=100, y=10)
     label3=Label(f1,text='Password :',bg='sky blue',font=("Times",12,"bold"))
     label3.place(x=400, y=10)
 
-    # f1 entry
-    global e1,e2
     username = StringVar()
+    password = StringVar()
+
     e1=Entry(f1,font=("Times",12,"bold"),textvariable=username)
     e1.place(x=180, y=10,width=200,height=30)
-    password = StringVar()
+    
     e2=Entry(f1,font=("Times",12,"bold"),textvariable=password)
     e2.place(x=490, y=10,width=200,height=30)
     #validateLogin = partial(validateLogin, username, password)
@@ -297,14 +267,14 @@ def two():
 
     
   
-    f2=Frame(page2,bg='sky blue')
+    f2=Frame(page1,bg='sky blue')
     f2.place(x=150,y=220,width=880,height=340)
     #frame 2 button
     delb = Button(f2, text = 'Delete',bg='#FFA500',activebackground='black',font=("Times",10,"bold"), command = lambda : delete())
     delb.place(x=530, y=80,width=150,height=30)
     upd = Button(f2, text = 'Update',bg='#FFA500',activebackground='black',font=("Times",10,"bold"), command = lambda : update())
     upd.place(x=530, y=140,width=150,height=30)
-    login = Button(f2, text = 'Login',bg='#FFA500',activebackground='black',font=("Times",10,"bold"), command = lambda : start())
+    login = Button(f2, text = 'Fill Passanger detail',bg='#FFA500',activebackground='black',font=("Times",10,"bold"), command = lambda : passanger_screen())
     login.place(x=530, y=200,width=150,height=30)
 
 
@@ -415,49 +385,46 @@ def two():
     show()
     listbox.bind("<Double-Button-1>",GetValue)
 
-    #Bottom buttons
-    label1=Label(page2,text='first page',font=('orbitron',45,'bold'),background='#3d3d5c')
-    label1.place(x=10,y=565,width=324,height=30)
-    Button1=Button(label1,text='first page',command=lambda:show_frame(page1))
-    Button1.grid(row=10,column=1)
-    Button2=Button(label1,text='IDS page',command=lambda:show_frame(page2))
-    Button2.grid(row=10,column=2)
-    Button3=Button(label1,text='PASSSENGER page',command=lambda:show_frame(page3))
-    Button3.grid(row=10,column=3)
-    Button3=Button(label1,text='PAYMENT page',command=lambda:show_frame(page4))
-    Button3.grid(row=10,column=4)
-two()
+def passanger_screen():
+    global p1,a2,g1,from_entry,to_entry,date_entry
 
-#Passanger screen function
-def three():
-    #
+    page2=Frame(root,bg='sky blue', width=1200, height=550)
+    page2.place(x=0,y=0)
     font1=tkfont.Font(family='Helvetica', size=10, weight="bold")
     #frames
-    pf1=Frame(page3 ,bg='sky blue',bd=5,highlightbackground="white", highlightthickness=3)
+    pf1=Frame(page2 ,bg='sky blue',bd=5,highlightbackground="white", highlightthickness=3)
     pf1.place(x=0,y=0,width=350,height=500)
 
     l1=Label(pf1,text='Train Details',bg='light gray',foreground='white',font=font1)
     l1.place(x=0,y=0,width=336,height=40)
+
+    p_from = StringVar()
+    p_to = StringVar()
+    p_date = StringVar()
+    p_name = StringVar()
+    p_age = StringVar()
+    p_gender = StringVar()
+    
     #from label & entry
     from_label=Label(pf1,text='From :',bg='sky blue',font=font1)
     from_label.place(x=10,y=60,width=50,height=25)
-    from_entry=Entry(pf1)
+    from_entry=Entry(pf1,textvariable=p_from)
     from_entry.place(x=120,y=60,width=200,height=25)
 
     #To label & entry
     to_label=Label(pf1,text='To :',bg='sky blue',font=font1)
     to_label.place(x=10,y=100,width=30,height=25)
-    to_entry=Entry(pf1)
+    to_entry=Entry(pf1,textvariable=p_to)
     to_entry.place(x=120,y=100,width=200,height=25)
 
     #journey date label & entry
-    to_label=Label(pf1,text='Journey Date :',bg='sky blue',font=font1)
-    to_label.place(x=10,y=140,width=100,height=25)
-    to_entry=DateEntry(pf1,selectmode='day',date_pattern='dd/MM/yyyy')
-    to_entry.place(x=222,y=140,width=100,height=25)
+    date_label=Label(pf1,text='Journey Date :',bg='sky blue',font=font1)
+    date_label.place(x=10,y=140,width=100,height=25)
+    date_entry=DateEntry(pf1,selectmode='day',date_pattern='dd/MM/yyyy',textvariable=p_date)
+    date_entry.place(x=222,y=140,width=100,height=25)
 
     #Class label & entry
-    class_label=Label(pf1,text='Class :',bg='red',font=font1)
+    class_label=Label(pf1,text='Class :',bg='sky blue',font=font1)
     class_label.place(x=10,y=180,width=50,height=25)
         # Dropdown class options
     class_opt = [
@@ -495,9 +462,13 @@ def three():
     Board_entry=Entry(pf1)
     Board_entry.place(x=120,y=300,width=200,height=25)
 
+    #search button
+    
+    search_b = Button(pf1, text = 'save',bg='#FFA500',activebackground='black',font=("Times",10,"bold"), command = lambda :pass_add())
+    search_b.place(x=120, y=340,width=150,height=30)
 
-
-    pf2=Frame(page3 ,bg='sky blue',bd=5,highlightbackground="white", highlightthickness=3)
+    #frame2 passanger detail
+    pf2=Frame(page2 ,bg='sky blue',bd=5,highlightbackground="white", highlightthickness=3)
     pf2.place(x=350,y=0,width=850,height=500)
 
     l2=Label(pf2,text='Enter Passenger Details',bg='light gray',foreground='white',font=font1)
@@ -507,7 +478,7 @@ def three():
     #Column labels 
     label1=Label(pf2,text='Passenger Name',bg='sky blue',font=font1)
     label1.place(x=20,y=60,width=120,height=25)
-    p1=Entry(pf2)
+    p1=Entry(pf2,textvariable=p_name)
     p1.place(x=10,y=90,width=140,height=25)
 
     p2=Entry(pf2)
@@ -522,7 +493,7 @@ def three():
     #age
     label2=Label(pf2,text='Age',bg='sky blue',font=font1)
     label2.place(x=160,y=60,width=40,height=25)
-    a1=Entry(pf2)
+    a1=Entry(pf2,textvariable=p_age)
     a1.place(x=165,y=90,width=30,height=25)
 
     a2=Entry(pf2)
@@ -540,7 +511,7 @@ def three():
         "F",
     ] 
     # Create Dropdown menu
-    g1 = ttk.Combobox(pf2,state="readonly",values=gender) #readonly
+    g1 = ttk.Combobox(pf2,state="readonly",values=gender,textvariable=p_gender) #readonly
     g1.place(x=220,y=90,width=40,height=25)
     g1.current(0)
 
@@ -632,30 +603,58 @@ def three():
     l2=Label(pf2,text='Enter Bank & Other Details',bg='light gray',foreground='white',font=font1)
     l2.place(x=0,y=260,width=835,height=40)
     
-    label1=Label(page3,text='first page',font=('orbitron',45,'bold'),background='#3d3d5c')
-    label1.place(x=10,y=565,width=324,height=30)
-    Button1=Button(label1,text='first page',command=lambda:show_frame(page1))
-    Button1.grid(row=10,column=1)
-    Button2=Button(label1,text='IDS page',command=lambda:show_frame(page2))
-    Button2.grid(row=10,column=2)
-    Button3=Button(label1,text='PASSSENGER page',command=lambda:show_frame(page3))
-    Button3.grid(row=10,column=3)
-    Button3=Button(label1,text='PAYMENT page',command=lambda:show_frame(page4))
-    Button3.grid(row=10,column=4)
-three()
+    def pass_add():
+        name = p1.get()
+        age = a2.get()
+        gender = g1.get()
+        ifrom = from_entry.get()
+        to = to_entry.get()
+        date = date_entry.get()
+    
+        mysqldb=mysql.connector.connect(host="localhost",user="root",password="deol9646",database="train_login")
+        mycursor=mysqldb.cursor()
+    
+        try:
+            mycursor.execute('''create table if not exists passanger_data(name text ,gender text ,ifrom text ,ito text)''')
+            sql = "INSERT INTO  passanger_data (NAME,GENDER,IFROM,ITO) VALUES (%s, %s, %s, %s)"
+            val = (name,gender,ifrom,to)
+            mycursor.execute(sql, val)
+            mysqldb.commit()
+            lastid = mycursor.lastrowid
+            messagebox.showinfo("information", "passanger data inserted successfully...")
+            name.delete(0, END)
+            age.delete(0, END)
+            gender.delete(0, END)
+            ifrom.delete(0, END)
+            to.delete(0, END)
+            date.delete(0, END)
+            name.focus_set()
+        except Exception as e:
+            print(e)
+            mysqldb.rollback()
+            mysqldb.close()
 
-def fourth():
-    #---Page-------
-    label1=Label(page4,text='first page',font=('orbitron',45,'bold'),background='#3d3d5c')
-    label1.place(x=10,y=565,width=324,height=30)
-    Button1=Button(label1,text='first page',command=lambda:show_frame(page1))
-    Button1.grid(row=10,column=1)
-    Button2=Button(label1,text='IDS page',command=lambda:show_frame(page2))
-    Button2.grid(row=10,column=2)
-    Button3=Button(label1,text='PASSSENGER page',command=lambda:show_frame(page3))
-    Button3.grid(row=10,column=3)
-    Button3=Button(label1,text='PAYMENT page',command=lambda:show_frame(page4))
-    Button3.grid(row=10,column=4)
-fourth()
+def third_screen():
+    page3=Frame(root,bg='yellow', width=1200, height=550)
+    page3.place(x=0,y=0)
+    test = Label(page3,text="PAYMENT")
+    test.place(x = 50, y = 50)
+
+def fourth_screen():
+    page4=Frame(root,bg='green', width=1200, height=550)
+    page4.place(x=0,y=0)
+    test = Label(page4,text="HOME")
+    test.place(x = 50, y = 50)
+
+Button1=Button(root,text='LOGIN',command=lambda:login_screen())
+Button1.place(x=10,y=570)
+Button2=Button(root,text='PASSSENGER',command=lambda:passanger_screen())
+Button2.place(x=65,y=570)
+Button3=Button(root,text='PAYMENT',command=lambda:third_screen())
+Button3.place(x=155,y=570)
+Button3=Button(root,text='HOME',command=lambda:fourth_screen())
+Button3.place(x=230,y=570)
+
+
 
 root.mainloop()

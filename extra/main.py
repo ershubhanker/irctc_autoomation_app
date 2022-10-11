@@ -240,10 +240,11 @@ def data():
     
     try:  
     #creating a new table  
-        cursor.execute('''create table if not exists login(username text ,password text)''')
+        cursor.execute('''passanger_data(name text ,age text ,gender text ,from text ,to text ,
+            date text ,)''')
 
-        cursor.execute('''INSERT INTO LOGIN(USERNAME, PASSWORD) 
-        VALUES (%s ,%s)''',(v1, v2)) 
+        cursor.execute('''INSERT INTO passanger_data(name, age,gender,from,to,date) 
+        VALUES (%s ,%s,%s,%s,%s,%s)''',(v1, v2,)) 
         connection.commit()
         
     except:  
