@@ -1,4 +1,5 @@
 # from ast import Delete
+from cProfile import label
 from tkinter import *
 #import tkinter as tk
 from tkinter import ttk,messagebox
@@ -22,11 +23,12 @@ import mysql.connector
 connection=mysql.connector.connect(host='localhost',username='root',password='deol9646',database="train_login")
 from tkcalendar import DateEntry
 
-
+#database connect
 my_conn = connection.cursor()
+# create login table
 my_conn.execute('''create table if not exists login(username text ,password text)''')
 
-#----window----
+#----root window----
 root = Tk()
 root.configure(bg='sky blue')
 root.title("IRCTC")
@@ -34,9 +36,10 @@ root.rowconfigure(0, weight=1)
 root.columnconfigure(0, weight=1)
 root.geometry("1200x600+200+50")
 
-passanger_value={'name':"",'age':"",'gender':"",'ifrom':"",'ito':"",'date':""}
+#passanger value dictionary
+passanger_value={'name':"",'age':"",'gender':"",'ifrom':"",'ito':"",'date':"",'upi':"",'debit3d':""}
 
-
+#irctc website fuction
 def start():
 
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
@@ -44,7 +47,7 @@ def start():
     driver.get("https://www.irctc.co.in/nget/train-search")
 
     
-    # get element of ok 
+    # click ok 
     element = driver.find_element(By.XPATH, "/html/body/app-root/app-home/div[1]/app-header/p-dialog[2]/div/div/div[2]/div/form/div[2]/button")
     element.click()
     time.sleep(1)
@@ -55,11 +58,10 @@ def start():
     time.sleep(1)
     # create action chain object
     action = ActionChains(driver)
-    # click the item
+    # click the date
     action.click(on_element = date)
     action.double_click(on_element = date)
-    # send keys
-    
+    # write date
     action.send_keys("12/10/2022")
     action.perform()
     time.sleep(2)
@@ -69,42 +71,44 @@ def start():
     time.sleep(2)
     # create action chain object
     action = ActionChains(driver)
-    # click the item
+    # click the from route
     action.click(on_element = loc)
-    # send keys
-    
+    # enter from location
     action.send_keys(from_entry.get())
     action.perform()
     time.sleep(2)
-    #from location
+
+    #to location click
     loc1 = driver.find_element(By.XPATH, '//*[@id="pr_id_1_list"]/li/span')
     loc1.click()
     time.sleep(2)
-    #tap on from route
+    #tap on to route
     loc3 = driver.find_element(By.XPATH, '//*[@id="destination"]/span/input')
     loc3.click()
     time.sleep(2)
     # create action chain object
     action = ActionChains(driver)
-    # click the item
+    # click the to location
     action.click(on_element = loc3)
-    # send keys
+    # enter destination 
     action.send_keys(to_entry.get())
-
     action.perform()
     time.sleep(2)
-    #destination location
+    # click destination location
     loc4 = driver.find_element(By.XPATH, '//*[@id="pr_id_2_list"]/li[1]')
     loc4.click()
     time.sleep(2)
-    #SEARCH
+
+    #SEARCH buttton click
     search = driver.find_element(By.XPATH, '//*[@id="divMain"]/div/app-main-page/div/div/div[1]/div[1]/div[1]/app-jp-input/div/form/div[5]/div/button')
     search.click()
     time.sleep(2)
-    #refresh
+
+    #refresh button
     choose = driver.find_element(By.XPATH, '//*[@id="divMain"]/div/app-train-list/div[4]/div/div[5]/div[1]/div[1]/app-train-avl-enq/div[1]/div[5]/div[1]/table/tr/td[1]/div/div[2]/span')
     choose.click()
     time.sleep(2)
+
     #choose train
     choose = driver.find_element(By.XPATH, '//*[@id="divMain"]/div/app-train-list/div[4]/div/div[5]/div[1]/div[1]/app-train-avl-enq/div[1]/div[7]/div[1]/div[3]/table/tr/td[2]/div/div[2]')
     choose.click()
@@ -123,47 +127,40 @@ def start():
     # element2 = driver.find_element(By.XPATH, '/html/body/app-root/app-home/div[1]/app-header/div[2]/div[2]/div[1]/a[1]')
     # element2.click()
     # time.sleep(3)
-    # get element for usernme
-    element3 = driver.find_element(By.XPATH, '/html/body/app-root/app-home/div[3]/app-login/p-dialog[1]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/div[1]/input')
 
+    #get element for usernme
+    element3 = driver.find_element(By.XPATH, '/html/body/app-root/app-home/div[3]/app-login/p-dialog[1]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/div[1]/input')
     # create action chain object
     action = ActionChains(driver)
-
     # click the item
     action.click(on_element = element3)
-
     # send keys
     action.send_keys(e1.get())
-
     # perform the operation
     action.perform()
     time.sleep(3)
     print('username entered')
+
     # get element for password
     element4 = driver.find_element(By.XPATH, '/html/body/app-root/app-home/div[3]/app-login/p-dialog[1]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/div[2]/input')
-
     # create action chain object
     action = ActionChains(driver)
-
     # click the item
     action.click(on_element = element4)
-
     # send keys
     action.send_keys(e2.get())
-
     # perform the operation
     action.perform()
     print('password entered')
 
+    #image function for captcha
     img=driver.find_element(By.ID, "nlpImgContainer")
-
     img.screenshot("logo.png")
     im = PIL.Image.open('logo.png')
     left = 0
     top = 250
     right = 300
     bottom = 270
-
     # Cropped image of above dimension
     # (It will not change original image)
     im1 = im.crop((left, top, right, bottom))
@@ -171,32 +168,33 @@ def start():
     print('image address:',im1) 
     captcha = pytesseract.image_to_string(im1) 
     captcha = captcha.replace(" ", "").strip()
-
+    # save in abc.txt file
     with open('abc.txt',mode ='w') as file:      
         file.write(captcha) 
         print('result',captcha)
         print('write result',captcha[18:22])
         
-    #sget element for captcha enter
+    #get element for captcha enter
     element5 = driver.find_element(By.XPATH, "//*[@id='nlpAnswer']")
     print('find')
     # create action chain object
     action = ActionChains(driver)
     # click the item
     action.click(on_element = element5)
-    # send keys
+    # enter captcha
     action.send_keys(captcha[18:22])
     action.perform()
     print('captcha enter')
-
     time.sleep(1)
-    # get element of ok 
+
+    # click signup button 
     signup = driver.find_element(By.XPATH, '//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/span/button')
     signup.click()
     print('signup')
     time.sleep(5)
 
     #passenger box
+    #enter passanger name
     name = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[1]/div[2]/div/app-passenger/div/div[1]/span/div[1]/p-autocomplete/span/input')
     name.click()
     time.sleep(2)
@@ -230,7 +228,7 @@ def start():
     gender_select = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[1]/div[2]/div/app-passenger/div/div[1]/span/div[3]/select/option[2]')
     gender_select.click()
 
-    # #food box
+    #food box
     # food = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[1]/div[2]/div/app-passenger/div/div[1]/div[2]/select')
     # food.click()
     # time.sleep(1)
@@ -238,7 +236,8 @@ def start():
     # food_select = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[1]/div[2]/div/app-passenger/div/div[1]/div[2]/select/option[2]')
     # food_select.click()
     # time.sleep(1)
-    #pay option
+
+    #choose pay option
     pay = driver.find_element(By.XPATH, '//*[@id="2"]/div/div[2]/span')
     pay.click()
     time.sleep(2)
@@ -248,6 +247,7 @@ def start():
     submit.click()
     time.sleep(5)
 
+    #payment captcha 
     img=driver.find_element(By.ID, "nlpImgContainer")
     img.screenshot("logo2.png")
     im = PIL.Image.open('logo2.png')
@@ -255,7 +255,6 @@ def start():
     top = 250
     right = 300
     bottom = 270
-
     # Cropped image of above dimension
     # (It will not change original image)
     im1 = im.crop((left, top, right, bottom))
@@ -263,14 +262,14 @@ def start():
     print('image address:',im1) 
     captcha = pytesseract.image_to_string(im1) 
     captcha = captcha.replace(" ", "").strip()
-    
 
+    #save in payment.txt
     with open('payment.txt',mode ='w') as file:      
         file.write(captcha) 
         print('result',captcha)
         print('write result',captcha[18:22])
         
-    #sget element for captcha enter
+    #get element for captcha enter
     element5 = driver.find_element(By.XPATH, "//*[@id='nlpAnswer']")
     print('find')
     # create action chain object
@@ -315,7 +314,7 @@ def start():
     time.sleep(2)
 
    
-    #clicl and add upi
+    #click and add upi
     conti_confirm = driver.find_element(By.XPATH,'//*[@id="vpa-upi"]')
     conti_confirm.click()
     print('add payment number')
@@ -328,13 +327,13 @@ def start():
     action.perform()
     time.sleep(2)
 
-    #proceed button to paytm
+    #proceed button to pay
     paytm_submit = driver.find_element(By.XPATH,'//*[@id="footer-cta"]')
     paytm_submit.click()
     print(' pay button')
     time.sleep(2)
 
-    #proceed button to paytm
+    #continue for mobile pay send
     contine_pay = driver.find_element(By.XPATH,'//*[@id="overlay"]/div/div/div[2]')
     contine_pay.click()
     print(' continue button')
@@ -343,18 +342,19 @@ def start():
     while True:
         pass
 
+#irctc login screen
 def login_screen():
     global e1,e2
     page1=Frame(root,bg='sky blue', width=1200, height=550)
     page1.place(x=0,y=0)
     font1=tkfont.Font(family='Times', size=15, weight="bold")
 
-    #frames
+    #frame 1 for username and password detail
     f1=Frame(page1 ,bg='sky blue',bd=5,highlightbackground="white", highlightthickness=1)
-    f1.place(x=10,y=20,width=880,height=200)
+    f1.place(x=140,y=20,width=880,height=200)
     #labels
     label1=Label(page1,text='Login Details',bg='sky blue',font=font1)
-    label1.place(x=17, y=10)
+    label1.place(x=170, y=10)
     label2=Label(f1,text='Irctc ID :',bg='sky blue',font=("Times",12,"bold"))
     label2.place(x=100, y=10)
     label3=Label(f1,text='Password :',bg='sky blue',font=("Times",12,"bold"))
@@ -362,22 +362,22 @@ def login_screen():
 
     username = StringVar()
     password = StringVar()
-
+    #username entry
     e1=Entry(f1,font=("Times",12,"bold"),textvariable=username)
     e1.place(x=180, y=10,width=200,height=30)
-    
+    #password entry
     e2=Entry(f1,font=("Times",12,"bold"),textvariable=password)
     e2.place(x=490, y=10,width=200,height=30)
-    #validateLogin = partial(validateLogin, username, password)
     #save button
     save = Button(f1, text = 'Add',bg='#FFA500',activebackground='black',font=("Times",10,"bold"), command = lambda : Add())
     save.place(x=330, y=70,width=200,height=30)
 
     
-  
+    # frame 2 for list view for login data
     f2=Frame(page1,bg='sky blue')
-    f2.place(x=150,y=220,width=880,height=340)
-    #frame 2 button
+    f2.place(x=250,y=220,width=740,height=330)
+
+    #frame 2 button delete update login 
     delb = Button(f2, text = 'Delete',bg='#FFA500',activebackground='black',font=("Times",10,"bold"), command = lambda : delete())
     delb.place(x=530, y=80,width=150,height=30)
     upd = Button(f2, text = 'Update',bg='#FFA500',activebackground='black',font=("Times",10,"bold"), command = lambda : update())
@@ -385,7 +385,7 @@ def login_screen():
     login = Button(f2, text = 'LOGIN',bg='#FFA500',activebackground='black',font=("Times",10,"bold"), command = lambda : start())
     login.place(x=530, y=200,width=150,height=30)
 
-
+    #function for get username and password from entry
     def GetValue(event):
         
         e1.delete(0,END)
@@ -395,7 +395,7 @@ def login_screen():
         e1.insert(0,select['username'])
         e2.insert(0,select['password'])
     
-    
+    # add user and pass in database
     def Add():
         username = e1.get()
         password = e2.get()
@@ -418,7 +418,7 @@ def login_screen():
             mysqldb.rollback()
             mysqldb.close()
     
-    
+    # update user and pass in database
     def update():
         username = e1.get()
         password = e2.get()
@@ -433,24 +433,20 @@ def login_screen():
             mysqldb.commit()
             lastid = mycursor.lastrowid
             messagebox.showinfo("information", "Record Updateddddd successfully...")
-        
             e1.delete(0, END)
             e2.delete(0, END)
-            
             e1.focus_set()
     
         except Exception as e:
-    
             print(e)
             mysqldb.rollback()
             mysqldb.close()
-    
+
+    # # delete user and pass from database
     def delete():
         username = e1.get()
-    
         mysqldb=mysql.connector.connect(host="localhost",user="root",password="deol9646",database="train_login")
         mycursor=mysqldb.cursor()
-    
         try:
             sql = "delete from login where username = %s"
             val = (username,)
@@ -458,41 +454,34 @@ def login_screen():
             mysqldb.commit()
             lastid = mycursor.lastrowid
             messagebox.showinfo("information", "Record Deleteeeee successfully...")
-        
             e1.delete(0, END)
             e2.delete(0, END)
-        
-
             e1.focus_set()
-    
         except Exception as e:
-    
             print(e)
             mysqldb.rollback()
             mysqldb.close()
-    
+
+    # show user and pass in list
     def show():
         mysqldb = mysql.connector.connect(host="localhost", user="root", password="deol9646", database="train_login")
         mycursor = mysqldb.cursor()
         mycursor.execute("SELECT username,password FROM login")
         records = mycursor.fetchall()
         print(records)
-
         for i, (username,password) in enumerate(records, start=1):
             listbox.insert("", "end", values=(username,password))
             connection.close()
-    
     cols=("username","password")
     listbox=ttk.Treeview(f2,columns=cols,show='headings')
-
     for col in cols:
         listbox.heading(col, text=col)
         listbox.grid(row=0,column=0,columnspan=2)
-        listbox.place(width=500,height=370)
-
+        listbox.place(width=500,height=330)
     show()
     listbox.bind("<Double-Button-1>",GetValue)
 
+#passanger data screen
 def passanger_screen():
     global p1,a1,g1,from_entry,to_entry,date_entry,passanger_value
     
@@ -759,11 +748,63 @@ def passanger_screen():
             mysqldb.rollback()
             mysqldb.close()
 
-def third_screen():
-    page3=Frame(root,bg='yellow', width=1200, height=550)
+def payment_screen():
+    global passanger_value,upi_entry,debit_entry
+    p_upi = StringVar()
+    p_debit3d = StringVar()
+
+    p_upi.set(passanger_value["upi"])
+    p_debit3d.set(passanger_value["debit3d"])
+
+    font1=tkfont.Font(family='Times', size=15, weight="bold")
+    page3=Frame(root,bg='#80aaff', width=1200, height=550)
     page3.place(x=0,y=0)
-    test = Label(page3,text="PAYMENT")
-    test.place(x = 50, y = 50)
+    payframe=Frame(page3,bg='white',width=400, height=450)
+    payframe.place(x=400,y=40)
+    pay_label = Label(payframe,text="Enter Payment Details",font=font1,fg='#80aaff',bg='white')
+    pay_label.place(x = 105, y = 10)
+
+    #upi label & entry
+    upi=Label(payframe,text='Enter Upi Id',font=font1,bg='white')
+    upi.place(x=30,y=90)
+    upi_entry=Entry(payframe,font=font1,bd=2,textvariable=p_upi)
+    upi_entry.place(x=50,y=120)
+
+    #debit card 3d password label & entry
+    debit=Label(payframe,text='Enter debit 3D Password',font=font1,bg='white')
+    debit.place(x=30,y=170)
+    debit_entry=Entry(payframe,font=font1,bd=2,textvariable=p_debit3d)
+    debit_entry.place(x=50,y=200)
+
+    save=Button(payframe,text='SAVE',font=font1,bg='#80aaff',command=lambda:save_data())
+    save.place(x=30,y=240)
+    
+    
+    def save_data():
+        upi = upi_entry.get()
+        debit = debit_entry.get()
+
+        passanger_value["upi"] = upi
+        passanger_value["debit3d"] = debit
+
+        mysqldb=mysql.connector.connect(host="localhost",user="root",password="deol9646",database="train_login")
+        mycursor=mysqldb.cursor()
+    
+        try:
+            my_conn.execute('''create table if not exists payment_data(upi text ,debit3d text )''')
+            sql = "INSERT INTO  payment_data (UPI,DEBIT3D) VALUES (%s, %s)"
+            val = (upi,debit)
+            mycursor.execute(sql, val)
+            mysqldb.commit()
+            lastid = mycursor.lastrowid
+            messagebox.showinfo("information", "payment data inserted successfully...")
+            upi_entry.delete(0, END)
+            debit_entry.delete(0, END)
+            upi_entry.focus_set()
+        except Exception as e:
+            print(e)
+            mysqldb.rollback()
+            mysqldb.close()
 
 def fourth_screen():
     page4=Frame(root,bg='green', width=1200, height=550)
@@ -775,7 +816,7 @@ Button1=Button(root,text='LOGIN',command=lambda:login_screen())
 Button1.place(x=10,y=570)
 Button2=Button(root,text='PASSSENGER',command=lambda:passanger_screen())
 Button2.place(x=65,y=570)
-Button3=Button(root,text='PAYMENT',command=lambda:third_screen())
+Button3=Button(root,text='PAYMENT',command=lambda:payment_screen())
 Button3.place(x=155,y=570)
 Button3=Button(root,text='HOME',command=lambda:fourth_screen())
 Button3.place(x=230,y=570)
