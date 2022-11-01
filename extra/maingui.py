@@ -13,6 +13,8 @@ from selenium.webdriver.common.by import By
 # import Action chains 
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
+import os
 import time
 import PIL.Image
 from PIL import Image,ImageFilter
@@ -54,7 +56,15 @@ show_frame(page1)
 
 def start():
 
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+    # driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+    try:    
+        os.chdir('C:\\Program Files\\Google\\Chrome\\Application')
+        os.system('start cmd /k "chrome.exe --remote-debugging-port=9222 --user-data-dir=E:\chromedriver_win32\chromedata"')
+    except:
+        print('re check path')
+    opt = Options()
+    opt.add_experimental_option("debuggerAddress",'localhost:9222')
+    driver=webdriver.Chrome(executable_path=r"E:\\chromedriver_win32\\chromedriver.exe",chrome_options=opt)
     driver.maximize_window()
     driver.get("https://www.irctc.co.in/nget/train-search")
 
@@ -99,37 +109,37 @@ def start():
     action.perform()
     print('password entered')
 
-    img=driver.find_element(By.ID, "nlpImgContainer")
+    img=driver.find_element(By.XPATH, "//*[@id='login_header_disable']/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/div[4]/div/app-captcha/div/div/div/span[1]/img")
 
-    img.screenshot("logo.png")
-    im = PIL.Image.open('logo.png')
-    left = 0
-    top = 250
-    right = 300
-    bottom = 270
+    img.screenshot(r'E:\DJANGO\recapcha bypass\logo.png')
+    im = Image.open(r'E:\DJANGO\recapcha bypass\logo.png')
+    # left = 0
+    # top = 250
+    # right = 300
+    # bottom = 270
 
     # Cropped image of above dimension
     # (It will not change original image)
-    im1 = im.crop((left, top, right, bottom))
-    im1.save("crop.png" ,quality=100)
-    print('image address:',im1) 
-    captcha = pytesseract.image_to_string(im1) 
+    # im1 = im.crop((left, top, right, bottom))
+    # im1.save("crop.png" ,quality=100)
+    # print('image address:',im1) 
+    captcha = pytesseract.image_to_string(im) 
     captcha = captcha.replace(" ", "").strip()
 
-    with open('abc.txt',mode ='w') as file:      
+    with open(r'E:\DJANGO\recapcha bypass\abc.txt',mode ='w') as file:      
         file.write(captcha) 
         print('result',captcha)
-        print('write result',captcha[18:22])
+        # print('write result',captcha[18:22])
         
     #sget element for captcha enter
-    element5 = driver.find_element(By.XPATH, "//*[@id='nlpAnswer']")
+    element5 = driver.find_element(By.XPATH, "//*[@id='captcha']")
     print('find')
     # create action chain object
     action = ActionChains(driver)
     # click the item
     action.click(on_element = element5)
     # send keys
-    action.send_keys(captcha[18:22])
+    action.send_keys(captcha)
     action.perform()
     print('captcha enter')
 

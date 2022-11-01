@@ -13,11 +13,13 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options 
 import time
 import PIL.Image
 from PIL import Image,ImageFilter
 from functools import partial
 import pytesseract
+import os
 pytesseract.pytesseract.tesseract_cmd=r"C:\\Program Files\\Tesseract-OCR\\tesseract.exe"
 import mysql.connector
 connection=mysql.connector.connect(host='localhost',username='root',password='deol9646',database="train_login")
@@ -35,15 +37,24 @@ root.title("IRCTC")
 root.rowconfigure(0, weight=1)
 root.columnconfigure(0, weight=1)
 root.geometry("1200x600+200+50")
-
+icon=PhotoImage(file='icon.png')
+root.iconphoto(False,icon)
 #passanger value dictionary
 passanger_value={'name':"",'age':"",'gender':"",'name2':"",'age2':"",'gender2':"",'name3':"",'age3':"",'gender3':"",'name4':"",'age4':"",'gender4':"",'name5':"",'age5':"",'gender5':"",'name6':"",'age6':"",'gender6':"",'ifrom':"",'ito':"",'date':"",'total':"",}
 
 payment_value={'upi':"",'temp_name':""}
 #irctc website fuction
 def start():
-
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+    try:    
+        os.chdir('C:\\Program Files\\Google\\Chrome\\Application')
+        os.system('start cmd /k "chrome.exe --remote-debugging-port=9222 --user-data-dir=E:\chromedriver_win32\chromedata"')
+    except:
+        print('re check path')
+    opt = Options()
+    opt.add_experimental_option("debuggerAddress",'localhost:9222')
+    driver=webdriver.Chrome(executable_path=r"E:\\chromedriver_win32\\chromedriver.exe",chrome_options=opt)
+    
+    
     driver.maximize_window()
     driver.get("https://www.irctc.co.in/nget/train-search")
 
@@ -52,16 +63,84 @@ def start():
     element = driver.find_element(By.XPATH, "/html/body/app-root/app-home/div[1]/app-header/p-dialog[2]/div/div/div[2]/div/form/div[2]/button")
     element.click()
     time.sleep(1)
-    
+
+    #get element for login button
+    element2 = driver.find_element(By.XPATH, '/html/body/app-root/app-home/div[1]/app-header/div[2]/div[2]/div[1]/a[1]')
+    element2.click()
+    time.sleep(3)
+
+    #get element for usernme
+    element3 = driver.find_element(By.XPATH, '/html/body/app-root/app-home/div[3]/app-login/p-dialog[1]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/div[1]/input')
+    # create action chain object
+    action = ActionChains(driver)
+    # click the item
+    action.click(on_element = element3)
+    # send keys
+    action.send_keys(e1.get())
+    # perform the operation
+    action.perform()
+    time.sleep(3)
+    print('username entered')
+
+    # get element for password
+    element4 = driver.find_element(By.XPATH, '/html/body/app-root/app-home/div[3]/app-login/p-dialog[1]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/div[2]/input')
+    # create action chain object
+    action = ActionChains(driver)
+    # click the item
+    action.click(on_element = element4)
+    # send keys
+    action.send_keys(e2.get())
+    # perform the operation
+    action.perform()
+    print('password entered')
+    #image function for captcha
+    img=driver.find_element(By.ID, "nlpImgContainer") #By.ID, "nlpImgContainer"
+    img.screenshot(r'E:\DJANGO\recapcha bypass\logo.png')
+    im = Image.open(r'E:\DJANGO\recapcha bypass\logo.png') #use PIL.Image.open if not work
+    left = 0
+    top = 250
+    right = 300
+    bottom = 270
+
+    # Cropped image of above dimension
+    # (It will not change original image)
+    im1 = im.crop((left, top, right, bottom))
+    im1.save(r'E:\DJANGO\recapcha bypass\crop.png' ,quality=100)
+    print('image address:',im1) 
+    captcha = pytesseract.image_to_string(im1) 
+    captcha = captcha.replace(" ", "").strip()
+    # save in abc.txt file
+    with open(r'E:\DJANGO\recapcha bypass\abc.txt',mode ='w') as file:      
+        file.write(captcha) 
+        print('result',captcha)
+        print('write result',captcha[18:22]) #5:14 paints  18:22default  5:12match
+        
+    #get element for captcha enter
+    element5 = driver.find_element(By.XPATH, "//*[@id='nlpAnswer']")
+    print('find')
+    # create action chain object
+    action = ActionChains(driver)
+    # click the item
+    action.click(on_element = element5)
+    # enter captcha
+    action.send_keys(captcha[18:22]) #[18:22]
+    action.perform()
+    print('captcha enter')
+    time.sleep(5)
+
+    # click signup button 
+    signup = driver.find_element(By.XPATH, '//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/span/button')
+    signup.click()
+    print('signup')
+    time.sleep(6)
     #tap on date 
-    date_e = driver.find_element(By.XPATH, "/html/body/app-root/app-home/div[3]/div/app-main-page/div/div/div[1]/div[1]/div[1]/app-jp-input/div/form/div[2]/div[2]/div[1]/p-calendar/span/input")
+    date_e = driver.find_element(By.XPATH, "//*[@id='jDate']/span/input")
     date_e.click()
     time.sleep(1)
     # create action chain object
     action = ActionChains(driver)
     # click the date
     action.click(on_element = date_e)
-    #action.click(on_element = date)
     action.double_click(on_element = date_e)
     # write date
     action.send_keys(date)
@@ -102,7 +181,7 @@ def start():
     time.sleep(2)
 
     #SEARCH buttton click
-    search = driver.find_element(By.XPATH, '//*[@id="divMain"]/div/app-main-page/div/div/div[1]/div[1]/div[1]/app-jp-input/div/form/div[5]/div/button')
+    search = driver.find_element(By.XPATH, '//*[@id="divMain"]/div/app-main-page/div/div/div[1]/div[2]/div[1]/app-jp-input/div/form/div[5]/div/button')
     search.click()
     time.sleep(3)
 
@@ -120,80 +199,12 @@ def start():
     book = driver.find_element(By.XPATH, '//*[@id="divMain"]/div/app-train-list/div[4]/div/div[5]/div[1]/div[1]/app-train-avl-enq/div[2]/div/span/span[1]/button')
     book.click()
     time.sleep(2)
-    #agree
-    agree = driver.find_element(By.XPATH, '//*[@id="divMain"]/div/app-train-list/p-confirmdialog[1]/div/div/div[3]/button[1]/span[2]')
-    agree.click()
-    time.sleep(4)
+    # #agree
+    # agree = driver.find_element(By.XPATH, '//*[@id="divMain"]/div/app-train-list/p-confirmdialog[1]/div/div/div[3]/button[1]/span[2]')
+    # agree.click()
+    # time.sleep(4)
 
-    # #get element for login button
-    # element2 = driver.find_element(By.XPATH, '/html/body/app-root/app-home/div[1]/app-header/div[2]/div[2]/div[1]/a[1]')
-    # element2.click()
-    # time.sleep(3)
-
-    #get element for usernme
-    element3 = driver.find_element(By.XPATH, '/html/body/app-root/app-home/div[3]/app-login/p-dialog[1]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/div[1]/input')
-    # create action chain object
-    action = ActionChains(driver)
-    # click the item
-    action.click(on_element = element3)
-    # send keys
-    action.send_keys(e1.get())
-    # perform the operation
-    action.perform()
-    time.sleep(3)
-    print('username entered')
-
-    # get element for password
-    element4 = driver.find_element(By.XPATH, '/html/body/app-root/app-home/div[3]/app-login/p-dialog[1]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/div[2]/input')
-    # create action chain object
-    action = ActionChains(driver)
-    # click the item
-    action.click(on_element = element4)
-    # send keys
-    action.send_keys(e2.get())
-    # perform the operation
-    action.perform()
-    print('password entered')
-
-    #image function for captcha
-    img=driver.find_element(By.ID, "nlpImgContainer")
-    img.screenshot("logo.png")
-    im = PIL.Image.open('logo.png')
-    left = 0
-    top = 250
-    right = 300
-    bottom = 270
-    # Cropped image of above dimension
-    # (It will not change original image)
-    im1 = im.crop((left, top, right, bottom))
-    im1.save("crop.png" ,quality=100)
-    print('image address:',im1) 
-    captcha = pytesseract.image_to_string(im1) 
-    captcha = captcha.replace(" ", "").strip()
-    # save in abc.txt file
-    with open('abc.txt',mode ='w') as file:      
-        file.write(captcha) 
-        print('result',captcha)
-        print('write result',captcha[18:22]) #5:14
-        
-    #get element for captcha enter
-    element5 = driver.find_element(By.XPATH, "//*[@id='nlpAnswer']")
-    print('find')
-    # create action chain object
-    action = ActionChains(driver)
-    # click the item
-    action.click(on_element = element5)
-    # enter captcha
-    action.send_keys(captcha[18:22])
-    action.perform()
-    print('captcha enter')
-    time.sleep(1)
-
-    # click signup button 
-    signup = driver.find_element(By.XPATH, '//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/span/button')
-    signup.click()
-    print('signup')
-    time.sleep(5)
+    
     
     # ---function of passangers 1 2 3 4 5 6------
     def pass1():
@@ -466,8 +477,8 @@ def start():
 
     #payment captcha 
     img=driver.find_element(By.ID, "nlpImgContainer")
-    img.screenshot("logo2.png")
-    im = PIL.Image.open('logo2.png')
+    img.screenshot(r"E:\DJANGO\recapcha bypass\logo2.png")
+    im = Image.open(r"E:\DJANGO\recapcha bypass\logo2.png")
     left = 0
     top = 250
     right = 300
@@ -475,7 +486,7 @@ def start():
     # Cropped image of above dimension
     # (It will not change original image)
     im1 = im.crop((left, top, right, bottom))
-    im1.save("crop2.png" ,quality=100)
+    im1.save(r"E:\DJANGO\recapcha bypass\crop2.png" ,quality=100)
     print('image address:',im1) 
     captcha = pytesseract.image_to_string(im1) 
     captcha = captcha.replace(" ", "").strip()

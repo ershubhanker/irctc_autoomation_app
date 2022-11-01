@@ -4,6 +4,9 @@
 # import webdriver
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
+
+   
+
 from selenium.webdriver.common.by import By
 # import Action chains 
 from selenium.webdriver.common.action_chains import ActionChains
@@ -18,8 +21,12 @@ import pytesseract
 pytesseract.pytesseract.tesseract_cmd=r"C:\\Program Files\\Tesseract-OCR\\tesseract.exe"
 #configure webdriver manager
 def start():
+ 
+    #driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+   
+    # Code 2
     
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+    driver = webdriver.Edge()
     driver.maximize_window()
     driver.get("https://www.irctc.co.in/nget/train-search")
 
@@ -40,9 +47,12 @@ def start():
 
     # click the item
     action.click(on_element = element3)
-
+    text = "sarbdeoll"
+    for character in text:
+        element3.send_keys(character)
+        time.sleep(0.3) # pause for 0.3 seconds
     # send keys
-    action.send_keys("sarbdeoll")
+    #action.send_keys("sarbdeoll")
 
     # perform the operation
     action.perform()
@@ -58,8 +68,11 @@ def start():
     action.click(on_element = element4)
 
     # send keys
-    action.send_keys("Deol9646@")
-
+    #action.send_keys("Deol9646@")
+    text1 = "Deol9646@"
+    for character1 in text1:
+        element4.send_keys(character1)
+        time.sleep(0.3) # pause for 0.3 seconds
     # perform the operation
     action.perform()
     print('password entered')
@@ -93,14 +106,18 @@ def start():
     action = ActionChains(driver)
     # click the item
     action.click(on_element = element5)
-    # send keys
-    action.send_keys(captcha[18:22])
+    # send keyse
+    text2 = captcha[18:22]
+    for character2 in text2:
+        element5.send_keys(character2)
+        time.sleep(0.3) #
+    #action.send_keys(captcha[5:12])
     action.perform()
     print('captcha enter')
 
 
     # get element of ok 
-    signup = driver.find_element(By.XPATH, "/html/body/app-root/app-home/div[3]/app-login/p-dialog[1]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/span/button")
+    signup = driver.find_element(By.XPATH, '//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/span/button')
     signup.click()
     print('signup')
     time.sleep(6)
@@ -214,44 +231,45 @@ def start():
     time.sleep(5)
     while True:
         pass
-def data():
-    global v1,v2
+start()
+# def data():
+#     global v1,v2
     
-    v1=StringVar()
-    v2=StringVar()
+#     v1=StringVar()
+#     v2=StringVar()
     
-    v1=username.get()
+#     v1=username.get()
 
-    v2=password.get()
+#     v2=password.get()
     
-    # print(e1)
-    # print(e2)
+#     # print(e1)
+#     # print(e2)
     
-    # e1=input('enter the usernam')
-    # e2=input('password')
-    print(v1)
-    print(v2)
-    #database connection
-    import mysql.connector
-    connection=mysql.connector.connect(host='localhost',username='root',password='deol9646',database="train_login")
-    cursor=connection.cursor()
-    print('successfully connected')
+#     # e1=input('enter the usernam')
+#     # e2=input('password')
+#     print(v1)
+#     print(v2)
+#     #database connection
+#     import mysql.connector
+#     connection=mysql.connector.connect(host='localhost',username='root',password='deol9646',database="train_login")
+#     cursor=connection.cursor()
+#     print('successfully connected')
 
     
-    try:  
-    #creating a new table  
-        cursor.execute('''passanger_data(name text ,age text ,gender text ,from text ,to text ,
-            date text ,)''')
+#     try:  
+#     #creating a new table  
+#         cursor.execute('''passanger_data(name text ,age text ,gender text ,from text ,to text ,
+#             date text ,)''')
 
-        cursor.execute('''INSERT INTO passanger_data(name, age,gender,from,to,date) 
-        VALUES (%s ,%s,%s,%s,%s,%s)''',(v1, v2,)) 
-        connection.commit()
+#         cursor.execute('''INSERT INTO passanger_data(name, age,gender,from,to,date) 
+#         VALUES (%s ,%s,%s,%s,%s,%s)''',(v1, v2,)) 
+#         connection.commit()
         
-    except:  
-        connection.rollback()
-        print('rollback') 
-    for x in cursor:  
-        print(x)
+#     except:  
+#         connection.rollback()
+#         print('rollback') 
+#     for x in cursor:  
+#         print(x)
     
 
 
@@ -262,50 +280,50 @@ def data():
 # 	print("username entered :", username.get())
 # 	print("password entered :", password.get())
 # 	return
-#window
-tkWindow = Tk()  
-tkWindow.geometry('400x280')  
-tkWindow.configure(bg='white')
-tkWindow.title('irctc.co.in')
+# #window
+# tkWindow = Tk()  
+# tkWindow.geometry('400x280')  
+# tkWindow.configure(bg='white')
+# tkWindow.title('irctc.co.in')
 
-# create a Form label 
-Label(text="Login Here",font=("impact",30,"bold"),fg='sky blue',bg='white').pack() 
-Label(text="", bg='white').pack() 
+# # create a Form label 
+# Label(text="Login Here",font=("impact",30,"bold"),fg='sky blue',bg='white').pack() 
+# Label(text="", bg='white').pack() 
  
 
 
-#username label and text entry box
-usernameLabel = Label(tkWindow, text="User Name",bg='white').pack() 
-Label(text="",bg='white').pack() 
+# #username label and text entry box
+# usernameLabel = Label(tkWindow, text="User Name",bg='white').pack() 
+# Label(text="",bg='white').pack() 
  
-username = StringVar()
-usernameEntry = Entry(tkWindow, textvariable=username,bg='lightgray').pack()
-Label(text="",bg='white').pack() 
+# username = StringVar()
+# usernameEntry = Entry(tkWindow, textvariable=username,bg='lightgray').pack()
+# Label(text="",bg='white').pack() 
  
 
-#password label and password entry box
-passwordLabel = Label(tkWindow,text="Password",bg='white').pack() 
-Label(text="",bg='white').pack() 
+# #password label and password entry box
+# passwordLabel = Label(tkWindow,text="Password",bg='white').pack() 
+# Label(text="",bg='white').pack() 
    
-password = StringVar()
-passwordEntry = Entry(tkWindow, textvariable=password, show='*' ,bg='lightgray').pack() 
-Label(text="",bg='white').pack() 
+# password = StringVar()
+# passwordEntry = Entry(tkWindow, textvariable=password, show='*' ,bg='lightgray').pack() 
+# Label(text="",bg='white').pack() 
  
 
-# validateLogin = partial(validateLogin, username, password)
+# # validateLogin = partial(validateLogin, username, password)
 
-#login button
-loginButton = Button(tkWindow, text="Login", command=lambda:[data(),start()]).pack() 
+# #login button
+# loginButton = Button(tkWindow, text="Login", command=lambda:[data(),start()]).pack() 
 
  
 
 
 
-tkWindow.mainloop()
+# tkWindow.mainloop()
 
 
 
-#print(element)
+# #print(element)
 
 
 

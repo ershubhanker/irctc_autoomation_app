@@ -1,0 +1,8 @@
+1. How to open Edge browser in selenium python
+Open Microsoft Edge and type edge://version/ to check for compatible version edge driver as per the version of Brower. Now we can download msedgewebdriver from the official website.
+
+ 
+After Downloading compatible Microsfoftedge driver
+unzip and copy msedgedriver.exe to the python script directory.
+The path of the python script directory for Us is” C:\Users\Admin\AppData\Local \Programs \Python \Python310\Scripts”. It can be different depending on what location we have chosen while installing python.
+Run the below code to automatically Lanuch the Microsoft Edge browser.
