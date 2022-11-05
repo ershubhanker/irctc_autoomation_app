@@ -43,6 +43,11 @@ root.iconphoto(False,icon)
 passanger_value={'name':"",'age':"",'gender':"",'name2':"",'age2':"",'gender2':"",'name3':"",'age3':"",'gender3':"",'name4':"",'age4':"",'gender4':"",'name5':"",'age5':"",'gender5':"",'name6':"",'age6':"",'gender6':"",'ifrom':"",'ito':"",'date':"",'total':"",}
 
 payment_value={'upi':"",'temp_name':""}
+debit_value={'bank name':"",'card type':"",'card number':"",'expiry month':"",'expiry year':'','owner':"",'cvv':"",'3D pass':""}
+# print("File location using os.getcwd():", os.getcwd())
+var=os.getcwd()
+# a=f"{var}\logo.png"
+# print(a)
 #irctc website fuction
 def start():
     try:    
@@ -62,7 +67,7 @@ def start():
     # click ok 
     element = driver.find_element(By.XPATH, "/html/body/app-root/app-home/div[1]/app-header/p-dialog[2]/div/div/div[2]/div/form/div[2]/button")
     element.click()
-    time.sleep(1)
+    time.sleep(2)
 
     #get element for login button
     element2 = driver.find_element(By.XPATH, '/html/body/app-root/app-home/div[1]/app-header/div[2]/div[2]/div[1]/a[1]')
@@ -79,7 +84,7 @@ def start():
     action.send_keys(e1.get())
     # perform the operation
     action.perform()
-    time.sleep(3)
+    time.sleep(2)
     print('username entered')
 
     # get element for password
@@ -92,47 +97,124 @@ def start():
     action.send_keys(e2.get())
     # perform the operation
     action.perform()
+    time.sleep(2)
     print('password entered')
     #image function for captcha
-    img=driver.find_element(By.ID, "nlpImgContainer") #By.ID, "nlpImgContainer"
-    img.screenshot(r'E:\DJANGO\recapcha bypass\logo.png')
-    im = Image.open(r'E:\DJANGO\recapcha bypass\logo.png') #use PIL.Image.open if not work
-    left = 0
-    top = 250
-    right = 300
-    bottom = 270
 
-    # Cropped image of above dimension
-    # (It will not change original image)
-    im1 = im.crop((left, top, right, bottom))
-    im1.save(r'E:\DJANGO\recapcha bypass\crop.png' ,quality=100)
-    print('image address:',im1) 
-    captcha = pytesseract.image_to_string(im1) 
-    captcha = captcha.replace(" ", "").strip()
-    # save in abc.txt file
-    with open(r'E:\DJANGO\recapcha bypass\abc.txt',mode ='w') as file:      
-        file.write(captcha) 
-        print('result',captcha)
-        print('write result',captcha[18:22]) #5:14 paints  18:22default  5:12match
-        
-    #get element for captcha enter
-    element5 = driver.find_element(By.XPATH, "//*[@id='nlpAnswer']")
-    print('find')
-    # create action chain object
-    action = ActionChains(driver)
-    # click the item
-    action.click(on_element = element5)
-    # enter captcha
-    action.send_keys(captcha[18:22]) #[18:22]
-    action.perform()
-    print('captcha enter')
-    time.sleep(5)
+    print("File location using os.getcwd():", os.getcwd())
 
-    # click signup button 
-    signup = driver.find_element(By.XPATH, '//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/span/button')
-    signup.click()
-    print('signup')
-    time.sleep(6)
+    def  logincaptcha():
+        img=driver.find_element(By.ID, "nlpImgContainer") #By.ID, "nlpImgContainer"
+        img.screenshot(f"{var}\logo.png")
+        im = Image.open(f"{var}\logo.png") #use PIL.Image.open if not work
+        left = 0
+        top = 250
+        right = 300
+        bottom = 270
+        # left = 0
+        # top = 50
+        # right = 300
+        # bottom = 270
+
+        # Cropped image of above dimension
+        # (It will not change original image)
+        im1 = im.crop((left, top, right, bottom))
+        im1.save(f"{var}\crop.png" ,quality=100)
+        print('image address:',im1) 
+        captcha = pytesseract.image_to_string(im1) 
+        captcha = captcha.replace(" ", "").strip()
+        # save in abc.txt file
+        with open(f"{var}\\abc.txt",mode ='w') as file:     
+            file.write(captcha) 
+            print('result',captcha)
+            print('write result',captcha[5:9]) #5:14 paints  18:22 default  5:12match
+    
+        #get element for captcha enter
+        element5 = driver.find_element(By.XPATH, "//*[@id='nlpAnswer']")
+        print('find')
+        # create action chain object
+        action = ActionChains(driver)
+        # click the item
+        action.click(on_element = element5)
+        # enter captcha
+        action.send_keys(captcha[5:9]) #[18:22]
+        action.perform()
+        print('captcha enter')
+        time.sleep(4)
+        # click signup button 
+        signup = driver.find_element(By.XPATH, '//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/span/button')
+        signup.click()
+        print('signup')
+        time.sleep(10)
+    logincaptcha()
+    time.sleep(4)
+
+    # def  logincaptcha():
+    #     img=driver.find_element(By.XPATH, "//*[@id='login_header_disable']/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/div[4]/div/app-captcha/div/div/div/span[1]/img") #By.ID, "nlpImgContainer"
+    #     img.screenshot(r'E:\DJANGO\recapcha bypass\logo.png')
+    #     im = Image.open(r'E:\DJANGO\recapcha bypass\logo.png') #use PIL.Image.open if not work
+    #     left = 0
+    #     top = 250
+    #     right = 300
+    #     bottom = 270
+    #     # left = 0
+    #     # top = 50
+    #     # right = 300
+    #     # bottom = 270
+
+    #     # Cropped image of above dimension
+    #     # (It will not change original image)
+    #     im1 = im.crop((left, top, right, bottom))
+    #     im1.save(r'E:\DJANGO\recapcha bypass\crop.png' ,quality=100)
+    #     print('image address:',im1) 
+    #     captcha = pytesseract.image_to_string(im) 
+    #     captcha = captcha.replace(" ", "").strip()
+    #     # save in abc.txt file
+    #     with open(r'E:\DJANGO\recapcha bypass\abc.txt',mode ='w') as file:      
+    #         file.write(captcha) 
+    #         print('result',captcha)
+    #         print('write result',captcha) #5:14 paints  18:22 default  5:12match
+    
+    #     #get element for captcha enter
+    #     element5 = driver.find_element(By.XPATH, "//*[@id='nlpAnswer']")
+    #     print('find')
+    #     # create action chain object
+    #     action = ActionChains(driver)
+    #     # click the item
+    #     action.click(on_element = element5)
+    #     # enter captcha
+    #     action.send_keys(captcha) #[18:22]
+    #     action.perform()
+    #     print('captcha enter')
+    #     time.sleep(4)
+    #     # click signup button 
+    #     signup = driver.find_element(By.XPATH, '//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/span/button')
+    #     signup.click()
+    #     print('signup')
+    #     time.sleep(10)
+    # logincaptcha()
+    
+
+    # check captcha error show
+    # label_show=driver.find_element(By.XPATH,'//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[1]').is_displayed()
+    # print(label_show)
+
+    def error_check():
+        try:
+            for i in range(2):
+                if driver.find_element(By.XPATH,'//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[1]').is_displayed()==True:
+                    print('again enter')
+                    time.sleep(5)
+                    logincaptcha()
+                    
+                elif driver.find_element(By.XPATH,'//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[1]').is_displayed()==False:
+                    print('captcha is correct')
+        except:
+            print('captcha is corrects')
+    # label_show==False
+    error_check()
+   
+    time.sleep(4)
     #tap on date 
     date_e = driver.find_element(By.XPATH, "//*[@id='jDate']/span/input")
     date_e.click()
@@ -149,7 +231,7 @@ def start():
     #tap on from route
     loc = driver.find_element(By.XPATH, '//*[@id="origin"]/span/input')
     loc.click()
-    time.sleep(2)
+    time.sleep(1)
     # create action chain object
     action = ActionChains(driver)
     # click the from route
@@ -162,11 +244,11 @@ def start():
     #to location click
     loc1 = driver.find_element(By.XPATH, '//*[@id="pr_id_1_list"]/li/span')
     loc1.click()
-    time.sleep(2)
+    time.sleep(1)
     #tap on to route
     loc3 = driver.find_element(By.XPATH, '//*[@id="destination"]/span/input')
     loc3.click()
-    time.sleep(2)
+    time.sleep(1)
     # create action chain object
     action = ActionChains(driver)
     # click the to location
@@ -178,12 +260,12 @@ def start():
     # click destination location
     loc4 = driver.find_element(By.XPATH, '//*[@id="pr_id_2_list"]/li[1]')
     loc4.click()
-    time.sleep(2)
+    time.sleep(4)
 
     #SEARCH buttton click
     search = driver.find_element(By.XPATH, '//*[@id="divMain"]/div/app-main-page/div/div/div[1]/div[2]/div[1]/app-jp-input/div/form/div[5]/div/button')
     search.click()
-    time.sleep(3)
+    time.sleep(4)
 
     #refresh button
     choose = driver.find_element(By.XPATH, '//*[@id="divMain"]/div/app-train-list/div[4]/div/div[5]/div[1]/div[1]/app-train-avl-enq/div[1]/div[5]/div[1]/table/tr/td[1]/div/div[2]/span')
@@ -198,7 +280,7 @@ def start():
     #book
     book = driver.find_element(By.XPATH, '//*[@id="divMain"]/div/app-train-list/div[4]/div/div[5]/div[1]/div[1]/app-train-avl-enq/div[2]/div/span/span[1]/button')
     book.click()
-    time.sleep(2)
+    time.sleep(8)
     # #agree
     # agree = driver.find_element(By.XPATH, '//*[@id="divMain"]/div/app-train-list/p-confirmdialog[1]/div/div/div[3]/button[1]/span[2]')
     # agree.click()
@@ -470,53 +552,72 @@ def start():
     pay.click()
     time.sleep(2)
 
-    #continue button
+    #continue button same for both
     submit = driver.find_element(By.XPATH, '//*[@id="psgn-form"]/form/div/div[1]/div[14]/div/button[2]')
     submit.click()
-    time.sleep(5)
-
+    time.sleep(8)
+    print('payment captcha page')
     #payment captcha 
-    img=driver.find_element(By.ID, "nlpImgContainer")
-    img.screenshot(r"E:\DJANGO\recapcha bypass\logo2.png")
-    im = Image.open(r"E:\DJANGO\recapcha bypass\logo2.png")
-    left = 0
-    top = 250
-    right = 300
-    bottom = 270
-    # Cropped image of above dimension
-    # (It will not change original image)
-    im1 = im.crop((left, top, right, bottom))
-    im1.save(r"E:\DJANGO\recapcha bypass\crop2.png" ,quality=100)
-    print('image address:',im1) 
-    captcha = pytesseract.image_to_string(im1) 
-    captcha = captcha.replace(" ", "").strip()
+    def paycaptcha():
+        img=driver.find_element(By.ID, "nlpImgContainer")
+        img.screenshot(f"{var}\logo2.png")
+        im = Image.open(f"{var}\logo2.png")
+        left = 0
+        top = 250
+        right = 300
+        bottom = 280
+        # Cropped image of above dimension
+        # (It will not change original image)
+        im1 = im.crop((left, top, right, bottom))
+        im1.save(f"{var}\crop2.png" ,quality=100)
+        print('image address:',im1) 
+        captcha = pytesseract.image_to_string(im1) 
+        captcha = captcha.replace(" ", "").strip()
 
-    #save in payment.txt
-    with open('payment.txt',mode ='w') as file:      
-        file.write(captcha) 
-        print('result',captcha)
-        print('write result',captcha[18:22])
-        
-    #get element for captcha enter
-    element5 = driver.find_element(By.XPATH, "//*[@id='nlpAnswer']")
-    print('find')
-    # create action chain object
-    action = ActionChains(driver)
-    # click the item
-    action.click(on_element = element5)
-    # send keys
-    action.send_keys(captcha[18:22])
-    action.perform()
-    print('captcha enter')
-    time.sleep(1)
+        #save in payment.txt
+        with open(f"{var}\payment.txt",mode ='w') as file:      
+            file.write(captcha) 
+            print('result',captcha)
+            print('write result',captcha[5:9])
+        #get element for captcha enter
+        element5 = driver.find_element(By.XPATH, "//*[@id='nlpAnswer']")
+        print('find')
+        # create action chain object
+        action = ActionChains(driver)
+        # click the item
+        action.click(on_element = element5)
+        time.sleep(2)
+        # send keys
+        action.send_keys(captcha[5:9])
+        action.perform()
+        print('payement captcha enter')
+        time.sleep(4)
 
-    #continue buttton
-    continue_button = driver.find_element(By.XPATH, '//*[@id="review"]/div[1]/form/div[3]/div/button[2]')
-    continue_button.click()
-    print('continue_button')
-    time.sleep(3)
-
-
+        #continue buttton
+        continue_button = driver.find_element(By.XPATH, '//*[@id="review"]/div[1]/form/div[3]/div/button[2]')
+        continue_button.click()
+        print('continue_button')
+        time.sleep(3)
+    paycaptcha()
+    time.sleep(4) 
+    def pay_error_check():
+        try:
+            for i in range(2):
+                if driver.find_element(By.ID, "nlpImgContainer").is_displayed()==True:
+                    print('again enter')
+                    time.sleep(5)
+                    paycaptcha()
+                    
+                # elif driver.find_element(By.ID, "nlpImgContainer").is_displayed()==False:
+                else:
+                    print('captcha is correct')
+                    time.sleep(2)
+        except:
+            print('captcha is corrects')
+    # label_show==False
+    pay_error_check()   
+    time.sleep(4)
+    
     #choose method to pay
 
     
@@ -528,7 +629,7 @@ def start():
 
     
     #roserpay select 
-    roserpay = driver.find_element(By.XPATH, '//*[@id="bank-type"]/div/table/tr/span[3]/td/div/div/span')
+    roserpay = driver.find_element(By.XPATH, '//*[@id="bank-type"]/div/table/tr/span[2]/td/div/div/span')
     roserpay.click()
     print('upi choose roserpay')
     time.sleep(2)
@@ -537,13 +638,19 @@ def start():
     pay = driver.find_element(By.XPATH,'//*[@id="psgn-form"]/div[1]/div[1]/app-payment/div[2]/button[2]')
     pay.click()
     print('upi payment')
-    time.sleep(2)
-
+    time.sleep(6)
+    #enter iframe
+    iframe = driver.find_element(By.XPATH,"//iframe[@class='razorpay-checkout-frame']")
+    driver.switch_to.frame(iframe)
+    
     #upi or QR
-    roserpay = driver.find_element(By.XPATH, '//*[@id="form-common"]/div[1]/div/div/div/div/div/button[1]/div/div[1]/div[1]/div[1]')
-    roserpay.click()
-    print('upi choose roserpay')
-    time.sleep(2)
+    try:
+        roserpay = driver.find_element(By.XPATH, '//*[@id="form-common"]/div[1]/div/div/div/div/div/button[1]/div/div[1]/div[1]')
+        roserpay.click()
+        print('upi or QR')
+        time.sleep(2)
+    except:
+        print('take in your hands')
 
    
     #click and add upi
@@ -1369,55 +1476,68 @@ def payment_screen():
     def debit():
         global debit_e1,debit_e2,debit_e3,debit_M,debit_Y,debit_e5,cvv,pass3d
         font2=tkfont.Font(family='Times New Roman', size=15, weight="bold")
+        print(debit_value)
         Debitframe=Frame(page3,bg='white',width=550, height=400,bd=5,highlightbackground="black", highlightthickness=1)
         Debitframe.place(x=10,y=60)
 
-        # bank_name = StringVar()
-        # card_type = StringVar()
-        # card_no = StringVar()
-        # valid_M = StringVar()
-        # valid_y = StringVar()
-        # name_on_card = StringVar()
-        # cvv = StringVar()
-        # pass3d = StringVar()
-        # name = StringVar()
+        bank_name = StringVar()
+        card_type = StringVar()
+        card_no = StringVar()
+        valid_M = StringVar()
+        valid_Y = StringVar()
+        owner = StringVar()
+        cvv = StringVar()
+        pass3d = StringVar()
+        name = StringVar()
 
-        bank_name = Label(Debitframe,text="Bank Name :",font=font2,bg='white')
-        bank_name.place(x = 25, y = 10)
-        debit_e1=Entry(Debitframe,width=25,font=font2,bd=1,highlightbackground="grey", highlightthickness=1)
+        #'bank name':"",'card type':"",'card number':"",'expiry month':"",'expiry year':'','owner':"",'cvv':"",'3D pass':""
+        
+        bank_name.set(debit_value["bank name"])
+        card_type.set(debit_value["card type"])
+        card_no.set(debit_value["card number"])
+        valid_M.set(debit_value["expiry month"])
+        valid_Y.set(debit_value["expiry year"])
+        owner.set(debit_value["owner"])
+        cvv.set(debit_value["cvv"])
+        pass3d.set(debit_value["3D pass"])
+
+
+        Bank_name = Label(Debitframe,text="Bank Name :",font=font2,bg='white')
+        Bank_name.place(x = 25, y = 10)
+        debit_e1=Entry(Debitframe,width=25,font=font2,bd=1,highlightbackground="grey", highlightthickness=1,textvariable=bank_name)
         debit_e1.place(x=270,y=10)
 
-        card_type = Label(Debitframe,text="Card Type :",font=font2,bg='white')
-        card_type.place(x = 25, y = 50)
-        debit_e2=Entry(Debitframe,width=15,font=font2,bd=1,highlightbackground="grey", highlightthickness=1)
+        Card_type = Label(Debitframe,text="Card Type :",font=font2,bg='white')
+        Card_type.place(x = 25, y = 50)
+        debit_e2=Entry(Debitframe,width=15,font=font2,bd=1,highlightbackground="grey", highlightthickness=1,textvariable=card_type)
         debit_e2.place(x=270,y=50)
 
-        card_no = Label(Debitframe,text="Card Number :",font=font2,bg='white')
-        card_no.place(x = 25, y = 90)
-        debit_e3=Entry(Debitframe,width=25,font=font2,bd=1,highlightbackground="grey", highlightthickness=1)
+        Card_no = Label(Debitframe,text="Card Number :",font=font2,bg='white')
+        Card_no.place(x = 25, y = 90)
+        debit_e3=Entry(Debitframe,width=25,font=font2,bd=1,highlightbackground="grey", highlightthickness=1,textvariable=card_no)
         debit_e3.place(x=270,y=90)
 
         valid = Label(Debitframe,text="Expiry mm/yy :",font=font2,bg='white')
         valid.place(x = 25, y = 130)
-        debit_M=Entry(Debitframe,width=6,font=font2,bd=1,highlightbackground="grey", highlightthickness=1)
+        debit_M=Entry(Debitframe,width=6,font=font2,bd=1,highlightbackground="grey", highlightthickness=1,textvariable=valid_M)
         debit_M.place(x=270,y=130)
 
-        debit_Y=Entry(Debitframe,width=6,font=font2,bd=1,highlightbackground="grey", highlightthickness=1)
+        debit_Y=Entry(Debitframe,width=6,font=font2,bd=1,highlightbackground="grey", highlightthickness=1,textvariable=valid_Y)
         debit_Y.place(x=390,y=130)
 
         name_on_card = Label(Debitframe,text="Name On Card :",font=font2,bg='white')
         name_on_card.place(x = 25, y = 170)
-        debit_e5=Entry(Debitframe,width=25,font=font2,bd=1,highlightbackground="grey", highlightthickness=1)
+        debit_e5=Entry(Debitframe,width=25,font=font2,bd=1,highlightbackground="grey", highlightthickness=1,textvariable=owner)
         debit_e5.place(x=270,y=170)
 
-        cvv = Label(Debitframe,text="CVV :",font=font2,bg='white')
-        cvv.place(x = 25, y = 210)
-        debit_e6=Entry(Debitframe,width=7,font=font2,bd=1,highlightbackground="grey", highlightthickness=1)
+        Cvv = Label(Debitframe,text="CVV :",font=font2,bg='white')
+        Cvv.place(x = 25, y = 210)
+        debit_e6=Entry(Debitframe,width=7,font=font2,bd=1,highlightbackground="grey", highlightthickness=1,textvariable=cvv)
         debit_e6.place(x=270,y=210)
 
-        pass3d = Label(Debitframe,text="3D Password :",font=font2,bg='white')
-        pass3d.place(x = 25, y = 250)
-        debit_e7=Entry(Debitframe,width=10,font=font2,bd=1,highlightbackground="grey", highlightthickness=1)
+        Pass3d = Label(Debitframe,text="3D Password :",font=font2,bg='white')
+        Pass3d.place(x = 25, y = 250)
+        debit_e7=Entry(Debitframe,width=10,font=font2,bd=1,highlightbackground="grey", highlightthickness=1,textvariable=pass3d)
         debit_e7.place(x=270,y=250)
 
         
@@ -1426,15 +1546,49 @@ def payment_screen():
         ,activeforeground='black',command=lambda:add_debit())
         debit_btn.place(x=270,y=340)
 
-        select_upi=Button(page3,text="USE DEBIT",width=10,font=font1,bg='white',activebackground='black'
+        select_debit=Button(page3,text="USE DEBIT",width=10,font=font1,bg='white',activebackground='black'
         ,activeforeground='white',command=lambda:method())
-        select_upi.place(x=50,y=490)
+        select_debit.place(x=50,y=490)
 
         def method():
-            pass
+            e1 = debit_e1.get()
+            e2=debit_e2.get()
+            e3=debit_e2.get()
+            month=debit_M.get()
+            year=debit_Y.get()
+            e5=debit_e5.get()
+            e6=debit_e6.get()
+            e7=debit_e7.get()
+            #bank name':"",'card type':"",'card number':"",'expiry month':"",'expiry year':'','owner':"",'cvv':"",'3D pass'
+            debit_value["bank name"] = e1
+            debit_value["card type"] = e2
+            debit_value["card number"] = e3
+            debit_value["expiry month"] = month
+            debit_value["expiry year"] = year
+            debit_value["owner"] = e5
+            debit_value["cvv"] = e6
+            debit_value["3D pass"] = e7
+            print(debit_value)
         #function for get username and password from entry
         def GetValue(event):
-            
+            e1 = debit_e1.get()
+            e2=debit_e2.get()
+            e3=debit_e2.get()
+            month=debit_M.get()
+            year=debit_Y.get()
+            e5=debit_e5.get()
+            e6=debit_e6.get()
+            e7=debit_e7.get()
+            #bank name':"",'card type':"",'card number':"",'expiry month':"",'expiry year':'','owner':"",'cvv':"",'3D pass'
+            debit_value["bank name"] = e1
+            debit_value["card type"] = e2
+            debit_value["card number"] = e3
+            debit_value["expiry month"] = month
+            debit_value["expiry year"] = year
+            debit_value["owner"] = e5
+            debit_value["cvv"] = e6
+            debit_value["3D pass"] = e7
+
             debit_e1.delete(0, END)
             debit_e2.delete(0, END)
             debit_e3.delete(0, END)
@@ -1455,7 +1609,7 @@ def payment_screen():
             debit_e5.insert(0,select['Holder'])
             debit_e6.insert(0,select['cvv'])
             debit_e7.insert(0,select['pass3d'])
-        
+            
         def add_debit():
             
             bank_name = debit_e1.get()
