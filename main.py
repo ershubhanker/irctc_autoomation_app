@@ -24,26 +24,20 @@ pytesseract.pytesseract.tesseract_cmd=r"C:\\Program Files\\Tesseract-OCR\\tesser
 import mysql.connector
 connection=mysql.connector.connect(host='localhost',username='root',password='deol9646',database="train_login")
 from tkcalendar import DateEntry
-
+import multiprocessing
 #database connect
 my_conn = connection.cursor()
 # create login table
 my_conn.execute('''create table if not exists login(username text ,password text ,name text)''')
 
-#----root window----
-root = Tk()
-root.configure(bg='sky blue')
-root.title("IRCTC")
-root.rowconfigure(0, weight=1)
-root.columnconfigure(0, weight=1)
-root.geometry("1200x600+200+50")
-icon=PhotoImage(file='icon.png')
-root.iconphoto(False,icon)
-#passanger value dictionary
-passanger_value={'name':"",'age':"",'gender':"",'name2':"",'age2':"",'gender2':"",'name3':"",'age3':"",'gender3':"",'name4':"",'age4':"",'gender4':"",'name5':"",'age5':"",'gender5':"",'name6':"",'age6':"",'gender6':"",'ifrom':"",'ito':"",'date':"",'total':"",}
 
+
+#passanger value dictionary
+passanger_value={'name':"",'age':"",'gender':"",'name2':"",'age2':"",'gender2':"",'name3':"",'age3':"",'gender3':"",'name4':"",
+'age4':"",'gender4':"",'name5':"",'age5':"",'gender5':"",'name6':"",'age6':"",'gender6':"",'ifrom':"",'ito':"",'date':"",'total':"",'qouta':"",'windows':""}
 payment_value={'upi':"",'temp_name':""}
 debit_value={'bank name':"",'card type':"",'card number':"",'expiry month':"",'expiry year':'','owner':"",'cvv':"",'3D pass':""}
+method_pay={'method_p':""}
 # print("File location using os.getcwd():", os.getcwd())
 var=os.getcwd()
 # a=f"{var}\logo.png"
@@ -52,22 +46,27 @@ var=os.getcwd()
 def start():
     try:    
         os.chdir('C:\\Program Files\\Google\\Chrome\\Application')
-        os.system('start cmd /k "chrome.exe --remote-debugging-port=9222 --user-data-dir=E:\chromedriver_win32\chromedata"')
+        os.system('start cmd /k "chrome.exe --remote-debugging-port=9221 --user-data-dir=E:\chromedriver_win32\chromedata"')
     except:
         print('re check path')
     opt = Options()
-    opt.add_experimental_option("debuggerAddress",'localhost:9222')
+    opt.add_experimental_option("debuggerAddress",'localhost:9221')
     driver=webdriver.Chrome(executable_path=r"E:\\chromedriver_win32\\chromedriver.exe",chrome_options=opt)
     
     
     driver.maximize_window()
     driver.get("https://www.irctc.co.in/nget/train-search")
 
-    
-    # click ok 
-    element = driver.find_element(By.XPATH, "/html/body/app-root/app-home/div[1]/app-header/p-dialog[2]/div/div/div[2]/div/form/div[2]/button")
-    element.click()
-    time.sleep(2)
+    # click ok
+    try:
+        if driver.find_element(By.XPATH, "/html/body/app-root/app-home/div[1]/app-header/p-dialog[2]/div/div/div[2]/div/form/div[2]/button").is_displayed()==True:
+            element = driver.find_element(By.XPATH, "/html/body/app-root/app-home/div[1]/app-header/p-dialog[2]/div/div/div[2]/div/form/div[2]/button")
+            element.click()
+            time.sleep(2)
+        else:
+            pass
+    except Exception as e:
+        print(e)
 
     #get element for login button
     element2 = driver.find_element(By.XPATH, '/html/body/app-root/app-home/div[1]/app-header/div[2]/div[2]/div[1]/a[1]')
@@ -127,7 +126,7 @@ def start():
         with open(f"{var}\\abc.txt",mode ='w') as file:     
             file.write(captcha) 
             print('result',captcha)
-            print('write result',captcha[5:9]) #5:14 paints  18:22 default  5:12match
+            print('write result',captcha[18:22]) #5:14 paints  [18:22] default  5:12match
     
         #get element for captcha enter
         element5 = driver.find_element(By.XPATH, "//*[@id='nlpAnswer']")
@@ -137,7 +136,7 @@ def start():
         # click the item
         action.click(on_element = element5)
         # enter captcha
-        action.send_keys(captcha[5:9]) #[18:22]
+        action.send_keys(captcha[18:22]) #[18:22]]
         action.perform()
         print('captcha enter')
         time.sleep(4)
@@ -149,56 +148,7 @@ def start():
     logincaptcha()
     time.sleep(4)
 
-    # def  logincaptcha():
-    #     img=driver.find_element(By.XPATH, "//*[@id='login_header_disable']/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/div[4]/div/app-captcha/div/div/div/span[1]/img") #By.ID, "nlpImgContainer"
-    #     img.screenshot(r'E:\DJANGO\recapcha bypass\logo.png')
-    #     im = Image.open(r'E:\DJANGO\recapcha bypass\logo.png') #use PIL.Image.open if not work
-    #     left = 0
-    #     top = 250
-    #     right = 300
-    #     bottom = 270
-    #     # left = 0
-    #     # top = 50
-    #     # right = 300
-    #     # bottom = 270
-
-    #     # Cropped image of above dimension
-    #     # (It will not change original image)
-    #     im1 = im.crop((left, top, right, bottom))
-    #     im1.save(r'E:\DJANGO\recapcha bypass\crop.png' ,quality=100)
-    #     print('image address:',im1) 
-    #     captcha = pytesseract.image_to_string(im) 
-    #     captcha = captcha.replace(" ", "").strip()
-    #     # save in abc.txt file
-    #     with open(r'E:\DJANGO\recapcha bypass\abc.txt',mode ='w') as file:      
-    #         file.write(captcha) 
-    #         print('result',captcha)
-    #         print('write result',captcha) #5:14 paints  18:22 default  5:12match
-    
-    #     #get element for captcha enter
-    #     element5 = driver.find_element(By.XPATH, "//*[@id='nlpAnswer']")
-    #     print('find')
-    #     # create action chain object
-    #     action = ActionChains(driver)
-    #     # click the item
-    #     action.click(on_element = element5)
-    #     # enter captcha
-    #     action.send_keys(captcha) #[18:22]
-    #     action.perform()
-    #     print('captcha enter')
-    #     time.sleep(4)
-    #     # click signup button 
-    #     signup = driver.find_element(By.XPATH, '//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/span/button')
-    #     signup.click()
-    #     print('signup')
-    #     time.sleep(10)
-    # logincaptcha()
-    
-
-    # check captcha error show
-    # label_show=driver.find_element(By.XPATH,'//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[1]').is_displayed()
-    # print(label_show)
-
+ 
     def error_check():
         try:
             for i in range(2):
@@ -262,6 +212,23 @@ def start():
     loc4.click()
     time.sleep(4)
 
+    # journey qauta
+    def general():
+        pass
+    
+    def tatkal():
+        #tatkal box
+        tatkal = driver.find_element(By.XPATH, '//*[@id="journeyQuota"]/div')
+        tatkal.click()
+        time.sleep(1)
+
+        tatkal = driver.find_element(By.XPATH, '//*[@id="journeyQuota"]/div/div[4]/div/ul/p-dropdownitem[5]/li')
+        tatkal.click()
+
+    if qouta=="GENERAL":
+        general()
+    elif qouta=="TATKAL":
+        tatkal()
     #SEARCH buttton click
     search = driver.find_element(By.XPATH, '//*[@id="divMain"]/div/app-main-page/div/div/div[1]/div[2]/div[1]/app-jp-input/div/form/div[5]/div/button')
     search.click()
@@ -530,9 +497,7 @@ def start():
         pass5()
     elif count == '6':
         pass6()
-    
-        
-
+           
     #food box
     # food = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[1]/div[2]/div/app-passenger/div/div[1]/div[2]/select')
     # food.click()
@@ -543,131 +508,237 @@ def start():
     # time.sleep(1)
 
     
-    #choose pay option from debit or upi
-
-    #default set for debit pay
-
+    
     #upi select
-    pay = driver.find_element(By.XPATH, '//*[@id="2"]/div/div[2]/span') # for upi
-    pay.click()
-    time.sleep(2)
+    def upi_function():
+        pay = driver.find_element(By.XPATH, '//*[@id="2"]/div/div[2]/span') # for upi
+        pay.click()
+        time.sleep(2)
 
-    #continue button same for both
-    submit = driver.find_element(By.XPATH, '//*[@id="psgn-form"]/form/div/div[1]/div[14]/div/button[2]')
-    submit.click()
-    time.sleep(8)
-    print('payment captcha page')
-    #payment captcha 
-    def paycaptcha():
-        img=driver.find_element(By.ID, "nlpImgContainer")
-        img.screenshot(f"{var}\logo2.png")
-        im = Image.open(f"{var}\logo2.png")
-        left = 0
-        top = 250
-        right = 300
-        bottom = 280
-        # Cropped image of above dimension
-        # (It will not change original image)
-        im1 = im.crop((left, top, right, bottom))
-        im1.save(f"{var}\crop2.png" ,quality=100)
-        print('image address:',im1) 
-        captcha = pytesseract.image_to_string(im1) 
-        captcha = captcha.replace(" ", "").strip()
+        #continue button same for both
+        submit = driver.find_element(By.XPATH, '//*[@id="psgn-form"]/form/div/div[1]/div[14]/div/button[2]')
+        submit.click()
+        time.sleep(8)
+        print('payment captcha page')
+        #payment captcha 
+        def paycaptcha():
+            img=driver.find_element(By.ID, "nlpImgContainer")
+            img.screenshot(f"{var}\logo2.png")
+            im = Image.open(f"{var}\logo2.png")
+            left = 0
+            top = 250
+            right = 300
+            bottom = 280
+            # Cropped image of above dimension
+            # (It will not change original image)
+            im1 = im.crop((left, top, right, bottom))
+            im1.save(f"{var}\crop2.png" ,quality=100)
+            print('image address:',im1) 
+            captcha = pytesseract.image_to_string(im1) 
+            captcha = captcha.replace(" ", "").strip()
 
-        #save in payment.txt
-        with open(f"{var}\payment.txt",mode ='w') as file:      
-            file.write(captcha) 
-            print('result',captcha)
-            print('write result',captcha[5:9])
-        #get element for captcha enter
-        element5 = driver.find_element(By.XPATH, "//*[@id='nlpAnswer']")
-        print('find')
+            #save in payment.txt
+            with open(f"{var}\payment.txt",mode ='w') as file:      
+                file.write(captcha) 
+                print('result',captcha)
+                print('write result',captcha[18:22])
+            #get element for captcha enter
+            element5 = driver.find_element(By.XPATH, "//*[@id='nlpAnswer']")
+            print('find')
+            # create action chain object
+            action = ActionChains(driver)
+            # click the item
+            action.click(on_element = element5)
+            time.sleep(2)
+            # send keys
+            action.send_keys(captcha[18:22])
+            action.perform()
+            print('payement captcha enter')
+            time.sleep(4)
+
+            #continue buttton
+            continue_button = driver.find_element(By.XPATH, '//*[@id="review"]/div[1]/form/div[3]/div/button[2]')
+            continue_button.click()
+            print('continue_button')
+            time.sleep(3)
+        paycaptcha()
+        time.sleep(4) 
+        def pay_error_check():
+            try:
+                for i in range(2):
+                    if driver.find_element(By.ID, "nlpImgContainer").is_displayed()==True:
+                        print('again enter')
+                        time.sleep(5)
+                        paycaptcha()
+                        
+                    # elif driver.find_element(By.ID, "nlpImgContainer").is_displayed()==False:
+                    else:
+                        print('captcha is correct')
+                        time.sleep(2)
+            except:
+                print('captcha is corrects')
+        # label_show==False
+        pay_error_check()   
+        time.sleep(4)
+        
+        #choose method to pay
+
+        
+        #choose multiple payment method //*[@id="pay-type"]/span/div[1]/span
+        upi_choose = driver.find_element(By.XPATH, '//*[@id="pay-type"]/span/div[1]/span')
+        upi_choose.click()
+        print('multiple choose')
+        time.sleep(2)
+
+        
+        #roserpay select 
+        roserpay = driver.find_element(By.XPATH, '//*[@id="bank-type"]/div/table/tr/span[3]/td/div/div/span')
+        roserpay.click()#//*[@id="bank-type"]/div/table/tr/span[2]/td/div/div/span/text()
+        print('upi choose roserpay')
+        time.sleep(2)
+
+        #pay & book button
+        pay = driver.find_element(By.XPATH,'//*[@id="psgn-form"]/div[1]/div[1]/app-payment/div[2]/button[2]')
+        pay.click()
+        print('upi payment')
+        time.sleep(6)
+        #enter iframe
+        iframe = driver.find_element(By.XPATH,"//iframe[@class='razorpay-checkout-frame']")
+        driver.switch_to.frame(iframe)
+        
+        #upi or QR
+        try:
+            roserpay = driver.find_element(By.XPATH, '//*[@id="form-common"]/div[1]/div/div/div/div/div/button[1]/div/div[1]/div[1]')
+            roserpay.click()
+            print('upi or QR')
+            time.sleep(2)
+        except:
+            print('take in your hands')
+
+    
+        #click and add upi
+        conti_confirm = driver.find_element(By.XPATH,'//*[@id="vpa-upi"]')
+        conti_confirm.click()
+        print('add payment number')
         # create action chain object
         action = ActionChains(driver)
         # click the item
-        action.click(on_element = element5)
-        time.sleep(2)
+        action.click(on_element = conti_confirm)
         # send keys
-        action.send_keys(captcha[5:9])
+        action.send_keys(upi_entry.get())
         action.perform()
-        print('payement captcha enter')
-        time.sleep(4)
-
-        #continue buttton
-        continue_button = driver.find_element(By.XPATH, '//*[@id="review"]/div[1]/form/div[3]/div/button[2]')
-        continue_button.click()
-        print('continue_button')
-        time.sleep(3)
-    paycaptcha()
-    time.sleep(4) 
-    def pay_error_check():
-        try:
-            for i in range(2):
-                if driver.find_element(By.ID, "nlpImgContainer").is_displayed()==True:
-                    print('again enter')
-                    time.sleep(5)
-                    paycaptcha()
-                    
-                # elif driver.find_element(By.ID, "nlpImgContainer").is_displayed()==False:
-                else:
-                    print('captcha is correct')
-                    time.sleep(2)
-        except:
-            print('captcha is corrects')
-    # label_show==False
-    pay_error_check()   
-    time.sleep(4)
-    
-    #choose method to pay
-
-    
-    #choose multiple payment method //*[@id="pay-type"]/span/div[1]/span
-    upi_choose = driver.find_element(By.XPATH, '//*[@id="pay-type"]/span/div[1]/span')
-    upi_choose.click()
-    print('multiple choose')
-    time.sleep(2)
-
-    
-    #roserpay select 
-    roserpay = driver.find_element(By.XPATH, '//*[@id="bank-type"]/div/table/tr/span[2]/td/div/div/span')
-    roserpay.click()
-    print('upi choose roserpay')
-    time.sleep(2)
-
-    #pay & book button
-    pay = driver.find_element(By.XPATH,'//*[@id="psgn-form"]/div[1]/div[1]/app-payment/div[2]/button[2]')
-    pay.click()
-    print('upi payment')
-    time.sleep(6)
-    #enter iframe
-    iframe = driver.find_element(By.XPATH,"//iframe[@class='razorpay-checkout-frame']")
-    driver.switch_to.frame(iframe)
-    
-    #upi or QR
-    try:
-        roserpay = driver.find_element(By.XPATH, '//*[@id="form-common"]/div[1]/div/div/div/div/div/button[1]/div/div[1]/div[1]')
-        roserpay.click()
-        print('upi or QR')
         time.sleep(2)
-    except:
-        print('take in your hands')
 
-   
-    #click and add upi
-    conti_confirm = driver.find_element(By.XPATH,'//*[@id="vpa-upi"]')
-    conti_confirm.click()
-    print('add payment number')
-    # create action chain object
-    action = ActionChains(driver)
-    # click the item
-    action.click(on_element = conti_confirm)
-    # send keys
-    action.send_keys(upi_entry.get())
-    action.perform()
-    time.sleep(2)
+        #proceed button to upi pay
+        paytm_submit = driver.find_element(By.XPATH,'//*[@id="footer-cta"]')
+        paytm_submit.click()
+        print(' pay button')
+        time.sleep(2)
+
+        #continue for mobile pay send
+        contine_pay = driver.find_element(By.XPATH,'//*[@id="overlay"]/div/div/div[2]')
+        contine_pay.click()
+        print(' continue button')
+        time.sleep(2)
+    #upi_function()
 
     #select debit
     def debit_function():
+        #continue button same for both
+        submit = driver.find_element(By.XPATH, '//*[@id="psgn-form"]/form/div/div[1]/div[14]/div/button[2]')
+        submit.click()
+        time.sleep(8)
+        print('payment captcha page')
+        #payment captcha 
+        def paycaptcha():
+            img=driver.find_element(By.ID, "nlpImgContainer")
+            img.screenshot(f"{var}\logo2.png")
+            im = Image.open(f"{var}\logo2.png")
+            left = 0
+            top = 250
+            right = 300
+            bottom = 280
+            # Cropped image of above dimension
+            # (It will not change original image)
+            im1 = im.crop((left, top, right, bottom))
+            im1.save(f"{var}\crop2.png" ,quality=100)
+            print('image address:',im1) 
+            captcha = pytesseract.image_to_string(im1) 
+            captcha = captcha.replace(" ", "").strip()
+
+            #save in payment.txt
+            with open(f"{var}\payment.txt",mode ='w') as file:      
+                file.write(captcha) 
+                print('result',captcha)
+                print('write result',captcha[18:22])
+            #get element for captcha enter
+            element5 = driver.find_element(By.XPATH, "//*[@id='nlpAnswer']")
+            print('find')
+            # create action chain object
+            action = ActionChains(driver)
+            # click the item
+            action.click(on_element = element5)
+            time.sleep(2)
+            # send keys
+            action.send_keys(captcha[18:22])
+            action.perform()
+            print('payement captcha enter')
+            time.sleep(4)
+
+            #continue buttton
+            continue_button = driver.find_element(By.XPATH, '//*[@id="review"]/div[1]/form/div[3]/div/button[2]')
+            continue_button.click()
+            print('continue_button')
+            time.sleep(3)
+        paycaptcha()
+        time.sleep(4) 
+        def pay_error_check():
+            try:
+                for i in range(2):
+                    if driver.find_element(By.ID, "nlpImgContainer").is_displayed()==True:
+                        print('again enter')
+                        time.sleep(5)
+                        paycaptcha()
+                        
+                    # elif driver.find_element(By.ID, "nlpImgContainer").is_displayed()==False:
+                    else:
+                        print('captcha is correct')
+                        time.sleep(2)
+            except:
+                print('captcha is corrects')
+        # label_show==False
+        pay_error_check()   
+        time.sleep(4)
+        #choose method to pay
+
+        
+        #choose multiple payment method //*[@id="pay-type"]/span/div[1]/span
+        debit_choose = driver.find_element(By.XPATH, '//*[@id="pay-type"]/span/div[2]')
+        debit_choose.click()
+        print('multiple choose')
+        time.sleep(2)
+
+        
+        #roserpay select 
+        roserpay = driver.find_element(By.XPATH, '//*[@id="bank-type"]/div/table/tr/span[3]/td/div/div')
+        roserpay.click()
+        print('debit choose roserpay')
+        time.sleep(2)
+
+        #pay & book button
+        pay = driver.find_element(By.XPATH,'//*[@id="psgn-form"]/div[1]/div[1]/app-payment/div[2]/button[2]')
+        pay.click()
+        print('debit payment')
+        time.sleep(6)
+        #enter iframe
+        iframe = driver.find_element(By.XPATH,"//iframe[@class='razorpay-checkout-frame']")
+        driver.switch_to.frame(iframe)
+
+        roserpay = driver.find_element(By.XPATH, '//*[@id="form-common"]/div[1]/div/div/div/div/div/button[1]/div/div[1]/div[1]/div[1]')
+        roserpay.click()
+        print('Debit/credit card')
+        time.sleep(2)
+#
         #click on card number
         card_number = driver.find_element(By.XPATH,'//*[@id="card_number"]')
         card_number.click()
@@ -675,8 +746,9 @@ def start():
                 # click the item
         action.click(on_element = card_number)
                 # send keys
-        action.send_keys('card number')
+        action.send_keys(debit_e2.get())
         action.perform()
+        print('card number enter')
         time.sleep(2)
 
         #click on Expiry
@@ -686,8 +758,11 @@ def start():
                 # click the item
         action.click(on_element = card_expiry)
                 # send keys
-        action.send_keys('0123')
+        action.send_keys(debit_M.get()) 
+            
+        action.send_keys(debit_Y.get())
         action.perform()
+        print('date enter')
         time.sleep(2)
 
         #click on holder's name
@@ -697,8 +772,9 @@ def start():
                 # click the item
         action.click(on_element = card_holder)
                 # send keys
-        action.send_keys('holder name')
+        action.send_keys(debit_e5.get())
         action.perform()
+        print('holder name enter')
         time.sleep(2)
 
         #click on CVV
@@ -708,23 +784,3096 @@ def start():
                 # click the item
         action.click(on_element = card_CVV)
                 # send keys
-        action.send_keys('102')
+        action.send_keys(debit_e6.get())
+        action.perform()
+        print('cvv enter')
+        time.sleep(2)
+        #proceed button to upi pay
+        pay_debit = driver.find_element(By.XPATH,'//*[@id="footer-cta"]')
+        pay_debit.click()
+        print(' debit pay button')
+        time.sleep(2)
+
+        #continue for mobile pay send
+        contine_pay = driver.find_element(By.XPATH,'//*[@id="overlay"]/div/div/div[2]')
+        contine_pay.click()
+        print(' continue button')
+        time.sleep(2)
+    #debit_function()
+
+    if meth=="UPI":
+        upi_function()
+    elif meth=="DEBIT":
+        debit_function()
+
+
+    while True:
+        pass
+
+def start2():
+    try:    
+        os.chdir('C:\\Program Files\\Google\\Chrome\\Application')
+        os.system('start cmd /k "chrome.exe --remote-debugging-port=9222 --user-data-dir=E:\chromedriver_win32\chromedata2"')
+    except:
+        print('re check path')
+    opt = Options()
+    opt.add_experimental_option("debuggerAddress",'localhost:9222')
+    driver=webdriver.Chrome(executable_path=r"E:\\chromedriver_win32\\chromedriver.exe",chrome_options=opt)
+    
+    
+    driver.maximize_window()
+    driver.get("https://www.irctc.co.in/nget/train-search")
+
+    # click ok
+    try:
+        if driver.find_element(By.XPATH, "/html/body/app-root/app-home/div[1]/app-header/p-dialog[2]/div/div/div[2]/div/form/div[2]/button").is_displayed()==True:
+            element = driver.find_element(By.XPATH, "/html/body/app-root/app-home/div[1]/app-header/p-dialog[2]/div/div/div[2]/div/form/div[2]/button")
+            element.click()
+            time.sleep(2)
+        else:
+            pass
+    except Exception as e:
+        print(e)
+
+    #get element for login button
+    element2 = driver.find_element(By.XPATH, '/html/body/app-root/app-home/div[1]/app-header/div[2]/div[2]/div[1]/a[1]')
+    element2.click()
+    time.sleep(3)
+
+    #get element for usernme
+    element3 = driver.find_element(By.XPATH, '/html/body/app-root/app-home/div[3]/app-login/p-dialog[1]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/div[1]/input')
+    # create action chain object
+    action = ActionChains(driver)
+    # click the item
+    action.click(on_element = element3)
+    # send keys
+    action.send_keys(e1.get())
+    # perform the operation
+    action.perform()
+    time.sleep(2)
+    print('username entered')
+
+    # get element for password
+    element4 = driver.find_element(By.XPATH, '/html/body/app-root/app-home/div[3]/app-login/p-dialog[1]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/div[2]/input')
+    # create action chain object
+    action = ActionChains(driver)
+    # click the item
+    action.click(on_element = element4)
+    # send keys
+    action.send_keys(e2.get())
+    # perform the operation
+    action.perform()
+    time.sleep(2)
+    print('password entered')
+    #image function for captcha
+
+    print("File location using os.getcwd():", os.getcwd())
+
+    def  logincaptcha():
+        img=driver.find_element(By.ID, "nlpImgContainer") #By.ID, "nlpImgContainer"
+        img.screenshot(f"{var}\logo.png")
+        im = Image.open(f"{var}\logo.png") #use PIL.Image.open if not work
+        left = 0
+        top = 250
+        right = 300
+        bottom = 270
+        # left = 0
+        # top = 50
+        # right = 300
+        # bottom = 270
+
+        # Cropped image of above dimension
+        # (It will not change original image)
+        im1 = im.crop((left, top, right, bottom))
+        im1.save(f"{var}\crop.png" ,quality=100)
+        print('image address:',im1) 
+        captcha = pytesseract.image_to_string(im1) 
+        captcha = captcha.replace(" ", "").strip()
+        # save in abc.txt file
+        with open(f"{var}\\abc.txt",mode ='w') as file:     
+            file.write(captcha) 
+            print('result',captcha)
+            print('write result',captcha[18:22]) #5:14 paints  [18:22] default  5:12match
+    
+        #get element for captcha enter
+        element5 = driver.find_element(By.XPATH, "//*[@id='nlpAnswer']")
+        print('find')
+        # create action chain object
+        action = ActionChains(driver)
+        # click the item
+        action.click(on_element = element5)
+        # enter captcha
+        action.send_keys(captcha[18:22]) #[18:22]]
+        action.perform()
+        print('captcha enter')
+        time.sleep(4)
+        # click signup button 
+        signup = driver.find_element(By.XPATH, '//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/span/button')
+        signup.click()
+        print('signup')
+        time.sleep(10)
+    logincaptcha()
+    time.sleep(4)
+
+ 
+    def error_check():
+        try:
+            for i in range(2):
+                if driver.find_element(By.XPATH,'//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[1]').is_displayed()==True:
+                    print('again enter')
+                    time.sleep(5)
+                    logincaptcha()
+                    
+                elif driver.find_element(By.XPATH,'//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[1]').is_displayed()==False:
+                    print('captcha is correct')
+        except:
+            print('captcha is corrects')
+    # label_show==False
+    error_check()
+   
+    time.sleep(4)
+    #tap on date 
+    date_e = driver.find_element(By.XPATH, "//*[@id='jDate']/span/input")
+    date_e.click()
+    time.sleep(1)
+    # create action chain object
+    action = ActionChains(driver)
+    # click the date
+    action.click(on_element = date_e)
+    action.double_click(on_element = date_e)
+    # write date
+    action.send_keys(date)
+    action.perform()
+    time.sleep(2)
+    #tap on from route
+    loc = driver.find_element(By.XPATH, '//*[@id="origin"]/span/input')
+    loc.click()
+    time.sleep(1)
+    # create action chain object
+    action = ActionChains(driver)
+    # click the from route
+    action.click(on_element = loc)
+    # enter from location
+    action.send_keys(from_entry.get())
+    action.perform()
+    time.sleep(2)
+
+    #to location click
+    loc1 = driver.find_element(By.XPATH, '//*[@id="pr_id_1_list"]/li/span')
+    loc1.click()
+    time.sleep(1)
+    #tap on to route
+    loc3 = driver.find_element(By.XPATH, '//*[@id="destination"]/span/input')
+    loc3.click()
+    time.sleep(1)
+    # create action chain object
+    action = ActionChains(driver)
+    # click the to location
+    action.click(on_element = loc3)
+    # enter destination 
+    action.send_keys(to_entry.get())
+    action.perform()
+    time.sleep(2)
+    # click destination location
+    loc4 = driver.find_element(By.XPATH, '//*[@id="pr_id_2_list"]/li[1]')
+    loc4.click()
+    time.sleep(4)
+
+    # journey qauta
+    def general():
+        pass
+    
+    def tatkal():
+        #tatkal box
+        tatkal = driver.find_element(By.XPATH, '//*[@id="journeyQuota"]/div')
+        tatkal.click()
+        time.sleep(1)
+
+        tatkal = driver.find_element(By.XPATH, '//*[@id="journeyQuota"]/div/div[4]/div/ul/p-dropdownitem[5]/li')
+        tatkal.click()
+
+    if qouta=="GENERAL":
+        general()
+    elif qouta=="TATKAL":
+        tatkal()
+    #SEARCH buttton click
+    search = driver.find_element(By.XPATH, '//*[@id="divMain"]/div/app-main-page/div/div/div[1]/div[2]/div[1]/app-jp-input/div/form/div[5]/div/button')
+    search.click()
+    time.sleep(4)
+
+    #refresh button
+    choose = driver.find_element(By.XPATH, '//*[@id="divMain"]/div/app-train-list/div[4]/div/div[5]/div[1]/div[1]/app-train-avl-enq/div[1]/div[5]/div[1]/table/tr/td[1]/div/div[2]/span')
+    choose.click()
+    time.sleep(2)
+
+    #choose train
+    choose = driver.find_element(By.XPATH, '//*[@id="divMain"]/div/app-train-list/div[4]/div/div[5]/div[1]/div[1]/app-train-avl-enq/div[1]/div[7]/div[1]/div[3]/table/tr/td[2]/div/div[2]/strong')
+    choose.click()
+    time.sleep(2)
+
+    #book
+    book = driver.find_element(By.XPATH, '//*[@id="divMain"]/div/app-train-list/div[4]/div/div[5]/div[1]/div[1]/app-train-avl-enq/div[2]/div/span/span[1]/button')
+    book.click()
+    time.sleep(8)
+    # #agree
+    # agree = driver.find_element(By.XPATH, '//*[@id="divMain"]/div/app-train-list/p-confirmdialog[1]/div/div/div[3]/button[1]/span[2]')
+    # agree.click()
+    # time.sleep(4)
+
+    
+    
+    # ---function of passangers 1 2 3 4 5 6------
+    def pass1():
+        #enter passanger name
+        name = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[1]/div[2]/div/app-passenger/div/div[1]/span/div[1]/p-autocomplete/span/input')
+        name.click()
+        time.sleep(2)
+        # create action chain object
+        action = ActionChains(driver)
+        # click the item
+        action.click(on_element = name)
+        # send keys
+        action.send_keys(p1.get())
         action.perform()
         time.sleep(2)
 
+        #age box
+        age = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[1]/div[2]/div/app-passenger/div/div[1]/span/div[2]/input')
+        age.click()
+        time.sleep(2)
+        # create action chain object
+        action = ActionChains(driver)
+        # click the item
+        action.click(on_element = age)
+        # send keys
+        action.send_keys(a1.get())
+        action.perform()
+        time.sleep(2)
+
+        #gender box
+        gender = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[1]/div[2]/div/app-passenger/div/div[1]/span/div[3]/select')
+        gender.click()
+        time.sleep(2)
+
+        gender_select = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[1]/div[2]/div/app-passenger/div/div[1]/span/div[3]/select/option[2]')
+        gender_select.click()
+    def pass2():
+        pass1()
+        add_pas = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[2]/div[1]/a/span[1]')
+        add_pas.click()
+
+        #enter passanger name
+        name2 = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[2]/div[2]/div/app-passenger/div/div[1]/span/div[1]/p-autocomplete/span/input')
+        name2.click()
+        time.sleep(2)                               #//*[@id="ui-panel-12-content"]/div/div[1]/div[2]/div/app-passenger/div/div[1]/span/div[1]/p-autocomplete/span/input
+        # create action chain object
+        action = ActionChains(driver)
+        # click the item
+        action.click(on_element = name2)
+        # send keys
+        action.send_keys(p2.get())
+        action.perform()
+        time.sleep(2)
+
+        #age box
+        age2 = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[2]/div[2]/div/app-passenger/div/div[1]/span/div[2]/input')
+        age2.click()
+        time.sleep(2)
+        # create action chain object
+        action = ActionChains(driver)
+        # click the item
+        action.click(on_element = age2)
+        # send keys
+        action.send_keys(a2.get())
+        action.perform()
+        time.sleep(2)
+
+        #gender box
+        gender = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[2]/div[2]/div/app-passenger/div/div[1]/span/div[3]/select')
+        gender.click()
+        time.sleep(2)
+
+        #male
+        gender_select = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[2]/div[2]/div/app-passenger/div/div[1]/span/div[3]/select/option[2]')
+        gender_select.click()
+
+        #female
+        # gender_select = driver.find_element(By.XPATH, '//*[@id="ui-panel-24-content"]/div/div[2]/div[2]/div/app-passenger/div/div[1]/span/div[3]/select/option[3]')
+        # gender_select.click()
+    def pass3():
+        pass2()
+        add_pas = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[3]/div[1]/a/span[2]')
+        add_pas.click()
+
+        #enter passanger name
+        name = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[3]/div[2]/div/app-passenger/div/div[1]/span/div[1]/p-autocomplete/span/input')
+        name.click()
+        time.sleep(2)
+        # create action chain object
+        action = ActionChains(driver)
+        # click the item
+        action.click(on_element = name)
+        # send keys
+        action.send_keys(p3.get())
+        action.perform()
+        time.sleep(2)
+
+        #age box
+        age = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[3]/div[2]/div/app-passenger/div/div[1]/span/div[2]/input')
+        age.click()
+        time.sleep(2)
+        # create action chain object
+        action = ActionChains(driver)
+        # click the item
+        action.click(on_element = age)
+        # send keys
+        action.send_keys(a3.get())
+        action.perform()
+        time.sleep(2)
+
+        #gender box
+        gender = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[3]/div[2]/div/app-passenger/div/div[1]/span/div[3]/select')
+        gender.click()
+        time.sleep(2)
+
+        gender_select = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[3]/div[2]/div/app-passenger/div/div[1]/span/div[3]/select/option[2]')
+        gender_select.click()
+
+    def pass4():
+        pass3()
+        add_pas = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[4]/div[1]/a/span[2]')
+        add_pas.click()
+
+        name = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[4]/div[2]/div/app-passenger/div/div[1]/span/div[1]/p-autocomplete/span/input')
+        name.click()
+        time.sleep(2)
+        # create action chain object
+        action = ActionChains(driver)
+        # click the item
+        action.click(on_element = name)
+        # send keys
+        action.send_keys(p4.get())
+        action.perform()
+        time.sleep(2)
+
+        #age box
+        age = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[4]/div[2]/div/app-passenger/div/div[1]/span/div[2]/input')
+        age.click()
+        time.sleep(2)
+        # create action chain object
+        action = ActionChains(driver)
+        # click the item
+        action.click(on_element = age)
+        # send keys
+        action.send_keys(a4.get())
+        action.perform()
+        time.sleep(2)
+
+        #gender box
+        gender = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[4]/div[2]/div/app-passenger/div/div[1]/span/div[3]/select')
+        gender.click()
+        time.sleep(2)
+
+        gender_select = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[4]/div[2]/div/app-passenger/div/div[1]/span/div[3]/select/option[2]')
+        gender_select.click()
+    def pass5():
+        pass4()
+        add_pas = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[5]/div[1]/a/span[1]')
+        add_pas.click()
+
+        name = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[5]/div[2]/div/app-passenger/div/div[1]/span/div[1]/p-autocomplete/span/input')
+        name.click()
+        time.sleep(2)
+        # create action chain object
+        action = ActionChains(driver)
+        # click the item
+        action.click(on_element = name)
+        # send keys
+        action.send_keys(p5.get())
+        action.perform()
+        time.sleep(2)
+
+        #age box
+        age = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[5]/div[2]/div/app-passenger/div/div[1]/span/div[2]/input')
+        age.click()
+        time.sleep(2)
+        # create action chain object
+        action = ActionChains(driver)
+        # click the item
+        action.click(on_element = age)
+        # send keys
+        action.send_keys(a5.get())
+        action.perform()
+        time.sleep(2)
+
+        #gender box
+        gender = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[5]/div[2]/div/app-passenger/div/div[1]/span/div[3]/select')
+        gender.click()
+        time.sleep(2)
+
+        gender_select = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[5]/div[2]/div/app-passenger/div/div[1]/span/div[3]/select/option[2]')
+        gender_select.click()
+    def pass6():
+        pass5()
+        add_pas = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[6]/div[1]/a/span[1]')
+        add_pas.click()
+
+        name = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[6]/div[2]/div/app-passenger/div/div[1]/span/div[1]/p-autocomplete/span/input')
+        name.click()
+        time.sleep(2)
+        # create action chain object
+        action = ActionChains(driver)
+        # click the item
+        action.click(on_element = name)
+        # send keys
+        action.send_keys(p6.get())
+        action.perform()
+        time.sleep(2)
+
+        #age box
+        age = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[6]/div[2]/div/app-passenger/div/div[1]/span/div[2]/input')
+        age.click()
+        time.sleep(2)
+        # create action chain object
+        action = ActionChains(driver)
+        # click the item
+        action.click(on_element = age)
+        # send keys
+        action.send_keys(a6.get())
+        action.perform()
+        time.sleep(2)
+
+        #gender box
+        gender = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[6]/div[2]/div/app-passenger/div/div[1]/span/div[3]/select')
+        gender.click()
+        time.sleep(2)
+
+        gender_select = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[6]/div[2]/div/app-passenger/div/div[1]/span/div[3]/select/option[2]')
+        gender_select.click()
+
+    # ------condition of passanger count-----------
+    if count=='1':
+        pass1()
+    elif count == '2':
+        pass2()
+    elif count == '3':
+        pass3()
+    elif count == '4':
+        pass4()
+    elif count == '5':
+        pass5()
+    elif count == '6':
+        pass6()
+           
+    #food box
+    # food = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[1]/div[2]/div/app-passenger/div/div[1]/div[2]/select')
+    # food.click()
+    # time.sleep(1)
+    # #veg choose
+    # food_select = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[1]/div[2]/div/app-passenger/div/div[1]/div[2]/select/option[2]')
+    # food_select.click()
+    # time.sleep(1)
+
+    
+    
+    #upi select
+    def upi_function():
+        pay = driver.find_element(By.XPATH, '//*[@id="2"]/div/div[2]/span') # for upi
+        pay.click()
+        time.sleep(2)
+
+        #continue button same for both
+        submit = driver.find_element(By.XPATH, '//*[@id="psgn-form"]/form/div/div[1]/div[14]/div/button[2]')
+        submit.click()
+        time.sleep(8)
+        print('payment captcha page')
+        #payment captcha 
+        def paycaptcha():
+            img=driver.find_element(By.ID, "nlpImgContainer")
+            img.screenshot(f"{var}\logo2.png")
+            im = Image.open(f"{var}\logo2.png")
+            left = 0
+            top = 250
+            right = 300
+            bottom = 280
+            # Cropped image of above dimension
+            # (It will not change original image)
+            im1 = im.crop((left, top, right, bottom))
+            im1.save(f"{var}\crop2.png" ,quality=100)
+            print('image address:',im1) 
+            captcha = pytesseract.image_to_string(im1) 
+            captcha = captcha.replace(" ", "").strip()
+
+            #save in payment.txt
+            with open(f"{var}\payment.txt",mode ='w') as file:      
+                file.write(captcha) 
+                print('result',captcha)
+                print('write result',captcha[18:22])
+            #get element for captcha enter
+            element5 = driver.find_element(By.XPATH, "//*[@id='nlpAnswer']")
+            print('find')
+            # create action chain object
+            action = ActionChains(driver)
+            # click the item
+            action.click(on_element = element5)
+            time.sleep(2)
+            # send keys
+            action.send_keys(captcha[18:22])
+            action.perform()
+            print('payement captcha enter')
+            time.sleep(4)
+
+            #continue buttton
+            continue_button = driver.find_element(By.XPATH, '//*[@id="review"]/div[1]/form/div[3]/div/button[2]')
+            continue_button.click()
+            print('continue_button')
+            time.sleep(3)
+        paycaptcha()
+        time.sleep(4) 
+        def pay_error_check():
+            try:
+                for i in range(2):
+                    if driver.find_element(By.ID, "nlpImgContainer").is_displayed()==True:
+                        print('again enter')
+                        time.sleep(5)
+                        paycaptcha()
+                        
+                    # elif driver.find_element(By.ID, "nlpImgContainer").is_displayed()==False:
+                    else:
+                        print('captcha is correct')
+                        time.sleep(2)
+            except:
+                print('captcha is corrects')
+        # label_show==False
+        pay_error_check()   
+        time.sleep(4)
+        
+        #choose method to pay
+
+        
+        #choose multiple payment method //*[@id="pay-type"]/span/div[1]/span
+        upi_choose = driver.find_element(By.XPATH, '//*[@id="pay-type"]/span/div[1]/span')
+        upi_choose.click()
+        print('multiple choose')
+        time.sleep(2)
+
+        
+        #roserpay select 
+        roserpay = driver.find_element(By.XPATH, '//*[@id="bank-type"]/div/table/tr/span[3]/td/div/div/span')
+        roserpay.click()#//*[@id="bank-type"]/div/table/tr/span[2]/td/div/div/span/text()
+        print('upi choose roserpay')
+        time.sleep(2)
+
+        #pay & book button
+        pay = driver.find_element(By.XPATH,'//*[@id="psgn-form"]/div[1]/div[1]/app-payment/div[2]/button[2]')
+        pay.click()
+        print('upi payment')
+        time.sleep(6)
+        #enter iframe
+        iframe = driver.find_element(By.XPATH,"//iframe[@class='razorpay-checkout-frame']")
+        driver.switch_to.frame(iframe)
+        
+        #upi or QR
+        try:
+            roserpay = driver.find_element(By.XPATH, '//*[@id="form-common"]/div[1]/div/div/div/div/div/button[1]/div/div[1]/div[1]')
+            roserpay.click()
+            print('upi or QR')
+            time.sleep(2)
+        except:
+            print('take in your hands')
+
+    
+        #click and add upi
+        conti_confirm = driver.find_element(By.XPATH,'//*[@id="vpa-upi"]')
+        conti_confirm.click()
+        print('add payment number')
+        # create action chain object
+        action = ActionChains(driver)
+        # click the item
+        action.click(on_element = conti_confirm)
+        # send keys
+        action.send_keys(upi_entry.get())
+        action.perform()
+        time.sleep(2)
+
+        #proceed button to upi pay
+        paytm_submit = driver.find_element(By.XPATH,'//*[@id="footer-cta"]')
+        paytm_submit.click()
+        print(' pay button')
+        time.sleep(2)
+
+        #continue for mobile pay send
+        contine_pay = driver.find_element(By.XPATH,'//*[@id="overlay"]/div/div/div[2]')
+        contine_pay.click()
+        print(' continue button')
+        time.sleep(2)
+    #upi_function()
+
+    #select debit
+    def debit_function():
+        #continue button same for both
+        submit = driver.find_element(By.XPATH, '//*[@id="psgn-form"]/form/div/div[1]/div[14]/div/button[2]')
+        submit.click()
+        time.sleep(8)
+        print('payment captcha page')
+        #payment captcha 
+        def paycaptcha():
+            img=driver.find_element(By.ID, "nlpImgContainer")
+            img.screenshot(f"{var}\logo2.png")
+            im = Image.open(f"{var}\logo2.png")
+            left = 0
+            top = 250
+            right = 300
+            bottom = 280
+            # Cropped image of above dimension
+            # (It will not change original image)
+            im1 = im.crop((left, top, right, bottom))
+            im1.save(f"{var}\crop2.png" ,quality=100)
+            print('image address:',im1) 
+            captcha = pytesseract.image_to_string(im1) 
+            captcha = captcha.replace(" ", "").strip()
+
+            #save in payment.txt
+            with open(f"{var}\payment.txt",mode ='w') as file:      
+                file.write(captcha) 
+                print('result',captcha)
+                print('write result',captcha[18:22])
+            #get element for captcha enter
+            element5 = driver.find_element(By.XPATH, "//*[@id='nlpAnswer']")
+            print('find')
+            # create action chain object
+            action = ActionChains(driver)
+            # click the item
+            action.click(on_element = element5)
+            time.sleep(2)
+            # send keys
+            action.send_keys(captcha[18:22])
+            action.perform()
+            print('payement captcha enter')
+            time.sleep(4)
+
+            #continue buttton
+            continue_button = driver.find_element(By.XPATH, '//*[@id="review"]/div[1]/form/div[3]/div/button[2]')
+            continue_button.click()
+            print('continue_button')
+            time.sleep(3)
+        paycaptcha()
+        time.sleep(4) 
+        def pay_error_check():
+            try:
+                for i in range(2):
+                    if driver.find_element(By.ID, "nlpImgContainer").is_displayed()==True:
+                        print('again enter')
+                        time.sleep(5)
+                        paycaptcha()
+                        
+                    # elif driver.find_element(By.ID, "nlpImgContainer").is_displayed()==False:
+                    else:
+                        print('captcha is correct')
+                        time.sleep(2)
+            except:
+                print('captcha is corrects')
+        # label_show==False
+        pay_error_check()   
+        time.sleep(4)
+        #choose method to pay
+
+        
+        #choose multiple payment method //*[@id="pay-type"]/span/div[1]/span
+        debit_choose = driver.find_element(By.XPATH, '//*[@id="pay-type"]/span/div[2]')
+        debit_choose.click()
+        print('multiple choose')
+        time.sleep(2)
+
+        
+        #roserpay select 
+        roserpay = driver.find_element(By.XPATH, '//*[@id="bank-type"]/div/table/tr/span[3]/td/div/div')
+        roserpay.click()
+        print('debit choose roserpay')
+        time.sleep(2)
+
+        #pay & book button
+        pay = driver.find_element(By.XPATH,'//*[@id="psgn-form"]/div[1]/div[1]/app-payment/div[2]/button[2]')
+        pay.click()
+        print('debit payment')
+        time.sleep(6)
+        #enter iframe
+        iframe = driver.find_element(By.XPATH,"//iframe[@class='razorpay-checkout-frame']")
+        driver.switch_to.frame(iframe)
+
+        roserpay = driver.find_element(By.XPATH, '//*[@id="form-common"]/div[1]/div/div/div/div/div/button[1]/div/div[1]/div[1]/div[1]')
+        roserpay.click()
+        print('Debit/credit card')
+        time.sleep(2)
+#
+        #click on card number
+        card_number = driver.find_element(By.XPATH,'//*[@id="card_number"]')
+        card_number.click()
+        action = ActionChains(driver)
+                # click the item
+        action.click(on_element = card_number)
+                # send keys
+        action.send_keys(debit_e2.get())
+        action.perform()
+        print('card number enter')
+        time.sleep(2)
+
+        #click on Expiry
+        card_expiry = driver.find_element(By.XPATH,'//*[@id="card_expiry"]')
+        card_expiry.click()
+        action = ActionChains(driver)
+                # click the item
+        action.click(on_element = card_expiry)
+                # send keys
+        action.send_keys(debit_M.get()) 
+            
+        action.send_keys(debit_Y.get())
+        action.perform()
+        print('date enter')
+        time.sleep(2)
+
+        #click on holder's name
+        card_holder = driver.find_element(By.XPATH,'//*[@id="card_name"]')
+        card_holder.click()
+        action = ActionChains(driver)
+                # click the item
+        action.click(on_element = card_holder)
+                # send keys
+        action.send_keys(debit_e5.get())
+        action.perform()
+        print('holder name enter')
+        time.sleep(2)
+
+        #click on CVV
+        card_CVV = driver.find_element(By.XPATH,'//*[@id="card_cvv"]')
+        card_CVV.click()
+        action = ActionChains(driver)
+                # click the item
+        action.click(on_element = card_CVV)
+                # send keys
+        action.send_keys(debit_e6.get())
+        action.perform()
+        print('cvv enter')
+        time.sleep(2)
+        #proceed button to upi pay
+        pay_debit = driver.find_element(By.XPATH,'//*[@id="footer-cta"]')
+        pay_debit.click()
+        print(' debit pay button')
+        time.sleep(2)
+
+        #continue for mobile pay send
+        contine_pay = driver.find_element(By.XPATH,'//*[@id="overlay"]/div/div/div[2]')
+        contine_pay.click()
+        print(' continue button')
+        time.sleep(2)
+    #debit_function()
+
+    if meth=="UPI":
+        upi_function()
+    elif meth=="DEBIT":
+        debit_function()
 
 
-    #proceed button to upi pay
-    paytm_submit = driver.find_element(By.XPATH,'//*[@id="footer-cta"]')
-    paytm_submit.click()
-    print(' pay button')
+    while True:
+        pass
+
+def start3():
+    try:    
+        os.chdir('C:\\Program Files\\Google\\Chrome\\Application')
+        os.system('start cmd /k "chrome.exe --remote-debugging-port=9223 --user-data-dir=E:\chromedriver_win32\chromedata3"')
+    except:
+        print('re check path')
+    opt = Options()
+    opt.add_experimental_option("debuggerAddress",'localhost:9223')
+    driver=webdriver.Chrome(executable_path=r"E:\\chromedriver_win32\\chromedriver.exe",chrome_options=opt)
+    
+    
+    driver.maximize_window()
+    driver.get("https://www.irctc.co.in/nget/train-search")
+
+    # click ok
+    try:
+        if driver.find_element(By.XPATH, "/html/body/app-root/app-home/div[1]/app-header/p-dialog[2]/div/div/div[2]/div/form/div[2]/button").is_displayed()==True:
+            element = driver.find_element(By.XPATH, "/html/body/app-root/app-home/div[1]/app-header/p-dialog[2]/div/div/div[2]/div/form/div[2]/button")
+            element.click()
+            time.sleep(2)
+        else:
+            pass
+    except Exception as e:
+        print(e)
+
+    #get element for login button
+    element2 = driver.find_element(By.XPATH, '/html/body/app-root/app-home/div[1]/app-header/div[2]/div[2]/div[1]/a[1]')
+    element2.click()
+    time.sleep(3)
+
+    #get element for usernme
+    element3 = driver.find_element(By.XPATH, '/html/body/app-root/app-home/div[3]/app-login/p-dialog[1]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/div[1]/input')
+    # create action chain object
+    action = ActionChains(driver)
+    # click the item
+    action.click(on_element = element3)
+    # send keys
+    action.send_keys(e1.get())
+    # perform the operation
+    action.perform()
+    time.sleep(2)
+    print('username entered')
+
+    # get element for password
+    element4 = driver.find_element(By.XPATH, '/html/body/app-root/app-home/div[3]/app-login/p-dialog[1]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/div[2]/input')
+    # create action chain object
+    action = ActionChains(driver)
+    # click the item
+    action.click(on_element = element4)
+    # send keys
+    action.send_keys(e2.get())
+    # perform the operation
+    action.perform()
+    time.sleep(2)
+    print('password entered')
+    #image function for captcha
+
+    print("File location using os.getcwd():", os.getcwd())
+
+    def  logincaptcha():
+        img=driver.find_element(By.ID, "nlpImgContainer") #By.ID, "nlpImgContainer"
+        img.screenshot(f"{var}\logo.png")
+        im = Image.open(f"{var}\logo.png") #use PIL.Image.open if not work
+        left = 0
+        top = 250
+        right = 300
+        bottom = 270
+        # left = 0
+        # top = 50
+        # right = 300
+        # bottom = 270
+
+        # Cropped image of above dimension
+        # (It will not change original image)
+        im1 = im.crop((left, top, right, bottom))
+        im1.save(f"{var}\crop.png" ,quality=100)
+        print('image address:',im1) 
+        captcha = pytesseract.image_to_string(im1) 
+        captcha = captcha.replace(" ", "").strip()
+        # save in abc.txt file
+        with open(f"{var}\\abc.txt",mode ='w') as file:     
+            file.write(captcha) 
+            print('result',captcha)
+            print('write result',captcha[18:22]) #5:14 paints  [18:22] default  5:12match
+    
+        #get element for captcha enter
+        element5 = driver.find_element(By.XPATH, "//*[@id='nlpAnswer']")
+        print('find')
+        # create action chain object
+        action = ActionChains(driver)
+        # click the item
+        action.click(on_element = element5)
+        # enter captcha
+        action.send_keys(captcha[18:22]) #[18:22]]
+        action.perform()
+        print('captcha enter')
+        time.sleep(4)
+        # click signup button 
+        signup = driver.find_element(By.XPATH, '//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/span/button')
+        signup.click()
+        print('signup')
+        time.sleep(10)
+    logincaptcha()
+    time.sleep(4)
+
+ 
+    def error_check():
+        try:
+            for i in range(2):
+                if driver.find_element(By.XPATH,'//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[1]').is_displayed()==True:
+                    print('again enter')
+                    time.sleep(5)
+                    logincaptcha()
+                    
+                elif driver.find_element(By.XPATH,'//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[1]').is_displayed()==False:
+                    print('captcha is correct')
+        except:
+            print('captcha is corrects')
+    # label_show==False
+    error_check()
+   
+    time.sleep(4)
+    #tap on date 
+    date_e = driver.find_element(By.XPATH, "//*[@id='jDate']/span/input")
+    date_e.click()
+    time.sleep(1)
+    # create action chain object
+    action = ActionChains(driver)
+    # click the date
+    action.click(on_element = date_e)
+    action.double_click(on_element = date_e)
+    # write date
+    action.send_keys(date)
+    action.perform()
+    time.sleep(2)
+    #tap on from route
+    loc = driver.find_element(By.XPATH, '//*[@id="origin"]/span/input')
+    loc.click()
+    time.sleep(1)
+    # create action chain object
+    action = ActionChains(driver)
+    # click the from route
+    action.click(on_element = loc)
+    # enter from location
+    action.send_keys(from_entry.get())
+    action.perform()
     time.sleep(2)
 
-    #continue for mobile pay send
-    contine_pay = driver.find_element(By.XPATH,'//*[@id="overlay"]/div/div/div[2]')
-    contine_pay.click()
-    print(' continue button')
+    #to location click
+    loc1 = driver.find_element(By.XPATH, '//*[@id="pr_id_1_list"]/li/span')
+    loc1.click()
+    time.sleep(1)
+    #tap on to route
+    loc3 = driver.find_element(By.XPATH, '//*[@id="destination"]/span/input')
+    loc3.click()
+    time.sleep(1)
+    # create action chain object
+    action = ActionChains(driver)
+    # click the to location
+    action.click(on_element = loc3)
+    # enter destination 
+    action.send_keys(to_entry.get())
+    action.perform()
     time.sleep(2)
+    # click destination location
+    loc4 = driver.find_element(By.XPATH, '//*[@id="pr_id_2_list"]/li[1]')
+    loc4.click()
+    time.sleep(4)
+
+    # journey qauta
+    def general():
+        pass
+    
+    def tatkal():
+        #tatkal box
+        tatkal = driver.find_element(By.XPATH, '//*[@id="journeyQuota"]/div')
+        tatkal.click()
+        time.sleep(1)
+
+        tatkal = driver.find_element(By.XPATH, '//*[@id="journeyQuota"]/div/div[4]/div/ul/p-dropdownitem[5]/li')
+        tatkal.click()
+
+    if qouta=="GENERAL":
+        general()
+    elif qouta=="TATKAL":
+        tatkal()
+    #SEARCH buttton click
+    search = driver.find_element(By.XPATH, '//*[@id="divMain"]/div/app-main-page/div/div/div[1]/div[2]/div[1]/app-jp-input/div/form/div[5]/div/button')
+    search.click()
+    time.sleep(4)
+
+    #refresh button
+    choose = driver.find_element(By.XPATH, '//*[@id="divMain"]/div/app-train-list/div[4]/div/div[5]/div[1]/div[1]/app-train-avl-enq/div[1]/div[5]/div[1]/table/tr/td[1]/div/div[2]/span')
+    choose.click()
+    time.sleep(2)
+
+    #choose train
+    choose = driver.find_element(By.XPATH, '//*[@id="divMain"]/div/app-train-list/div[4]/div/div[5]/div[1]/div[1]/app-train-avl-enq/div[1]/div[7]/div[1]/div[3]/table/tr/td[2]/div/div[2]/strong')
+    choose.click()
+    time.sleep(2)
+
+    #book
+    book = driver.find_element(By.XPATH, '//*[@id="divMain"]/div/app-train-list/div[4]/div/div[5]/div[1]/div[1]/app-train-avl-enq/div[2]/div/span/span[1]/button')
+    book.click()
+    time.sleep(8)
+    # #agree
+    # agree = driver.find_element(By.XPATH, '//*[@id="divMain"]/div/app-train-list/p-confirmdialog[1]/div/div/div[3]/button[1]/span[2]')
+    # agree.click()
+    # time.sleep(4)
+
+    
+    
+    # ---function of passangers 1 2 3 4 5 6------
+    def pass1():
+        #enter passanger name
+        name = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[1]/div[2]/div/app-passenger/div/div[1]/span/div[1]/p-autocomplete/span/input')
+        name.click()
+        time.sleep(2)
+        # create action chain object
+        action = ActionChains(driver)
+        # click the item
+        action.click(on_element = name)
+        # send keys
+        action.send_keys(p1.get())
+        action.perform()
+        time.sleep(2)
+
+        #age box
+        age = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[1]/div[2]/div/app-passenger/div/div[1]/span/div[2]/input')
+        age.click()
+        time.sleep(2)
+        # create action chain object
+        action = ActionChains(driver)
+        # click the item
+        action.click(on_element = age)
+        # send keys
+        action.send_keys(a1.get())
+        action.perform()
+        time.sleep(2)
+
+        #gender box
+        gender = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[1]/div[2]/div/app-passenger/div/div[1]/span/div[3]/select')
+        gender.click()
+        time.sleep(2)
+
+        gender_select = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[1]/div[2]/div/app-passenger/div/div[1]/span/div[3]/select/option[2]')
+        gender_select.click()
+    def pass2():
+        pass1()
+        add_pas = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[2]/div[1]/a/span[1]')
+        add_pas.click()
+
+        #enter passanger name
+        name2 = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[2]/div[2]/div/app-passenger/div/div[1]/span/div[1]/p-autocomplete/span/input')
+        name2.click()
+        time.sleep(2)                               #//*[@id="ui-panel-12-content"]/div/div[1]/div[2]/div/app-passenger/div/div[1]/span/div[1]/p-autocomplete/span/input
+        # create action chain object
+        action = ActionChains(driver)
+        # click the item
+        action.click(on_element = name2)
+        # send keys
+        action.send_keys(p2.get())
+        action.perform()
+        time.sleep(2)
+
+        #age box
+        age2 = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[2]/div[2]/div/app-passenger/div/div[1]/span/div[2]/input')
+        age2.click()
+        time.sleep(2)
+        # create action chain object
+        action = ActionChains(driver)
+        # click the item
+        action.click(on_element = age2)
+        # send keys
+        action.send_keys(a2.get())
+        action.perform()
+        time.sleep(2)
+
+        #gender box
+        gender = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[2]/div[2]/div/app-passenger/div/div[1]/span/div[3]/select')
+        gender.click()
+        time.sleep(2)
+
+        #male
+        gender_select = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[2]/div[2]/div/app-passenger/div/div[1]/span/div[3]/select/option[2]')
+        gender_select.click()
+
+        #female
+        # gender_select = driver.find_element(By.XPATH, '//*[@id="ui-panel-24-content"]/div/div[2]/div[2]/div/app-passenger/div/div[1]/span/div[3]/select/option[3]')
+        # gender_select.click()
+    def pass3():
+        pass2()
+        add_pas = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[3]/div[1]/a/span[2]')
+        add_pas.click()
+
+        #enter passanger name
+        name = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[3]/div[2]/div/app-passenger/div/div[1]/span/div[1]/p-autocomplete/span/input')
+        name.click()
+        time.sleep(2)
+        # create action chain object
+        action = ActionChains(driver)
+        # click the item
+        action.click(on_element = name)
+        # send keys
+        action.send_keys(p3.get())
+        action.perform()
+        time.sleep(2)
+
+        #age box
+        age = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[3]/div[2]/div/app-passenger/div/div[1]/span/div[2]/input')
+        age.click()
+        time.sleep(2)
+        # create action chain object
+        action = ActionChains(driver)
+        # click the item
+        action.click(on_element = age)
+        # send keys
+        action.send_keys(a3.get())
+        action.perform()
+        time.sleep(2)
+
+        #gender box
+        gender = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[3]/div[2]/div/app-passenger/div/div[1]/span/div[3]/select')
+        gender.click()
+        time.sleep(2)
+
+        gender_select = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[3]/div[2]/div/app-passenger/div/div[1]/span/div[3]/select/option[2]')
+        gender_select.click()
+
+    def pass4():
+        pass3()
+        add_pas = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[4]/div[1]/a/span[2]')
+        add_pas.click()
+
+        name = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[4]/div[2]/div/app-passenger/div/div[1]/span/div[1]/p-autocomplete/span/input')
+        name.click()
+        time.sleep(2)
+        # create action chain object
+        action = ActionChains(driver)
+        # click the item
+        action.click(on_element = name)
+        # send keys
+        action.send_keys(p4.get())
+        action.perform()
+        time.sleep(2)
+
+        #age box
+        age = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[4]/div[2]/div/app-passenger/div/div[1]/span/div[2]/input')
+        age.click()
+        time.sleep(2)
+        # create action chain object
+        action = ActionChains(driver)
+        # click the item
+        action.click(on_element = age)
+        # send keys
+        action.send_keys(a4.get())
+        action.perform()
+        time.sleep(2)
+
+        #gender box
+        gender = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[4]/div[2]/div/app-passenger/div/div[1]/span/div[3]/select')
+        gender.click()
+        time.sleep(2)
+
+        gender_select = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[4]/div[2]/div/app-passenger/div/div[1]/span/div[3]/select/option[2]')
+        gender_select.click()
+    def pass5():
+        pass4()
+        add_pas = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[5]/div[1]/a/span[1]')
+        add_pas.click()
+
+        name = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[5]/div[2]/div/app-passenger/div/div[1]/span/div[1]/p-autocomplete/span/input')
+        name.click()
+        time.sleep(2)
+        # create action chain object
+        action = ActionChains(driver)
+        # click the item
+        action.click(on_element = name)
+        # send keys
+        action.send_keys(p5.get())
+        action.perform()
+        time.sleep(2)
+
+        #age box
+        age = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[5]/div[2]/div/app-passenger/div/div[1]/span/div[2]/input')
+        age.click()
+        time.sleep(2)
+        # create action chain object
+        action = ActionChains(driver)
+        # click the item
+        action.click(on_element = age)
+        # send keys
+        action.send_keys(a5.get())
+        action.perform()
+        time.sleep(2)
+
+        #gender box
+        gender = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[5]/div[2]/div/app-passenger/div/div[1]/span/div[3]/select')
+        gender.click()
+        time.sleep(2)
+
+        gender_select = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[5]/div[2]/div/app-passenger/div/div[1]/span/div[3]/select/option[2]')
+        gender_select.click()
+    def pass6():
+        pass5()
+        add_pas = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[6]/div[1]/a/span[1]')
+        add_pas.click()
+
+        name = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[6]/div[2]/div/app-passenger/div/div[1]/span/div[1]/p-autocomplete/span/input')
+        name.click()
+        time.sleep(2)
+        # create action chain object
+        action = ActionChains(driver)
+        # click the item
+        action.click(on_element = name)
+        # send keys
+        action.send_keys(p6.get())
+        action.perform()
+        time.sleep(2)
+
+        #age box
+        age = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[6]/div[2]/div/app-passenger/div/div[1]/span/div[2]/input')
+        age.click()
+        time.sleep(2)
+        # create action chain object
+        action = ActionChains(driver)
+        # click the item
+        action.click(on_element = age)
+        # send keys
+        action.send_keys(a6.get())
+        action.perform()
+        time.sleep(2)
+
+        #gender box
+        gender = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[6]/div[2]/div/app-passenger/div/div[1]/span/div[3]/select')
+        gender.click()
+        time.sleep(2)
+
+        gender_select = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[6]/div[2]/div/app-passenger/div/div[1]/span/div[3]/select/option[2]')
+        gender_select.click()
+
+    # ------condition of passanger count-----------
+    if count=='1':
+        pass1()
+    elif count == '2':
+        pass2()
+    elif count == '3':
+        pass3()
+    elif count == '4':
+        pass4()
+    elif count == '5':
+        pass5()
+    elif count == '6':
+        pass6()
+           
+    #food box
+    # food = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[1]/div[2]/div/app-passenger/div/div[1]/div[2]/select')
+    # food.click()
+    # time.sleep(1)
+    # #veg choose
+    # food_select = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[1]/div[2]/div/app-passenger/div/div[1]/div[2]/select/option[2]')
+    # food_select.click()
+    # time.sleep(1)
+
+    
+    
+    #upi select
+    def upi_function():
+        pay = driver.find_element(By.XPATH, '//*[@id="2"]/div/div[2]/span') # for upi
+        pay.click()
+        time.sleep(2)
+
+        #continue button same for both
+        submit = driver.find_element(By.XPATH, '//*[@id="psgn-form"]/form/div/div[1]/div[14]/div/button[2]')
+        submit.click()
+        time.sleep(8)
+        print('payment captcha page')
+        #payment captcha 
+        def paycaptcha():
+            img=driver.find_element(By.ID, "nlpImgContainer")
+            img.screenshot(f"{var}\logo2.png")
+            im = Image.open(f"{var}\logo2.png")
+            left = 0
+            top = 250
+            right = 300
+            bottom = 280
+            # Cropped image of above dimension
+            # (It will not change original image)
+            im1 = im.crop((left, top, right, bottom))
+            im1.save(f"{var}\crop2.png" ,quality=100)
+            print('image address:',im1) 
+            captcha = pytesseract.image_to_string(im1) 
+            captcha = captcha.replace(" ", "").strip()
+
+            #save in payment.txt
+            with open(f"{var}\payment.txt",mode ='w') as file:      
+                file.write(captcha) 
+                print('result',captcha)
+                print('write result',captcha[18:22])
+            #get element for captcha enter
+            element5 = driver.find_element(By.XPATH, "//*[@id='nlpAnswer']")
+            print('find')
+            # create action chain object
+            action = ActionChains(driver)
+            # click the item
+            action.click(on_element = element5)
+            time.sleep(2)
+            # send keys
+            action.send_keys(captcha[18:22])
+            action.perform()
+            print('payement captcha enter')
+            time.sleep(4)
+
+            #continue buttton
+            continue_button = driver.find_element(By.XPATH, '//*[@id="review"]/div[1]/form/div[3]/div/button[2]')
+            continue_button.click()
+            print('continue_button')
+            time.sleep(3)
+        paycaptcha()
+        time.sleep(4) 
+        def pay_error_check():
+            try:
+                for i in range(2):
+                    if driver.find_element(By.ID, "nlpImgContainer").is_displayed()==True:
+                        print('again enter')
+                        time.sleep(5)
+                        paycaptcha()
+                        
+                    # elif driver.find_element(By.ID, "nlpImgContainer").is_displayed()==False:
+                    else:
+                        print('captcha is correct')
+                        time.sleep(2)
+            except:
+                print('captcha is corrects')
+        # label_show==False
+        pay_error_check()   
+        time.sleep(4)
+        
+        #choose method to pay
+
+        
+        #choose multiple payment method //*[@id="pay-type"]/span/div[1]/span
+        upi_choose = driver.find_element(By.XPATH, '//*[@id="pay-type"]/span/div[1]/span')
+        upi_choose.click()
+        print('multiple choose')
+        time.sleep(2)
+
+        
+        #roserpay select 
+        roserpay = driver.find_element(By.XPATH, '//*[@id="bank-type"]/div/table/tr/span[3]/td/div/div/span')
+        roserpay.click()#//*[@id="bank-type"]/div/table/tr/span[2]/td/div/div/span/text()
+        print('upi choose roserpay')
+        time.sleep(2)
+
+        #pay & book button
+        pay = driver.find_element(By.XPATH,'//*[@id="psgn-form"]/div[1]/div[1]/app-payment/div[2]/button[2]')
+        pay.click()
+        print('upi payment')
+        time.sleep(6)
+        #enter iframe
+        iframe = driver.find_element(By.XPATH,"//iframe[@class='razorpay-checkout-frame']")
+        driver.switch_to.frame(iframe)
+        
+        #upi or QR
+        try:
+            roserpay = driver.find_element(By.XPATH, '//*[@id="form-common"]/div[1]/div/div/div/div/div/button[1]/div/div[1]/div[1]')
+            roserpay.click()
+            print('upi or QR')
+            time.sleep(2)
+        except:
+            print('take in your hands')
+
+    
+        #click and add upi
+        conti_confirm = driver.find_element(By.XPATH,'//*[@id="vpa-upi"]')
+        conti_confirm.click()
+        print('add payment number')
+        # create action chain object
+        action = ActionChains(driver)
+        # click the item
+        action.click(on_element = conti_confirm)
+        # send keys
+        action.send_keys(upi_entry.get())
+        action.perform()
+        time.sleep(2)
+
+        #proceed button to upi pay
+        paytm_submit = driver.find_element(By.XPATH,'//*[@id="footer-cta"]')
+        paytm_submit.click()
+        print(' pay button')
+        time.sleep(2)
+
+        #continue for mobile pay send
+        contine_pay = driver.find_element(By.XPATH,'//*[@id="overlay"]/div/div/div[2]')
+        contine_pay.click()
+        print(' continue button')
+        time.sleep(2)
+    #upi_function()
+
+    #select debit
+    def debit_function():
+        #continue button same for both
+        submit = driver.find_element(By.XPATH, '//*[@id="psgn-form"]/form/div/div[1]/div[14]/div/button[2]')
+        submit.click()
+        time.sleep(8)
+        print('payment captcha page')
+        #payment captcha 
+        def paycaptcha():
+            img=driver.find_element(By.ID, "nlpImgContainer")
+            img.screenshot(f"{var}\logo2.png")
+            im = Image.open(f"{var}\logo2.png")
+            left = 0
+            top = 250
+            right = 300
+            bottom = 280
+            # Cropped image of above dimension
+            # (It will not change original image)
+            im1 = im.crop((left, top, right, bottom))
+            im1.save(f"{var}\crop2.png" ,quality=100)
+            print('image address:',im1) 
+            captcha = pytesseract.image_to_string(im1) 
+            captcha = captcha.replace(" ", "").strip()
+
+            #save in payment.txt
+            with open(f"{var}\payment.txt",mode ='w') as file:      
+                file.write(captcha) 
+                print('result',captcha)
+                print('write result',captcha[18:22])
+            #get element for captcha enter
+            element5 = driver.find_element(By.XPATH, "//*[@id='nlpAnswer']")
+            print('find')
+            # create action chain object
+            action = ActionChains(driver)
+            # click the item
+            action.click(on_element = element5)
+            time.sleep(2)
+            # send keys
+            action.send_keys(captcha[18:22])
+            action.perform()
+            print('payement captcha enter')
+            time.sleep(4)
+
+            #continue buttton
+            continue_button = driver.find_element(By.XPATH, '//*[@id="review"]/div[1]/form/div[3]/div/button[2]')
+            continue_button.click()
+            print('continue_button')
+            time.sleep(3)
+        paycaptcha()
+        time.sleep(4) 
+        def pay_error_check():
+            try:
+                for i in range(2):
+                    if driver.find_element(By.ID, "nlpImgContainer").is_displayed()==True:
+                        print('again enter')
+                        time.sleep(5)
+                        paycaptcha()
+                        
+                    # elif driver.find_element(By.ID, "nlpImgContainer").is_displayed()==False:
+                    else:
+                        print('captcha is correct')
+                        time.sleep(2)
+            except:
+                print('captcha is corrects')
+        # label_show==False
+        pay_error_check()   
+        time.sleep(4)
+        #choose method to pay
+
+        
+        #choose multiple payment method //*[@id="pay-type"]/span/div[1]/span
+        debit_choose = driver.find_element(By.XPATH, '//*[@id="pay-type"]/span/div[2]')
+        debit_choose.click()
+        print('multiple choose')
+        time.sleep(2)
+
+        
+        #roserpay select 
+        roserpay = driver.find_element(By.XPATH, '//*[@id="bank-type"]/div/table/tr/span[3]/td/div/div')
+        roserpay.click()
+        print('debit choose roserpay')
+        time.sleep(2)
+
+        #pay & book button
+        pay = driver.find_element(By.XPATH,'//*[@id="psgn-form"]/div[1]/div[1]/app-payment/div[2]/button[2]')
+        pay.click()
+        print('debit payment')
+        time.sleep(6)
+        #enter iframe
+        iframe = driver.find_element(By.XPATH,"//iframe[@class='razorpay-checkout-frame']")
+        driver.switch_to.frame(iframe)
+
+        roserpay = driver.find_element(By.XPATH, '//*[@id="form-common"]/div[1]/div/div/div/div/div/button[1]/div/div[1]/div[1]/div[1]')
+        roserpay.click()
+        print('Debit/credit card')
+        time.sleep(2)
+#
+        #click on card number
+        card_number = driver.find_element(By.XPATH,'//*[@id="card_number"]')
+        card_number.click()
+        action = ActionChains(driver)
+                # click the item
+        action.click(on_element = card_number)
+                # send keys
+        action.send_keys(debit_e2.get())
+        action.perform()
+        print('card number enter')
+        time.sleep(2)
+
+        #click on Expiry
+        card_expiry = driver.find_element(By.XPATH,'//*[@id="card_expiry"]')
+        card_expiry.click()
+        action = ActionChains(driver)
+                # click the item
+        action.click(on_element = card_expiry)
+                # send keys
+        action.send_keys(debit_M.get()) 
+            
+        action.send_keys(debit_Y.get())
+        action.perform()
+        print('date enter')
+        time.sleep(2)
+
+        #click on holder's name
+        card_holder = driver.find_element(By.XPATH,'//*[@id="card_name"]')
+        card_holder.click()
+        action = ActionChains(driver)
+                # click the item
+        action.click(on_element = card_holder)
+                # send keys
+        action.send_keys(debit_e5.get())
+        action.perform()
+        print('holder name enter')
+        time.sleep(2)
+
+        #click on CVV
+        card_CVV = driver.find_element(By.XPATH,'//*[@id="card_cvv"]')
+        card_CVV.click()
+        action = ActionChains(driver)
+                # click the item
+        action.click(on_element = card_CVV)
+                # send keys
+        action.send_keys(debit_e6.get())
+        action.perform()
+        print('cvv enter')
+        time.sleep(2)
+        #proceed button to upi pay
+        pay_debit = driver.find_element(By.XPATH,'//*[@id="footer-cta"]')
+        pay_debit.click()
+        print(' debit pay button')
+        time.sleep(2)
+
+        #continue for mobile pay send
+        contine_pay = driver.find_element(By.XPATH,'//*[@id="overlay"]/div/div/div[2]')
+        contine_pay.click()
+        print(' continue button')
+        time.sleep(2)
+    #debit_function()
+
+    if meth=="UPI":
+        upi_function()
+    elif meth=="DEBIT":
+        debit_function()
+
+
+    while True:
+        pass
+
+def start4():
+    try:    
+        os.chdir('C:\\Program Files\\Google\\Chrome\\Application')
+        os.system('start cmd /k "chrome.exe --remote-debugging-port=9224 --user-data-dir=E:\chromedriver_win32\chromedata4"')
+    except:
+        print('re check path')
+    opt = Options()
+    opt.add_experimental_option("debuggerAddress",'localhost:9224')
+    driver=webdriver.Chrome(executable_path=r"E:\\chromedriver_win32\\chromedriver.exe",chrome_options=opt)
+    
+    
+    driver.maximize_window()
+    driver.get("https://www.irctc.co.in/nget/train-search")
+
+    # click ok
+    try:
+        if driver.find_element(By.XPATH, "/html/body/app-root/app-home/div[1]/app-header/p-dialog[2]/div/div/div[2]/div/form/div[2]/button").is_displayed()==True:
+            element = driver.find_element(By.XPATH, "/html/body/app-root/app-home/div[1]/app-header/p-dialog[2]/div/div/div[2]/div/form/div[2]/button")
+            element.click()
+            time.sleep(2)
+        else:
+            pass
+    except Exception as e:
+        print(e)
+
+    #get element for login button
+    element2 = driver.find_element(By.XPATH, '/html/body/app-root/app-home/div[1]/app-header/div[2]/div[2]/div[1]/a[1]')
+    element2.click()
+    time.sleep(3)
+
+    #get element for usernme
+    element3 = driver.find_element(By.XPATH, '/html/body/app-root/app-home/div[3]/app-login/p-dialog[1]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/div[1]/input')
+    # create action chain object
+    action = ActionChains(driver)
+    # click the item
+    action.click(on_element = element3)
+    # send keys
+    action.send_keys(e1.get())
+    # perform the operation
+    action.perform()
+    time.sleep(2)
+    print('username entered')
+
+    # get element for password
+    element4 = driver.find_element(By.XPATH, '/html/body/app-root/app-home/div[3]/app-login/p-dialog[1]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/div[2]/input')
+    # create action chain object
+    action = ActionChains(driver)
+    # click the item
+    action.click(on_element = element4)
+    # send keys
+    action.send_keys(e2.get())
+    # perform the operation
+    action.perform()
+    time.sleep(2)
+    print('password entered')
+    #image function for captcha
+
+    print("File location using os.getcwd():", os.getcwd())
+
+    def  logincaptcha():
+        img=driver.find_element(By.ID, "nlpImgContainer") #By.ID, "nlpImgContainer"
+        img.screenshot(f"{var}\logo.png")
+        im = Image.open(f"{var}\logo.png") #use PIL.Image.open if not work
+        left = 0
+        top = 250
+        right = 300
+        bottom = 270
+        # left = 0
+        # top = 50
+        # right = 300
+        # bottom = 270
+
+        # Cropped image of above dimension
+        # (It will not change original image)
+        im1 = im.crop((left, top, right, bottom))
+        im1.save(f"{var}\crop.png" ,quality=100)
+        print('image address:',im1) 
+        captcha = pytesseract.image_to_string(im1) 
+        captcha = captcha.replace(" ", "").strip()
+        # save in abc.txt file
+        with open(f"{var}\\abc.txt",mode ='w') as file:     
+            file.write(captcha) 
+            print('result',captcha)
+            print('write result',captcha[18:22]) #5:14 paints  [18:22] default  5:12match
+    
+        #get element for captcha enter
+        element5 = driver.find_element(By.XPATH, "//*[@id='nlpAnswer']")
+        print('find')
+        # create action chain object
+        action = ActionChains(driver)
+        # click the item
+        action.click(on_element = element5)
+        # enter captcha
+        action.send_keys(captcha[18:22]) #[18:22]]
+        action.perform()
+        print('captcha enter')
+        time.sleep(4)
+        # click signup button 
+        signup = driver.find_element(By.XPATH, '//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/span/button')
+        signup.click()
+        print('signup')
+        time.sleep(10)
+    logincaptcha()
+    time.sleep(4)
+
+ 
+    def error_check():
+        try:
+            for i in range(2):
+                if driver.find_element(By.XPATH,'//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[1]').is_displayed()==True:
+                    print('again enter')
+                    time.sleep(5)
+                    logincaptcha()
+                    
+                elif driver.find_element(By.XPATH,'//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[1]').is_displayed()==False:
+                    print('captcha is correct')
+        except:
+            print('captcha is corrects')
+    # label_show==False
+    error_check()
+   
+    time.sleep(4)
+    #tap on date 
+    date_e = driver.find_element(By.XPATH, "//*[@id='jDate']/span/input")
+    date_e.click()
+    time.sleep(1)
+    # create action chain object
+    action = ActionChains(driver)
+    # click the date
+    action.click(on_element = date_e)
+    action.double_click(on_element = date_e)
+    # write date
+    action.send_keys(date)
+    action.perform()
+    time.sleep(2)
+    #tap on from route
+    loc = driver.find_element(By.XPATH, '//*[@id="origin"]/span/input')
+    loc.click()
+    time.sleep(1)
+    # create action chain object
+    action = ActionChains(driver)
+    # click the from route
+    action.click(on_element = loc)
+    # enter from location
+    action.send_keys(from_entry.get())
+    action.perform()
+    time.sleep(2)
+
+    #to location click
+    loc1 = driver.find_element(By.XPATH, '//*[@id="pr_id_1_list"]/li/span')
+    loc1.click()
+    time.sleep(1)
+    #tap on to route
+    loc3 = driver.find_element(By.XPATH, '//*[@id="destination"]/span/input')
+    loc3.click()
+    time.sleep(1)
+    # create action chain object
+    action = ActionChains(driver)
+    # click the to location
+    action.click(on_element = loc3)
+    # enter destination 
+    action.send_keys(to_entry.get())
+    action.perform()
+    time.sleep(2)
+    # click destination location
+    loc4 = driver.find_element(By.XPATH, '//*[@id="pr_id_2_list"]/li[1]')
+    loc4.click()
+    time.sleep(4)
+
+    # journey qauta
+    def general():
+        pass
+    
+    def tatkal():
+        #tatkal box
+        tatkal = driver.find_element(By.XPATH, '//*[@id="journeyQuota"]/div')
+        tatkal.click()
+        time.sleep(1)
+
+        tatkal = driver.find_element(By.XPATH, '//*[@id="journeyQuota"]/div/div[4]/div/ul/p-dropdownitem[5]/li')
+        tatkal.click()
+
+    if qouta=="GENERAL":
+        general()
+    elif qouta=="TATKAL":
+        tatkal()
+    #SEARCH buttton click
+    search = driver.find_element(By.XPATH, '//*[@id="divMain"]/div/app-main-page/div/div/div[1]/div[2]/div[1]/app-jp-input/div/form/div[5]/div/button')
+    search.click()
+    time.sleep(4)
+
+    #refresh button
+    choose = driver.find_element(By.XPATH, '//*[@id="divMain"]/div/app-train-list/div[4]/div/div[5]/div[1]/div[1]/app-train-avl-enq/div[1]/div[5]/div[1]/table/tr/td[1]/div/div[2]/span')
+    choose.click()
+    time.sleep(2)
+
+    #choose train
+    choose = driver.find_element(By.XPATH, '//*[@id="divMain"]/div/app-train-list/div[4]/div/div[5]/div[1]/div[1]/app-train-avl-enq/div[1]/div[7]/div[1]/div[3]/table/tr/td[2]/div/div[2]/strong')
+    choose.click()
+    time.sleep(2)
+
+    #book
+    book = driver.find_element(By.XPATH, '//*[@id="divMain"]/div/app-train-list/div[4]/div/div[5]/div[1]/div[1]/app-train-avl-enq/div[2]/div/span/span[1]/button')
+    book.click()
+    time.sleep(8)
+    # #agree
+    # agree = driver.find_element(By.XPATH, '//*[@id="divMain"]/div/app-train-list/p-confirmdialog[1]/div/div/div[3]/button[1]/span[2]')
+    # agree.click()
+    # time.sleep(4)
+
+    
+    
+    # ---function of passangers 1 2 3 4 5 6------
+    def pass1():
+        #enter passanger name
+        name = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[1]/div[2]/div/app-passenger/div/div[1]/span/div[1]/p-autocomplete/span/input')
+        name.click()
+        time.sleep(2)
+        # create action chain object
+        action = ActionChains(driver)
+        # click the item
+        action.click(on_element = name)
+        # send keys
+        action.send_keys(p1.get())
+        action.perform()
+        time.sleep(2)
+
+        #age box
+        age = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[1]/div[2]/div/app-passenger/div/div[1]/span/div[2]/input')
+        age.click()
+        time.sleep(2)
+        # create action chain object
+        action = ActionChains(driver)
+        # click the item
+        action.click(on_element = age)
+        # send keys
+        action.send_keys(a1.get())
+        action.perform()
+        time.sleep(2)
+
+        #gender box
+        gender = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[1]/div[2]/div/app-passenger/div/div[1]/span/div[3]/select')
+        gender.click()
+        time.sleep(2)
+
+        gender_select = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[1]/div[2]/div/app-passenger/div/div[1]/span/div[3]/select/option[2]')
+        gender_select.click()
+    def pass2():
+        pass1()
+        add_pas = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[2]/div[1]/a/span[1]')
+        add_pas.click()
+
+        #enter passanger name
+        name2 = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[2]/div[2]/div/app-passenger/div/div[1]/span/div[1]/p-autocomplete/span/input')
+        name2.click()
+        time.sleep(2)                               #//*[@id="ui-panel-12-content"]/div/div[1]/div[2]/div/app-passenger/div/div[1]/span/div[1]/p-autocomplete/span/input
+        # create action chain object
+        action = ActionChains(driver)
+        # click the item
+        action.click(on_element = name2)
+        # send keys
+        action.send_keys(p2.get())
+        action.perform()
+        time.sleep(2)
+
+        #age box
+        age2 = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[2]/div[2]/div/app-passenger/div/div[1]/span/div[2]/input')
+        age2.click()
+        time.sleep(2)
+        # create action chain object
+        action = ActionChains(driver)
+        # click the item
+        action.click(on_element = age2)
+        # send keys
+        action.send_keys(a2.get())
+        action.perform()
+        time.sleep(2)
+
+        #gender box
+        gender = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[2]/div[2]/div/app-passenger/div/div[1]/span/div[3]/select')
+        gender.click()
+        time.sleep(2)
+
+        #male
+        gender_select = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[2]/div[2]/div/app-passenger/div/div[1]/span/div[3]/select/option[2]')
+        gender_select.click()
+
+        #female
+        # gender_select = driver.find_element(By.XPATH, '//*[@id="ui-panel-24-content"]/div/div[2]/div[2]/div/app-passenger/div/div[1]/span/div[3]/select/option[3]')
+        # gender_select.click()
+    def pass3():
+        pass2()
+        add_pas = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[3]/div[1]/a/span[2]')
+        add_pas.click()
+
+        #enter passanger name
+        name = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[3]/div[2]/div/app-passenger/div/div[1]/span/div[1]/p-autocomplete/span/input')
+        name.click()
+        time.sleep(2)
+        # create action chain object
+        action = ActionChains(driver)
+        # click the item
+        action.click(on_element = name)
+        # send keys
+        action.send_keys(p3.get())
+        action.perform()
+        time.sleep(2)
+
+        #age box
+        age = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[3]/div[2]/div/app-passenger/div/div[1]/span/div[2]/input')
+        age.click()
+        time.sleep(2)
+        # create action chain object
+        action = ActionChains(driver)
+        # click the item
+        action.click(on_element = age)
+        # send keys
+        action.send_keys(a3.get())
+        action.perform()
+        time.sleep(2)
+
+        #gender box
+        gender = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[3]/div[2]/div/app-passenger/div/div[1]/span/div[3]/select')
+        gender.click()
+        time.sleep(2)
+
+        gender_select = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[3]/div[2]/div/app-passenger/div/div[1]/span/div[3]/select/option[2]')
+        gender_select.click()
+
+    def pass4():
+        pass3()
+        add_pas = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[4]/div[1]/a/span[2]')
+        add_pas.click()
+
+        name = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[4]/div[2]/div/app-passenger/div/div[1]/span/div[1]/p-autocomplete/span/input')
+        name.click()
+        time.sleep(2)
+        # create action chain object
+        action = ActionChains(driver)
+        # click the item
+        action.click(on_element = name)
+        # send keys
+        action.send_keys(p4.get())
+        action.perform()
+        time.sleep(2)
+
+        #age box
+        age = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[4]/div[2]/div/app-passenger/div/div[1]/span/div[2]/input')
+        age.click()
+        time.sleep(2)
+        # create action chain object
+        action = ActionChains(driver)
+        # click the item
+        action.click(on_element = age)
+        # send keys
+        action.send_keys(a4.get())
+        action.perform()
+        time.sleep(2)
+
+        #gender box
+        gender = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[4]/div[2]/div/app-passenger/div/div[1]/span/div[3]/select')
+        gender.click()
+        time.sleep(2)
+
+        gender_select = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[4]/div[2]/div/app-passenger/div/div[1]/span/div[3]/select/option[2]')
+        gender_select.click()
+    def pass5():
+        pass4()
+        add_pas = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[5]/div[1]/a/span[1]')
+        add_pas.click()
+
+        name = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[5]/div[2]/div/app-passenger/div/div[1]/span/div[1]/p-autocomplete/span/input')
+        name.click()
+        time.sleep(2)
+        # create action chain object
+        action = ActionChains(driver)
+        # click the item
+        action.click(on_element = name)
+        # send keys
+        action.send_keys(p5.get())
+        action.perform()
+        time.sleep(2)
+
+        #age box
+        age = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[5]/div[2]/div/app-passenger/div/div[1]/span/div[2]/input')
+        age.click()
+        time.sleep(2)
+        # create action chain object
+        action = ActionChains(driver)
+        # click the item
+        action.click(on_element = age)
+        # send keys
+        action.send_keys(a5.get())
+        action.perform()
+        time.sleep(2)
+
+        #gender box
+        gender = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[5]/div[2]/div/app-passenger/div/div[1]/span/div[3]/select')
+        gender.click()
+        time.sleep(2)
+
+        gender_select = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[5]/div[2]/div/app-passenger/div/div[1]/span/div[3]/select/option[2]')
+        gender_select.click()
+    def pass6():
+        pass5()
+        add_pas = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[6]/div[1]/a/span[1]')
+        add_pas.click()
+
+        name = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[6]/div[2]/div/app-passenger/div/div[1]/span/div[1]/p-autocomplete/span/input')
+        name.click()
+        time.sleep(2)
+        # create action chain object
+        action = ActionChains(driver)
+        # click the item
+        action.click(on_element = name)
+        # send keys
+        action.send_keys(p6.get())
+        action.perform()
+        time.sleep(2)
+
+        #age box
+        age = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[6]/div[2]/div/app-passenger/div/div[1]/span/div[2]/input')
+        age.click()
+        time.sleep(2)
+        # create action chain object
+        action = ActionChains(driver)
+        # click the item
+        action.click(on_element = age)
+        # send keys
+        action.send_keys(a6.get())
+        action.perform()
+        time.sleep(2)
+
+        #gender box
+        gender = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[6]/div[2]/div/app-passenger/div/div[1]/span/div[3]/select')
+        gender.click()
+        time.sleep(2)
+
+        gender_select = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[6]/div[2]/div/app-passenger/div/div[1]/span/div[3]/select/option[2]')
+        gender_select.click()
+
+    # ------condition of passanger count-----------
+    if count=='1':
+        pass1()
+    elif count == '2':
+        pass2()
+    elif count == '3':
+        pass3()
+    elif count == '4':
+        pass4()
+    elif count == '5':
+        pass5()
+    elif count == '6':
+        pass6()
+           
+    #food box
+    # food = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[1]/div[2]/div/app-passenger/div/div[1]/div[2]/select')
+    # food.click()
+    # time.sleep(1)
+    # #veg choose
+    # food_select = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[1]/div[2]/div/app-passenger/div/div[1]/div[2]/select/option[2]')
+    # food_select.click()
+    # time.sleep(1)
+
+    
+    
+    #upi select
+    def upi_function():
+        pay = driver.find_element(By.XPATH, '//*[@id="2"]/div/div[2]/span') # for upi
+        pay.click()
+        time.sleep(2)
+
+        #continue button same for both
+        submit = driver.find_element(By.XPATH, '//*[@id="psgn-form"]/form/div/div[1]/div[14]/div/button[2]')
+        submit.click()
+        time.sleep(8)
+        print('payment captcha page')
+        #payment captcha 
+        def paycaptcha():
+            img=driver.find_element(By.ID, "nlpImgContainer")
+            img.screenshot(f"{var}\logo2.png")
+            im = Image.open(f"{var}\logo2.png")
+            left = 0
+            top = 250
+            right = 300
+            bottom = 280
+            # Cropped image of above dimension
+            # (It will not change original image)
+            im1 = im.crop((left, top, right, bottom))
+            im1.save(f"{var}\crop2.png" ,quality=100)
+            print('image address:',im1) 
+            captcha = pytesseract.image_to_string(im1) 
+            captcha = captcha.replace(" ", "").strip()
+
+            #save in payment.txt
+            with open(f"{var}\payment.txt",mode ='w') as file:      
+                file.write(captcha) 
+                print('result',captcha)
+                print('write result',captcha[18:22])
+            #get element for captcha enter
+            element5 = driver.find_element(By.XPATH, "//*[@id='nlpAnswer']")
+            print('find')
+            # create action chain object
+            action = ActionChains(driver)
+            # click the item
+            action.click(on_element = element5)
+            time.sleep(2)
+            # send keys
+            action.send_keys(captcha[18:22])
+            action.perform()
+            print('payement captcha enter')
+            time.sleep(4)
+
+            #continue buttton
+            continue_button = driver.find_element(By.XPATH, '//*[@id="review"]/div[1]/form/div[3]/div/button[2]')
+            continue_button.click()
+            print('continue_button')
+            time.sleep(3)
+        paycaptcha()
+        time.sleep(4) 
+        def pay_error_check():
+            try:
+                for i in range(2):
+                    if driver.find_element(By.ID, "nlpImgContainer").is_displayed()==True:
+                        print('again enter')
+                        time.sleep(5)
+                        paycaptcha()
+                        
+                    # elif driver.find_element(By.ID, "nlpImgContainer").is_displayed()==False:
+                    else:
+                        print('captcha is correct')
+                        time.sleep(2)
+            except:
+                print('captcha is corrects')
+        # label_show==False
+        pay_error_check()   
+        time.sleep(4)
+        
+        #choose method to pay
+
+        
+        #choose multiple payment method //*[@id="pay-type"]/span/div[1]/span
+        upi_choose = driver.find_element(By.XPATH, '//*[@id="pay-type"]/span/div[1]/span')
+        upi_choose.click()
+        print('multiple choose')
+        time.sleep(2)
+
+        
+        #roserpay select 
+        roserpay = driver.find_element(By.XPATH, '//*[@id="bank-type"]/div/table/tr/span[3]/td/div/div/span')
+        roserpay.click()#//*[@id="bank-type"]/div/table/tr/span[2]/td/div/div/span/text()
+        print('upi choose roserpay')
+        time.sleep(2)
+
+        #pay & book button
+        pay = driver.find_element(By.XPATH,'//*[@id="psgn-form"]/div[1]/div[1]/app-payment/div[2]/button[2]')
+        pay.click()
+        print('upi payment')
+        time.sleep(6)
+        #enter iframe
+        iframe = driver.find_element(By.XPATH,"//iframe[@class='razorpay-checkout-frame']")
+        driver.switch_to.frame(iframe)
+        
+        #upi or QR
+        try:
+            roserpay = driver.find_element(By.XPATH, '//*[@id="form-common"]/div[1]/div/div/div/div/div/button[1]/div/div[1]/div[1]')
+            roserpay.click()
+            print('upi or QR')
+            time.sleep(2)
+        except:
+            print('take in your hands')
+
+    
+        #click and add upi
+        conti_confirm = driver.find_element(By.XPATH,'//*[@id="vpa-upi"]')
+        conti_confirm.click()
+        print('add payment number')
+        # create action chain object
+        action = ActionChains(driver)
+        # click the item
+        action.click(on_element = conti_confirm)
+        # send keys
+        action.send_keys(upi_entry.get())
+        action.perform()
+        time.sleep(2)
+
+        #proceed button to upi pay
+        paytm_submit = driver.find_element(By.XPATH,'//*[@id="footer-cta"]')
+        paytm_submit.click()
+        print(' pay button')
+        time.sleep(2)
+
+        #continue for mobile pay send
+        contine_pay = driver.find_element(By.XPATH,'//*[@id="overlay"]/div/div/div[2]')
+        contine_pay.click()
+        print(' continue button')
+        time.sleep(2)
+    #upi_function()
+
+    #select debit
+    def debit_function():
+        #continue button same for both
+        submit = driver.find_element(By.XPATH, '//*[@id="psgn-form"]/form/div/div[1]/div[14]/div/button[2]')
+        submit.click()
+        time.sleep(8)
+        print('payment captcha page')
+        #payment captcha 
+        def paycaptcha():
+            img=driver.find_element(By.ID, "nlpImgContainer")
+            img.screenshot(f"{var}\logo2.png")
+            im = Image.open(f"{var}\logo2.png")
+            left = 0
+            top = 250
+            right = 300
+            bottom = 280
+            # Cropped image of above dimension
+            # (It will not change original image)
+            im1 = im.crop((left, top, right, bottom))
+            im1.save(f"{var}\crop2.png" ,quality=100)
+            print('image address:',im1) 
+            captcha = pytesseract.image_to_string(im1) 
+            captcha = captcha.replace(" ", "").strip()
+
+            #save in payment.txt
+            with open(f"{var}\payment.txt",mode ='w') as file:      
+                file.write(captcha) 
+                print('result',captcha)
+                print('write result',captcha[18:22])
+            #get element for captcha enter
+            element5 = driver.find_element(By.XPATH, "//*[@id='nlpAnswer']")
+            print('find')
+            # create action chain object
+            action = ActionChains(driver)
+            # click the item
+            action.click(on_element = element5)
+            time.sleep(2)
+            # send keys
+            action.send_keys(captcha[18:22])
+            action.perform()
+            print('payement captcha enter')
+            time.sleep(4)
+
+            #continue buttton
+            continue_button = driver.find_element(By.XPATH, '//*[@id="review"]/div[1]/form/div[3]/div/button[2]')
+            continue_button.click()
+            print('continue_button')
+            time.sleep(3)
+        paycaptcha()
+        time.sleep(4) 
+        def pay_error_check():
+            try:
+                for i in range(2):
+                    if driver.find_element(By.ID, "nlpImgContainer").is_displayed()==True:
+                        print('again enter')
+                        time.sleep(5)
+                        paycaptcha()
+                        
+                    # elif driver.find_element(By.ID, "nlpImgContainer").is_displayed()==False:
+                    else:
+                        print('captcha is correct')
+                        time.sleep(2)
+            except:
+                print('captcha is corrects')
+        # label_show==False
+        pay_error_check()   
+        time.sleep(4)
+        #choose method to pay
+
+        
+        #choose multiple payment method //*[@id="pay-type"]/span/div[1]/span
+        debit_choose = driver.find_element(By.XPATH, '//*[@id="pay-type"]/span/div[2]')
+        debit_choose.click()
+        print('multiple choose')
+        time.sleep(2)
+
+        
+        #roserpay select 
+        roserpay = driver.find_element(By.XPATH, '//*[@id="bank-type"]/div/table/tr/span[3]/td/div/div')
+        roserpay.click()
+        print('debit choose roserpay')
+        time.sleep(2)
+
+        #pay & book button
+        pay = driver.find_element(By.XPATH,'//*[@id="psgn-form"]/div[1]/div[1]/app-payment/div[2]/button[2]')
+        pay.click()
+        print('debit payment')
+        time.sleep(6)
+        #enter iframe
+        iframe = driver.find_element(By.XPATH,"//iframe[@class='razorpay-checkout-frame']")
+        driver.switch_to.frame(iframe)
+
+        roserpay = driver.find_element(By.XPATH, '//*[@id="form-common"]/div[1]/div/div/div/div/div/button[1]/div/div[1]/div[1]/div[1]')
+        roserpay.click()
+        print('Debit/credit card')
+        time.sleep(2)
+#
+        #click on card number
+        card_number = driver.find_element(By.XPATH,'//*[@id="card_number"]')
+        card_number.click()
+        action = ActionChains(driver)
+                # click the item
+        action.click(on_element = card_number)
+                # send keys
+        action.send_keys(debit_e2.get())
+        action.perform()
+        print('card number enter')
+        time.sleep(2)
+
+        #click on Expiry
+        card_expiry = driver.find_element(By.XPATH,'//*[@id="card_expiry"]')
+        card_expiry.click()
+        action = ActionChains(driver)
+                # click the item
+        action.click(on_element = card_expiry)
+                # send keys
+        action.send_keys(debit_M.get()) 
+            
+        action.send_keys(debit_Y.get())
+        action.perform()
+        print('date enter')
+        time.sleep(2)
+
+        #click on holder's name
+        card_holder = driver.find_element(By.XPATH,'//*[@id="card_name"]')
+        card_holder.click()
+        action = ActionChains(driver)
+                # click the item
+        action.click(on_element = card_holder)
+                # send keys
+        action.send_keys(debit_e5.get())
+        action.perform()
+        print('holder name enter')
+        time.sleep(2)
+
+        #click on CVV
+        card_CVV = driver.find_element(By.XPATH,'//*[@id="card_cvv"]')
+        card_CVV.click()
+        action = ActionChains(driver)
+                # click the item
+        action.click(on_element = card_CVV)
+                # send keys
+        action.send_keys(debit_e6.get())
+        action.perform()
+        print('cvv enter')
+        time.sleep(2)
+        #proceed button to upi pay
+        pay_debit = driver.find_element(By.XPATH,'//*[@id="footer-cta"]')
+        pay_debit.click()
+        print(' debit pay button')
+        time.sleep(2)
+
+        #continue for mobile pay send
+        contine_pay = driver.find_element(By.XPATH,'//*[@id="overlay"]/div/div/div[2]')
+        contine_pay.click()
+        print(' continue button')
+        time.sleep(2)
+    #debit_function()
+
+    if meth=="UPI":
+        upi_function()
+    elif meth=="DEBIT":
+        debit_function()
+
+
+    while True:
+        pass
+
+def start5():
+    try:    
+        os.chdir('C:\\Program Files\\Google\\Chrome\\Application')
+        os.system('start cmd /k "chrome.exe --remote-debugging-port=9225 --user-data-dir=E:\chromedriver_win32\chromedata5"')
+    except:
+        print('re check path')
+    opt = Options()
+    opt.add_experimental_option("debuggerAddress",'localhost:9225')
+    driver=webdriver.Chrome(executable_path=r"E:\\chromedriver_win32\\chromedriver.exe",chrome_options=opt)
+    
+    
+    driver.maximize_window()
+    driver.get("https://www.irctc.co.in/nget/train-search")
+
+    # click ok
+    try:
+        if driver.find_element(By.XPATH, "/html/body/app-root/app-home/div[1]/app-header/p-dialog[2]/div/div/div[2]/div/form/div[2]/button").is_displayed()==True:
+            element = driver.find_element(By.XPATH, "/html/body/app-root/app-home/div[1]/app-header/p-dialog[2]/div/div/div[2]/div/form/div[2]/button")
+            element.click()
+            time.sleep(2)
+        else:
+            pass
+    except Exception as e:
+        print(e)
+
+    #get element for login button
+    element2 = driver.find_element(By.XPATH, '/html/body/app-root/app-home/div[1]/app-header/div[2]/div[2]/div[1]/a[1]')
+    element2.click()
+    time.sleep(3)
+
+    #get element for usernme
+    element3 = driver.find_element(By.XPATH, '/html/body/app-root/app-home/div[3]/app-login/p-dialog[1]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/div[1]/input')
+    # create action chain object
+    action = ActionChains(driver)
+    # click the item
+    action.click(on_element = element3)
+    # send keys
+    action.send_keys(e1.get())
+    # perform the operation
+    action.perform()
+    time.sleep(2)
+    print('username entered')
+
+    # get element for password
+    element4 = driver.find_element(By.XPATH, '/html/body/app-root/app-home/div[3]/app-login/p-dialog[1]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/div[2]/input')
+    # create action chain object
+    action = ActionChains(driver)
+    # click the item
+    action.click(on_element = element4)
+    # send keys
+    action.send_keys(e2.get())
+    # perform the operation
+    action.perform()
+    time.sleep(2)
+    print('password entered')
+    #image function for captcha
+
+    print("File location using os.getcwd():", os.getcwd())
+
+    def  logincaptcha():
+        img=driver.find_element(By.ID, "nlpImgContainer") #By.ID, "nlpImgContainer"
+        img.screenshot(f"{var}\logo.png")
+        im = Image.open(f"{var}\logo.png") #use PIL.Image.open if not work
+        left = 0
+        top = 250
+        right = 300
+        bottom = 270
+        # left = 0
+        # top = 50
+        # right = 300
+        # bottom = 270
+
+        # Cropped image of above dimension
+        # (It will not change original image)
+        im1 = im.crop((left, top, right, bottom))
+        im1.save(f"{var}\crop.png" ,quality=100)
+        print('image address:',im1) 
+        captcha = pytesseract.image_to_string(im1) 
+        captcha = captcha.replace(" ", "").strip()
+        # save in abc.txt file
+        with open(f"{var}\\abc.txt",mode ='w') as file:     
+            file.write(captcha) 
+            print('result',captcha)
+            print('write result',captcha[18:22]) #5:14 paints  [18:22] default  5:12match
+    
+        #get element for captcha enter
+        element5 = driver.find_element(By.XPATH, "//*[@id='nlpAnswer']")
+        print('find')
+        # create action chain object
+        action = ActionChains(driver)
+        # click the item
+        action.click(on_element = element5)
+        # enter captcha
+        action.send_keys(captcha[18:22]) #[18:22]]
+        action.perform()
+        print('captcha enter')
+        time.sleep(4)
+        # click signup button 
+        signup = driver.find_element(By.XPATH, '//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/span/button')
+        signup.click()
+        print('signup')
+        time.sleep(10)
+    logincaptcha()
+    time.sleep(4)
+
+ 
+    def error_check():
+        try:
+            for i in range(2):
+                if driver.find_element(By.XPATH,'//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[1]').is_displayed()==True:
+                    print('again enter')
+                    time.sleep(5)
+                    logincaptcha()
+                    
+                elif driver.find_element(By.XPATH,'//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[1]').is_displayed()==False:
+                    print('captcha is correct')
+        except:
+            print('captcha is corrects')
+    # label_show==False
+    error_check()
+   
+    time.sleep(4)
+    #tap on date 
+    date_e = driver.find_element(By.XPATH, "//*[@id='jDate']/span/input")
+    date_e.click()
+    time.sleep(1)
+    # create action chain object
+    action = ActionChains(driver)
+    # click the date
+    action.click(on_element = date_e)
+    action.double_click(on_element = date_e)
+    # write date
+    action.send_keys(date)
+    action.perform()
+    time.sleep(2)
+    #tap on from route
+    loc = driver.find_element(By.XPATH, '//*[@id="origin"]/span/input')
+    loc.click()
+    time.sleep(1)
+    # create action chain object
+    action = ActionChains(driver)
+    # click the from route
+    action.click(on_element = loc)
+    # enter from location
+    action.send_keys(from_entry.get())
+    action.perform()
+    time.sleep(2)
+
+    #to location click
+    loc1 = driver.find_element(By.XPATH, '//*[@id="pr_id_1_list"]/li/span')
+    loc1.click()
+    time.sleep(1)
+    #tap on to route
+    loc3 = driver.find_element(By.XPATH, '//*[@id="destination"]/span/input')
+    loc3.click()
+    time.sleep(1)
+    # create action chain object
+    action = ActionChains(driver)
+    # click the to location
+    action.click(on_element = loc3)
+    # enter destination 
+    action.send_keys(to_entry.get())
+    action.perform()
+    time.sleep(2)
+    # click destination location
+    loc4 = driver.find_element(By.XPATH, '//*[@id="pr_id_2_list"]/li[1]')
+    loc4.click()
+    time.sleep(4)
+
+    # journey qauta
+    def general():
+        pass
+    
+    def tatkal():
+        #tatkal box
+        tatkal = driver.find_element(By.XPATH, '//*[@id="journeyQuota"]/div')
+        tatkal.click()
+        time.sleep(1)
+
+        tatkal = driver.find_element(By.XPATH, '//*[@id="journeyQuota"]/div/div[4]/div/ul/p-dropdownitem[5]/li')
+        tatkal.click()
+
+    if qouta=="GENERAL":
+        general()
+    elif qouta=="TATKAL":
+        tatkal()
+    #SEARCH buttton click
+    search = driver.find_element(By.XPATH, '//*[@id="divMain"]/div/app-main-page/div/div/div[1]/div[2]/div[1]/app-jp-input/div/form/div[5]/div/button')
+    search.click()
+    time.sleep(4)
+
+    #refresh button
+    choose = driver.find_element(By.XPATH, '//*[@id="divMain"]/div/app-train-list/div[4]/div/div[5]/div[1]/div[1]/app-train-avl-enq/div[1]/div[5]/div[1]/table/tr/td[1]/div/div[2]/span')
+    choose.click()
+    time.sleep(2)
+
+    #choose train
+    choose = driver.find_element(By.XPATH, '//*[@id="divMain"]/div/app-train-list/div[4]/div/div[5]/div[1]/div[1]/app-train-avl-enq/div[1]/div[7]/div[1]/div[3]/table/tr/td[2]/div/div[2]/strong')
+    choose.click()
+    time.sleep(2)
+
+    #book
+    book = driver.find_element(By.XPATH, '//*[@id="divMain"]/div/app-train-list/div[4]/div/div[5]/div[1]/div[1]/app-train-avl-enq/div[2]/div/span/span[1]/button')
+    book.click()
+    time.sleep(8)
+    # #agree
+    # agree = driver.find_element(By.XPATH, '//*[@id="divMain"]/div/app-train-list/p-confirmdialog[1]/div/div/div[3]/button[1]/span[2]')
+    # agree.click()
+    # time.sleep(4)
+
+    
+    
+    # ---function of passangers 1 2 3 4 5 6------
+    def pass1():
+        #enter passanger name
+        name = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[1]/div[2]/div/app-passenger/div/div[1]/span/div[1]/p-autocomplete/span/input')
+        name.click()
+        time.sleep(2)
+        # create action chain object
+        action = ActionChains(driver)
+        # click the item
+        action.click(on_element = name)
+        # send keys
+        action.send_keys(p1.get())
+        action.perform()
+        time.sleep(2)
+
+        #age box
+        age = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[1]/div[2]/div/app-passenger/div/div[1]/span/div[2]/input')
+        age.click()
+        time.sleep(2)
+        # create action chain object
+        action = ActionChains(driver)
+        # click the item
+        action.click(on_element = age)
+        # send keys
+        action.send_keys(a1.get())
+        action.perform()
+        time.sleep(2)
+
+        #gender box
+        gender = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[1]/div[2]/div/app-passenger/div/div[1]/span/div[3]/select')
+        gender.click()
+        time.sleep(2)
+
+        gender_select = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[1]/div[2]/div/app-passenger/div/div[1]/span/div[3]/select/option[2]')
+        gender_select.click()
+    def pass2():
+        pass1()
+        add_pas = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[2]/div[1]/a/span[1]')
+        add_pas.click()
+
+        #enter passanger name
+        name2 = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[2]/div[2]/div/app-passenger/div/div[1]/span/div[1]/p-autocomplete/span/input')
+        name2.click()
+        time.sleep(2)                               #//*[@id="ui-panel-12-content"]/div/div[1]/div[2]/div/app-passenger/div/div[1]/span/div[1]/p-autocomplete/span/input
+        # create action chain object
+        action = ActionChains(driver)
+        # click the item
+        action.click(on_element = name2)
+        # send keys
+        action.send_keys(p2.get())
+        action.perform()
+        time.sleep(2)
+
+        #age box
+        age2 = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[2]/div[2]/div/app-passenger/div/div[1]/span/div[2]/input')
+        age2.click()
+        time.sleep(2)
+        # create action chain object
+        action = ActionChains(driver)
+        # click the item
+        action.click(on_element = age2)
+        # send keys
+        action.send_keys(a2.get())
+        action.perform()
+        time.sleep(2)
+
+        #gender box
+        gender = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[2]/div[2]/div/app-passenger/div/div[1]/span/div[3]/select')
+        gender.click()
+        time.sleep(2)
+
+        #male
+        gender_select = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[2]/div[2]/div/app-passenger/div/div[1]/span/div[3]/select/option[2]')
+        gender_select.click()
+
+        #female
+        # gender_select = driver.find_element(By.XPATH, '//*[@id="ui-panel-24-content"]/div/div[2]/div[2]/div/app-passenger/div/div[1]/span/div[3]/select/option[3]')
+        # gender_select.click()
+    def pass3():
+        pass2()
+        add_pas = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[3]/div[1]/a/span[2]')
+        add_pas.click()
+
+        #enter passanger name
+        name = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[3]/div[2]/div/app-passenger/div/div[1]/span/div[1]/p-autocomplete/span/input')
+        name.click()
+        time.sleep(2)
+        # create action chain object
+        action = ActionChains(driver)
+        # click the item
+        action.click(on_element = name)
+        # send keys
+        action.send_keys(p3.get())
+        action.perform()
+        time.sleep(2)
+
+        #age box
+        age = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[3]/div[2]/div/app-passenger/div/div[1]/span/div[2]/input')
+        age.click()
+        time.sleep(2)
+        # create action chain object
+        action = ActionChains(driver)
+        # click the item
+        action.click(on_element = age)
+        # send keys
+        action.send_keys(a3.get())
+        action.perform()
+        time.sleep(2)
+
+        #gender box
+        gender = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[3]/div[2]/div/app-passenger/div/div[1]/span/div[3]/select')
+        gender.click()
+        time.sleep(2)
+
+        gender_select = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[3]/div[2]/div/app-passenger/div/div[1]/span/div[3]/select/option[2]')
+        gender_select.click()
+
+    def pass4():
+        pass3()
+        add_pas = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[4]/div[1]/a/span[2]')
+        add_pas.click()
+
+        name = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[4]/div[2]/div/app-passenger/div/div[1]/span/div[1]/p-autocomplete/span/input')
+        name.click()
+        time.sleep(2)
+        # create action chain object
+        action = ActionChains(driver)
+        # click the item
+        action.click(on_element = name)
+        # send keys
+        action.send_keys(p4.get())
+        action.perform()
+        time.sleep(2)
+
+        #age box
+        age = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[4]/div[2]/div/app-passenger/div/div[1]/span/div[2]/input')
+        age.click()
+        time.sleep(2)
+        # create action chain object
+        action = ActionChains(driver)
+        # click the item
+        action.click(on_element = age)
+        # send keys
+        action.send_keys(a4.get())
+        action.perform()
+        time.sleep(2)
+
+        #gender box
+        gender = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[4]/div[2]/div/app-passenger/div/div[1]/span/div[3]/select')
+        gender.click()
+        time.sleep(2)
+
+        gender_select = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[4]/div[2]/div/app-passenger/div/div[1]/span/div[3]/select/option[2]')
+        gender_select.click()
+    def pass5():
+        pass4()
+        add_pas = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[5]/div[1]/a/span[1]')
+        add_pas.click()
+
+        name = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[5]/div[2]/div/app-passenger/div/div[1]/span/div[1]/p-autocomplete/span/input')
+        name.click()
+        time.sleep(2)
+        # create action chain object
+        action = ActionChains(driver)
+        # click the item
+        action.click(on_element = name)
+        # send keys
+        action.send_keys(p5.get())
+        action.perform()
+        time.sleep(2)
+
+        #age box
+        age = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[5]/div[2]/div/app-passenger/div/div[1]/span/div[2]/input')
+        age.click()
+        time.sleep(2)
+        # create action chain object
+        action = ActionChains(driver)
+        # click the item
+        action.click(on_element = age)
+        # send keys
+        action.send_keys(a5.get())
+        action.perform()
+        time.sleep(2)
+
+        #gender box
+        gender = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[5]/div[2]/div/app-passenger/div/div[1]/span/div[3]/select')
+        gender.click()
+        time.sleep(2)
+
+        gender_select = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[5]/div[2]/div/app-passenger/div/div[1]/span/div[3]/select/option[2]')
+        gender_select.click()
+    def pass6():
+        pass5()
+        add_pas = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[6]/div[1]/a/span[1]')
+        add_pas.click()
+
+        name = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[6]/div[2]/div/app-passenger/div/div[1]/span/div[1]/p-autocomplete/span/input')
+        name.click()
+        time.sleep(2)
+        # create action chain object
+        action = ActionChains(driver)
+        # click the item
+        action.click(on_element = name)
+        # send keys
+        action.send_keys(p6.get())
+        action.perform()
+        time.sleep(2)
+
+        #age box
+        age = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[6]/div[2]/div/app-passenger/div/div[1]/span/div[2]/input')
+        age.click()
+        time.sleep(2)
+        # create action chain object
+        action = ActionChains(driver)
+        # click the item
+        action.click(on_element = age)
+        # send keys
+        action.send_keys(a6.get())
+        action.perform()
+        time.sleep(2)
+
+        #gender box
+        gender = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[6]/div[2]/div/app-passenger/div/div[1]/span/div[3]/select')
+        gender.click()
+        time.sleep(2)
+
+        gender_select = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[6]/div[2]/div/app-passenger/div/div[1]/span/div[3]/select/option[2]')
+        gender_select.click()
+
+    # ------condition of passanger count-----------
+    if count=='1':
+        pass1()
+    elif count == '2':
+        pass2()
+    elif count == '3':
+        pass3()
+    elif count == '4':
+        pass4()
+    elif count == '5':
+        pass5()
+    elif count == '6':
+        pass6()
+           
+    #food box
+    # food = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[1]/div[2]/div/app-passenger/div/div[1]/div[2]/select')
+    # food.click()
+    # time.sleep(1)
+    # #veg choose
+    # food_select = driver.find_element(By.XPATH, '//*[@id="ui-panel-12-content"]/div/div[1]/div[2]/div/app-passenger/div/div[1]/div[2]/select/option[2]')
+    # food_select.click()
+    # time.sleep(1)
+
+    
+    
+    #upi select
+    def upi_function():
+        pay = driver.find_element(By.XPATH, '//*[@id="2"]/div/div[2]/span') # for upi
+        pay.click()
+        time.sleep(2)
+
+        #continue button same for both
+        submit = driver.find_element(By.XPATH, '//*[@id="psgn-form"]/form/div/div[1]/div[14]/div/button[2]')
+        submit.click()
+        time.sleep(8)
+        print('payment captcha page')
+        #payment captcha 
+        def paycaptcha():
+            img=driver.find_element(By.ID, "nlpImgContainer")
+            img.screenshot(f"{var}\logo2.png")
+            im = Image.open(f"{var}\logo2.png")
+            left = 0
+            top = 250
+            right = 300
+            bottom = 280
+            # Cropped image of above dimension
+            # (It will not change original image)
+            im1 = im.crop((left, top, right, bottom))
+            im1.save(f"{var}\crop2.png" ,quality=100)
+            print('image address:',im1) 
+            captcha = pytesseract.image_to_string(im1) 
+            captcha = captcha.replace(" ", "").strip()
+
+            #save in payment.txt
+            with open(f"{var}\payment.txt",mode ='w') as file:      
+                file.write(captcha) 
+                print('result',captcha)
+                print('write result',captcha[18:22])
+            #get element for captcha enter
+            element5 = driver.find_element(By.XPATH, "//*[@id='nlpAnswer']")
+            print('find')
+            # create action chain object
+            action = ActionChains(driver)
+            # click the item
+            action.click(on_element = element5)
+            time.sleep(2)
+            # send keys
+            action.send_keys(captcha[18:22])
+            action.perform()
+            print('payement captcha enter')
+            time.sleep(4)
+
+            #continue buttton
+            continue_button = driver.find_element(By.XPATH, '//*[@id="review"]/div[1]/form/div[3]/div/button[2]')
+            continue_button.click()
+            print('continue_button')
+            time.sleep(3)
+        paycaptcha()
+        time.sleep(4) 
+        def pay_error_check():
+            try:
+                for i in range(2):
+                    if driver.find_element(By.ID, "nlpImgContainer").is_displayed()==True:
+                        print('again enter')
+                        time.sleep(5)
+                        paycaptcha()
+                        
+                    # elif driver.find_element(By.ID, "nlpImgContainer").is_displayed()==False:
+                    else:
+                        print('captcha is correct')
+                        time.sleep(2)
+            except:
+                print('captcha is corrects')
+        # label_show==False
+        pay_error_check()   
+        time.sleep(4)
+        
+        #choose method to pay
+
+        
+        #choose multiple payment method //*[@id="pay-type"]/span/div[1]/span
+        upi_choose = driver.find_element(By.XPATH, '//*[@id="pay-type"]/span/div[1]/span')
+        upi_choose.click()
+        print('multiple choose')
+        time.sleep(2)
+
+        
+        #roserpay select 
+        roserpay = driver.find_element(By.XPATH, '//*[@id="bank-type"]/div/table/tr/span[3]/td/div/div/span')
+        roserpay.click()#//*[@id="bank-type"]/div/table/tr/span[2]/td/div/div/span/text()
+        print('upi choose roserpay')
+        time.sleep(2)
+
+        #pay & book button
+        pay = driver.find_element(By.XPATH,'//*[@id="psgn-form"]/div[1]/div[1]/app-payment/div[2]/button[2]')
+        pay.click()
+        print('upi payment')
+        time.sleep(6)
+        #enter iframe
+        iframe = driver.find_element(By.XPATH,"//iframe[@class='razorpay-checkout-frame']")
+        driver.switch_to.frame(iframe)
+        
+        #upi or QR
+        try:
+            roserpay = driver.find_element(By.XPATH, '//*[@id="form-common"]/div[1]/div/div/div/div/div/button[1]/div/div[1]/div[1]')
+            roserpay.click()
+            print('upi or QR')
+            time.sleep(2)
+        except:
+            print('take in your hands')
+
+    
+        #click and add upi
+        conti_confirm = driver.find_element(By.XPATH,'//*[@id="vpa-upi"]')
+        conti_confirm.click()
+        print('add payment number')
+        # create action chain object
+        action = ActionChains(driver)
+        # click the item
+        action.click(on_element = conti_confirm)
+        # send keys
+        action.send_keys(upi_entry.get())
+        action.perform()
+        time.sleep(2)
+
+        #proceed button to upi pay
+        paytm_submit = driver.find_element(By.XPATH,'//*[@id="footer-cta"]')
+        paytm_submit.click()
+        print(' pay button')
+        time.sleep(2)
+
+        #continue for mobile pay send
+        contine_pay = driver.find_element(By.XPATH,'//*[@id="overlay"]/div/div/div[2]')
+        contine_pay.click()
+        print(' continue button')
+        time.sleep(2)
+    #upi_function()
+
+    #select debit
+    def debit_function():
+        #continue button same for both
+        submit = driver.find_element(By.XPATH, '//*[@id="psgn-form"]/form/div/div[1]/div[14]/div/button[2]')
+        submit.click()
+        time.sleep(8)
+        print('payment captcha page')
+        #payment captcha 
+        def paycaptcha():
+            img=driver.find_element(By.ID, "nlpImgContainer")
+            img.screenshot(f"{var}\logo2.png")
+            im = Image.open(f"{var}\logo2.png")
+            left = 0
+            top = 250
+            right = 300
+            bottom = 280
+            # Cropped image of above dimension
+            # (It will not change original image)
+            im1 = im.crop((left, top, right, bottom))
+            im1.save(f"{var}\crop2.png" ,quality=100)
+            print('image address:',im1) 
+            captcha = pytesseract.image_to_string(im1) 
+            captcha = captcha.replace(" ", "").strip()
+
+            #save in payment.txt
+            with open(f"{var}\payment.txt",mode ='w') as file:      
+                file.write(captcha) 
+                print('result',captcha)
+                print('write result',captcha[18:22])
+            #get element for captcha enter
+            element5 = driver.find_element(By.XPATH, "//*[@id='nlpAnswer']")
+            print('find')
+            # create action chain object
+            action = ActionChains(driver)
+            # click the item
+            action.click(on_element = element5)
+            time.sleep(2)
+            # send keys
+            action.send_keys(captcha[18:22])
+            action.perform()
+            print('payement captcha enter')
+            time.sleep(4)
+
+            #continue buttton
+            continue_button = driver.find_element(By.XPATH, '//*[@id="review"]/div[1]/form/div[3]/div/button[2]')
+            continue_button.click()
+            print('continue_button')
+            time.sleep(3)
+        paycaptcha()
+        time.sleep(4) 
+        def pay_error_check():
+            try:
+                for i in range(2):
+                    if driver.find_element(By.ID, "nlpImgContainer").is_displayed()==True:
+                        print('again enter')
+                        time.sleep(5)
+                        paycaptcha()
+                        
+                    # elif driver.find_element(By.ID, "nlpImgContainer").is_displayed()==False:
+                    else:
+                        print('captcha is correct')
+                        time.sleep(2)
+            except:
+                print('captcha is corrects')
+        # label_show==False
+        pay_error_check()   
+        time.sleep(4)
+        #choose method to pay
+
+        
+        #choose multiple payment method //*[@id="pay-type"]/span/div[1]/span
+        debit_choose = driver.find_element(By.XPATH, '//*[@id="pay-type"]/span/div[2]')
+        debit_choose.click()
+        print('multiple choose')
+        time.sleep(2)
+
+        
+        #roserpay select 
+        roserpay = driver.find_element(By.XPATH, '//*[@id="bank-type"]/div/table/tr/span[3]/td/div/div')
+        roserpay.click()
+        print('debit choose roserpay')
+        time.sleep(2)
+
+        #pay & book button
+        pay = driver.find_element(By.XPATH,'//*[@id="psgn-form"]/div[1]/div[1]/app-payment/div[2]/button[2]')
+        pay.click()
+        print('debit payment')
+        time.sleep(6)
+        #enter iframe
+        iframe = driver.find_element(By.XPATH,"//iframe[@class='razorpay-checkout-frame']")
+        driver.switch_to.frame(iframe)
+
+        roserpay = driver.find_element(By.XPATH, '//*[@id="form-common"]/div[1]/div/div/div/div/div/button[1]/div/div[1]/div[1]/div[1]')
+        roserpay.click()
+        print('Debit/credit card')
+        time.sleep(2)
+#
+        #click on card number
+        card_number = driver.find_element(By.XPATH,'//*[@id="card_number"]')
+        card_number.click()
+        action = ActionChains(driver)
+                # click the item
+        action.click(on_element = card_number)
+                # send keys
+        action.send_keys(debit_e2.get())
+        action.perform()
+        print('card number enter')
+        time.sleep(2)
+
+        #click on Expiry
+        card_expiry = driver.find_element(By.XPATH,'//*[@id="card_expiry"]')
+        card_expiry.click()
+        action = ActionChains(driver)
+                # click the item
+        action.click(on_element = card_expiry)
+                # send keys
+        action.send_keys(debit_M.get()) 
+            
+        action.send_keys(debit_Y.get())
+        action.perform()
+        print('date enter')
+        time.sleep(2)
+
+        #click on holder's name
+        card_holder = driver.find_element(By.XPATH,'//*[@id="card_name"]')
+        card_holder.click()
+        action = ActionChains(driver)
+                # click the item
+        action.click(on_element = card_holder)
+                # send keys
+        action.send_keys(debit_e5.get())
+        action.perform()
+        print('holder name enter')
+        time.sleep(2)
+
+        #click on CVV
+        card_CVV = driver.find_element(By.XPATH,'//*[@id="card_cvv"]')
+        card_CVV.click()
+        action = ActionChains(driver)
+                # click the item
+        action.click(on_element = card_CVV)
+                # send keys
+        action.send_keys(debit_e6.get())
+        action.perform()
+        print('cvv enter')
+        time.sleep(2)
+        #proceed button to upi pay
+        pay_debit = driver.find_element(By.XPATH,'//*[@id="footer-cta"]')
+        pay_debit.click()
+        print(' debit pay button')
+        time.sleep(2)
+
+        #continue for mobile pay send
+        contine_pay = driver.find_element(By.XPATH,'//*[@id="overlay"]/div/div/div[2]')
+        contine_pay.click()
+        print(' continue button')
+        time.sleep(2)
+    #debit_function()
+
+    if meth=="UPI":
+        upi_function()
+    elif meth=="DEBIT":
+        debit_function()
+
 
     while True:
         pass
@@ -775,8 +3924,13 @@ def login_screen():
     delb.place(x=530, y=80,width=150,height=30)
     upd = Button(f2, text = 'Update',bg='#FFA500',activebackground='black',font=("Times",10,"bold"), command = lambda : update())
     upd.place(x=530, y=140,width=150,height=30)
-    login = Button(f2, text = 'LOGIN',bg='#FFA500',activebackground='black',font=("Times",10,"bold"), command = lambda : start())
+    login = Button(f2, text = 'LOGIN',bg='#FFA500',activebackground='black',font=("Times",10,"bold"), command = lambda : book())
     login.place(x=530, y=200,width=150,height=30)
+
+    
+        
+    
+    
 
     #function for get username and password from entry
     def GetValue(event):
@@ -863,24 +4017,27 @@ def login_screen():
     def show():
         mysqldb = mysql.connector.connect(host="localhost", user="root", password="deol9646", database="train_login")
         mycursor = mysqldb.cursor()
-        mycursor.execute("SELECT username,password,name FROM login")
+        mycursor.execute("SELECT name,username,password FROM login")
         records = mycursor.fetchall()
         print(records)
-        for i, (username,password,name) in enumerate(records, start=1):
-            listbox.insert("", "end", values=(username,password,name))
+        for i, (name,username,password) in enumerate(records, start=1):
+            listbox.insert("", "end", values=(name,username,password))
             connection.close()
-    cols=("username","password","name")
+    cols=("name","username","password")
     listbox=ttk.Treeview(f2,columns=cols,show='headings')
+    listbox.column('username', anchor=CENTER, width=30)
+    listbox.column('password', anchor=CENTER, width=30)
+    listbox.column('name', anchor=CENTER, width=20)
     for col in cols:
         listbox.heading(col, text=col)
-        listbox.grid(row=0,column=0,columnspan=2)
+        listbox.grid(row=0,column=0,columnspan=1)
         listbox.place(width=500,height=330)
     show()
     listbox.bind("<Double-Button-1>",GetValue)
 
 #passanger data screen
 def passanger_screen():
-    global p1,a1,g1,p2,a2,g2,p3,a3,g3,p4,a4,g4,p5,a5,g5,p6,a6,g6,from_entry,to_entry,date_entry,passanger_value,c1,count
+    global p1,a1,g1,p2,a2,g2,p3,a3,g3,p4,a4,g4,p5,a5,g5,p6,a6,g6,from_entry,to_entry,date_entry,passanger_value,c1,count,win
     
     page2=Frame(root,bg='sky blue', width=1200, height=550)
     page2.place(x=0,y=0)
@@ -917,6 +4074,8 @@ def passanger_screen():
     p6_gender = StringVar()
 
     p_count = StringVar()
+    q_data = StringVar()
+    W_count= StringVar()
 
 
 
@@ -946,6 +4105,8 @@ def passanger_screen():
     p6_gender.set(passanger_value["gender6"])
 
     p_count.set(passanger_value["total"])
+    q_data.set(passanger_value["qouta"])
+    W_count.set(passanger_value["windows"])
 
     #from label & entry
     from_label=Label(pf1,text='From :',bg='sky blue',font=font1)
@@ -984,11 +4145,14 @@ def passanger_screen():
     Quta_label.place(x=10,y=220,width=50,height=25)
         # Dropdown Quta options
     Quta_opt = [
-        "Tatkal",
-        
+        "GENERAL",
+        "LADIES",
+        "LOWER BERTH/SR.CITIZEN",
+        "TATKAL",
+        "PREMIUM TATKAL"
     ] 
         # Create Dropdown menu
-    Quta_entry = ttk.Combobox(state="disabled",values=Quta_opt) #readonly
+    Quta_entry = ttk.Combobox(state="readonly",values=Quta_opt,textvariable=q_data) #disabled
     Quta_entry.place(x=130,y=230,width=200,height=25)
     Quta_entry.current(0)
 
@@ -1164,9 +4328,7 @@ def passanger_screen():
     n4.place(x=460,y=180,width=100,height=25)
     n4.current(0)
 
-    #label3 bank details
-    l2=Label(pf2,text='Enter Bank & Other Details',bg='light gray',foreground='white',font=font1)
-    l2.place(x=0,y=320,width=835,height=40)
+    
     
     #label for num of passangers
     p_count=Label(pf2,text='Total passanger',bg='sky blue',font=font1)
@@ -1183,9 +4345,27 @@ def passanger_screen():
     c1 = ttk.Combobox(pf2,state="readonly",values=num_of_passanger,textvariable=p_count) #readonly
     c1.place(x=10,y=290,width=40,height=25)
     c1.current(0)
+
+    #label3 bank details
+    #label for num of passangers
+    w_count=Label(pf2,text='windows open',bg='sky blue',font=font1)
+    w_count.place(x=10,y=320,width=120,height=25)
+    num_of_windows = [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+       
+    ] 
+        # Create Dropdown menu
+    w1 = ttk.Combobox(pf2,state="readonly",values=num_of_windows,textvariable=W_count) #readonly
+    w1.place(x=10,y=340,width=40,height=25)
+    w1.current(0)
+    
     print(passanger_value)
     def pass_add():
-        global date,count
+        global date,count,qouta,win
         name = p1.get()
         name2 = p2.get()
         name3 = p3.get()
@@ -1212,6 +4392,8 @@ def passanger_screen():
         ito = to_entry.get()
         date = date_entry.get()
         count=c1.get()
+        qouta=Quta_entry.get()
+        win=w1.get()
 
         passanger_value["name"] = name
         passanger_value["name2"] = name2
@@ -1238,7 +4420,9 @@ def passanger_screen():
         passanger_value["ito"] = ito
         passanger_value["date"] = date
         passanger_value["total"]=count
-        print("total number of passangers", c1.get())
+        passanger_value["qouta"]=qouta
+        passanger_value["windows"]=win
+        print("Quta_entry :", Quta_entry.get())
         print(passanger_value)
         mysqldb=mysql.connector.connect(host="localhost",user="root",password="deol9646",database="train_login")
         mycursor=mysqldb.cursor()
@@ -1250,16 +4434,16 @@ def passanger_screen():
             name4 text ,age4 text ,gender4 text,
             name5 text ,age5 text ,gender5 text,
             name6 text ,age6 text ,gender6 text,
-            ifrom text ,ito text ,date text)''')
+            ifrom text ,ito text ,date text ,qouta text )''')
 
             sql = '''INSERT INTO  passanger_data (NAME,AGE,GENDER,
             NAME2,AGE2,GENDER2,
             NAME3,AGE3,GENDER3,
             NAME4,AGE4,GENDER4,
             NAME5,AGE5,GENDER5,
-            NAME6,AGE6,GENDER6,IFROM,ITO,DATE) VALUES (%s, %s, %s, %s, %s,%s,%s, %s, %s, %s, %s,%s,%s, %s, %s, %s, %s,%s,%s, %s, %s)'''
+            NAME6,AGE6,GENDER6,IFROM,ITO,DATE,QOUTA) VALUES (%s, %s, %s, %s, %s,%s,%s, %s, %s, %s, %s,%s,%s, %s, %s, %s, %s,%s,%s, %s, %s,%s)'''
             
-            val = (name,age,gender,name2,age2,gender2,name3,age3,gender3,name4,age4,gender4,name5,age5,gender5,name6,age6,gender6,ifrom,ito,date)
+            val = (name,age,gender,name2,age2,gender2,name3,age3,gender3,name4,age4,gender4,name5,age5,gender5,name6,age6,gender6,ifrom,ito,date,qouta)
             mycursor.execute(sql, val)
             mysqldb.commit()
             lastid = mycursor.lastrowid
@@ -1294,6 +4478,7 @@ def passanger_screen():
             from_entry.delete(0, END)
             to_entry.delete(0, END)
             date_entry.delete(0, END)
+            Quta_entry.delete(0, END)
             p1.focus_set()
         except Exception as e:
             print(e)
@@ -1301,19 +4486,19 @@ def passanger_screen():
             mysqldb.close()
 
 def payment_screen():
-    global payment_value,upibutton,Debitbutton
+    global payment_value,upibutton,Debitbutton,meth
     font1=tkfont.Font(family='Times', size=15, weight="bold")
     page3=Frame(root,bg='#80aaff', width=1200, height=550)
     page3.place(x=0,y=0)
 
     upibutton=Button(page3,text="UPI PAY",font=font1,bg='white',activebackground='black'
-    ,activeforeground='white',width=30,command=lambda:upi())
+    ,activeforeground='white',width=30,command=lambda:[upi(),pay_method()])
     upibutton.place(x=70,y=10)
 
     Debitbutton=Button(page3,text="Debit PAY",font=font1,bg='white',activebackground='black'
-    ,activeforeground='white',width=30,command=lambda:debit())
+    ,activeforeground='white',width=30,command=lambda:[debit(),pay_method()])
     Debitbutton.place(x=460,y=10)
-   
+    
     def upi():
         global upi_entry
         print(payment_value)
@@ -1351,17 +4536,22 @@ def payment_screen():
         upi_upd.place(x=800,y=450)
 
         select_upi=Button(page3,text="USE UPI",width=10,font=font1,bg='white',activebackground='black'
-        ,activeforeground='white',command=lambda:method())
+        ,activeforeground='white',command=lambda:[method()])
         select_upi.place(x=50,y=490)
         # upilist=Frame(page3,bg='white',width=550, height=450)
         # upilist.place(x=570,y=60)
         # add user and pass in database
+        
         def method():
+            global meth
             upi = upi_entry.get()
             name=temp_entry.get()
             payment_value["upi"] = upi
             payment_value["temp_name"] = name
+            meth=m1.get()
+            method_pay["method_p"]=meth
             print(payment_value)
+            print(method_pay)
         def GetValue(event):
             upi = upi_entry.get()
             name=temp_entry.get()
@@ -1474,7 +4664,7 @@ def payment_screen():
 
 
     def debit():
-        global debit_e1,debit_e2,debit_e3,debit_M,debit_Y,debit_e5,cvv,pass3d
+        global debit_e1,debit_e2,debit_e3,debit_M,debit_Y,debit_e5,debit_e6,cvv,pass3d
         font2=tkfont.Font(family='Times New Roman', size=15, weight="bold")
         print(debit_value)
         Debitframe=Frame(page3,bg='white',width=550, height=400,bd=5,highlightbackground="black", highlightthickness=1)
@@ -1553,7 +4743,7 @@ def payment_screen():
         def method():
             e1 = debit_e1.get()
             e2=debit_e2.get()
-            e3=debit_e2.get()
+            e3=debit_e3.get()
             month=debit_M.get()
             year=debit_Y.get()
             e5=debit_e5.get()
@@ -1568,6 +4758,9 @@ def payment_screen():
             debit_value["owner"] = e5
             debit_value["cvv"] = e6
             debit_value["3D pass"] = e7
+            meth=m1.get()
+            method_pay["method_P"]=meth
+            print(method_pay)
             print(debit_value)
         #function for get username and password from entry
         def GetValue(event):
@@ -1680,20 +4873,100 @@ def payment_screen():
         debitshow()
         listbox.bind("<Double-Button-1>",GetValue)
 
+    def pay_method():
+        global m1
+        p_method =StringVar()
+        p_method.set(method_pay["method_p"])
+        
+        #label for num of passangers
+        p_method=Label(page3,text='payment method :',bg='#80aaff',font=font1)
+        p_method.place(x=230,y=500,width=150,height=25)
+        method = [
+            "UPI",
+            "DEBIT",
+        
+        ] 
+            # Create Dropdown menu
+        m1 = ttk.Combobox(page3,state="readonly",values=method,textvariable=p_method) #readonly
+        m1.place(x=390,y=500,width=60,height=30)
+        m1.current(0)
+    
 def fourth_screen():
     page4=Frame(root,bg='green', width=1200, height=550)
     page4.place(x=0,y=0)
     test = Label(page4,text="HOME")
     test.place(x = 50, y = 50)
 
-Button1=Button(root,text='LOGIN',command=lambda:login_screen())
-Button1.place(x=10,y=570)
-Button2=Button(root,text='PASSSENGER',command=lambda:passanger_screen())
-Button2.place(x=65,y=570)
-Button3=Button(root,text='PAYMENT',command=lambda:payment_screen())
-Button3.place(x=155,y=570)
-Button3=Button(root,text='HOME',command=lambda:fourth_screen())
-Button3.place(x=230,y=570)
+thread1=multiprocessing.Process(target=start)
+thread2=multiprocessing.Process(target=start2)
+thread3=multiprocessing.Process(target=start3)
+thread4=multiprocessing.Process(target=start4)
+thread5=multiprocessing.Process(target=start5)
+if __name__ == "__main__":
+    #----root window----
+    root = Tk()
+    root.configure(bg='sky blue')
+    root.title("IRCTC")
+    root.rowconfigure(0, weight=1)
+    root.columnconfigure(0, weight=1)
+    root.geometry("1200x600+200+50")
+    icon=PhotoImage(file='icon.png')
+    root.iconphoto(False,icon)
+    Button1=Button(root,text='LOGIN',command=lambda:login_screen())
+    Button1.place(x=10,y=570)
+    Button2=Button(root,text='PASSSENGER',command=lambda:passanger_screen())
+    Button2.place(x=65,y=570)
+    Button3=Button(root,text='PAYMENT',command=lambda:payment_screen())
+    Button3.place(x=155,y=570)
+    Button3=Button(root,text='HOME',command=lambda:fourth_screen())
+    Button3.place(x=230,y=570)
 
 
-root.mainloop()
+    
+    def book():
+        if qouta=='TATKAL':
+            if win=="1":
+                start()
+            elif win=="2":
+                thread1.start()
+                thread2.start()
+
+                thread1.join()
+                thread2.join()
+            elif win=="3":
+                thread1.start()
+                thread2.start()
+                thread3.start()
+
+                thread1.join()
+                thread2.join()  
+                thread3.join() 
+            elif win=="4":
+                thread1.start()
+                thread2.start()
+                thread3.start()
+                thread4.start()
+
+                thread1.join()
+                thread2.join()  
+                thread3.join()  
+                thread4.join()
+
+            elif win=="4":
+                thread1.start()
+                thread2.start()
+                thread3.start()
+                thread4.start()
+                thread5.start()
+
+                thread1.join()
+                thread2.join()  
+                thread3.join()  
+                thread4.join()
+                thread5.join()
+
+        elif qouta=='GENERAL':
+            start()
+    root.mainloop()
+
+

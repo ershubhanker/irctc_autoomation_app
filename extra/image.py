@@ -22,11 +22,11 @@ bottom = 170
 # (It will not change original image)
 im1 = im.crop((left, top, right, bottom))
 image_file1=im1.save("hit.png")
-captcha = pytesseract.image_to_string(im1) 
+captcha = pytesseract.image_to_string(im) 
 captcha = captcha.replace(" ", "").strip()
 # save in abc.txt file
 with open(r'E:\DJANGO\recapcha bypass\captcha.txt',mode ='w') as file:      
     file.write(captcha) 
     print('result',captcha)
 # Shows the image in image viewer
-#im1.show()
+im.show()

@@ -77,7 +77,7 @@ def start():
     action.perform()
     print('password entered')
 
-    img=driver.find_element(By.ID, "nlpImgContainer")
+    img=driver.find_element(By.XPATH, "//*[@id='login_header_disable']/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/div[4]/div/app-captcha/div/div/div/span[1]/img")
 
     img.screenshot("logo.png")
     im = PIL.Image.open('logo.png')
