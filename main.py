@@ -34,7 +34,7 @@ my_conn.execute('''create table if not exists login(username text ,password text
 
 #passanger value dictionary
 passanger_value={'name':"",'age':"",'gender':"",'name2':"",'age2':"",'gender2':"",'name3':"",'age3':"",'gender3':"",'name4':"",
-'age4':"",'gender4':"",'name5':"",'age5':"",'gender5':"",'name6':"",'age6':"",'gender6':"",'ifrom':"",'ito':"",'date':"",'total':"",'qouta':"",'windows':""}
+'age4':"",'gender4':"",'name5':"",'age5':"",'gender5':"",'name6':"",'age6':"",'gender6':"",'ifrom':"",'ito':"",'date':"",'total':"",'qouta':""}
 payment_value={'upi':"",'temp_name':""}
 debit_value={'bank name':"",'card type':"",'card number':"",'expiry month':"",'expiry year':'','owner':"",'cvv':"",'3D pass':""}
 method_pay={'method_p':""}
@@ -42,8 +42,15 @@ method_pay={'method_p':""}
 var=os.getcwd()
 # a=f"{var}\logo.png"
 # print(a)
+global user1,user2,user3
+global user1_pass,user2_pass,user3_pass
+
 #irctc website fuction
-def start():
+def start(user1,user1_pass):
+    
+    # print(user1)
+    # print(user1_pass)
+    
     try:    
         os.chdir('C:\\Program Files\\Google\\Chrome\\Application')
         os.system('start cmd /k "chrome.exe --remote-debugging-port=9221 --user-data-dir=E:\chromedriver_win32\chromedata"')
@@ -65,14 +72,14 @@ def start():
             time.sleep(2)
         else:
             pass
-    except Exception as e:
-        print(e)
+    except :
+        print("ok not found")
 
     #get element for login button
     element2 = driver.find_element(By.XPATH, '/html/body/app-root/app-home/div[1]/app-header/div[2]/div[2]/div[1]/a[1]')
     element2.click()
     time.sleep(3)
-
+    print('login click')
     #get element for usernme
     element3 = driver.find_element(By.XPATH, '/html/body/app-root/app-home/div[3]/app-login/p-dialog[1]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/div[1]/input')
     # create action chain object
@@ -80,10 +87,13 @@ def start():
     # click the item
     action.click(on_element = element3)
     # send keys
-    action.send_keys(e1.get())
+    
+    
+
+    action.send_keys(user1) #e1.get()
     # perform the operation
     action.perform()
-    time.sleep(2)
+    time.sleep(1)
     print('username entered')
 
     # get element for password
@@ -93,17 +103,17 @@ def start():
     # click the item
     action.click(on_element = element4)
     # send keys
-    action.send_keys(e2.get())
+    action.send_keys(user1_pass)
     # perform the operation
     action.perform()
-    time.sleep(2)
+    
     print('password entered')
+    time.sleep(5)
     #image function for captcha
 
-    print("File location using os.getcwd():", os.getcwd())
-
+    #print("File location using os.getcwd():", os.getcwd())
     def  logincaptcha():
-        img=driver.find_element(By.ID, "nlpImgContainer") #By.ID, "nlpImgContainer"
+        img=driver.find_element(By.ID, "nlpImgContainer") #By.ID, "nlpImgContainer" '//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/div[4]/div/app-captcha/div/div/div/span[1]/img'
         img.screenshot(f"{var}\logo.png")
         im = Image.open(f"{var}\logo.png") #use PIL.Image.open if not work
         left = 0
@@ -139,23 +149,68 @@ def start():
         action.send_keys(captcha[18:22]) #[18:22]]
         action.perform()
         print('captcha enter')
+        time.sleep(1)
+        # click signup button 
+        signup = driver.find_element(By.XPATH, '//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/span/button')
+        signup.click()
+        print('signup')
+        time.sleep(5)
+    #logincaptcha()
+   
+
+    def logincaptcha2():
+        img=driver.find_element(By.XPATH,'//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/div[4]/div/app-captcha/div/div/div/span[1]/img').is_displayed()==True
+        img.screenshot(f"{var}\logo.png")
+        im = Image.open(f"{var}\logo.png") #use PIL.Image.open if not work
+
+        captcha = pytesseract.image_to_string(im) 
+        captcha = captcha.replace(" ", "").strip()
+        # save in abc.txt file
+        with open(f"{var}\\abc.txt",mode ='w') as file:     
+            file.write(captcha) 
+            print('result',captcha)
+            print('write result',captcha) #5:14 paints  [18:22] default  5:12match
+    
+        #get element for captcha enter
+        element5 = driver.find_element(By.XPATH, "//*[@id='nlpAnswer']")
+        print('find')
+        # create action chain object
+        action = ActionChains(driver)
+        # click the item
+        action.click(on_element = element5)
+        # enter captcha
+        action.send_keys(captcha) #[18:22]]
+        action.perform()
+        print('captcha enter')
         time.sleep(4)
         # click signup button 
         signup = driver.find_element(By.XPATH, '//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/span/button')
         signup.click()
         print('signup')
         time.sleep(10)
-    logincaptcha()
-    time.sleep(4)
-
- 
+    #logincaptcha2()
+    try:
+        if driver.find_element(By.ID, "nlpImgContainer").is_displayed()==True: 
+            print("first captcha show")
+            logincaptcha()
+        elif driver.find_element(By.XPATH,'//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/div[4]/div/app-captcha/div/div/div/span[1]/img').is_displayed()==True: 
+            print("blue image captcha show")
+            logincaptcha2()
+    except Exception as e:
+        print(e)
+    
     def error_check():
         try:
             for i in range(2):
                 if driver.find_element(By.XPATH,'//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[1]').is_displayed()==True:
                     print('again enter')
                     time.sleep(5)
-                    logincaptcha()
+                    if driver.find_element(By.ID, "nlpImgContainer").is_displayed()==True: 
+                        print("error fill in first captcha")
+                        logincaptcha()
+                    elif driver.find_element(By.XPATH,'//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/div[4]/div/app-captcha/div/div/div/span[1]/img').is_displayed()==True: 
+                        print("error fill in second captcha")
+                        logincaptcha2()
                     
                 elif driver.find_element(By.XPATH,'//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[1]').is_displayed()==False:
                     print('captcha is correct')
@@ -810,7 +865,9 @@ def start():
     while True:
         pass
 
-def start2():
+def start2(user2,user2_pass):
+    print(user2)
+    print(user2_pass)
     try:    
         os.chdir('C:\\Program Files\\Google\\Chrome\\Application')
         os.system('start cmd /k "chrome.exe --remote-debugging-port=9222 --user-data-dir=E:\chromedriver_win32\chromedata2"')
@@ -847,7 +904,7 @@ def start2():
     # click the item
     action.click(on_element = element3)
     # send keys
-    action.send_keys(e1.get())
+    action.send_keys(user2)
     # perform the operation
     action.perform()
     time.sleep(2)
@@ -860,7 +917,7 @@ def start2():
     # click the item
     action.click(on_element = element4)
     # send keys
-    action.send_keys(e2.get())
+    action.send_keys(user2_pass)
     # perform the operation
     action.perform()
     time.sleep(2)
@@ -1577,7 +1634,9 @@ def start2():
     while True:
         pass
 
-def start3():
+def start3(user3,user3_pass):
+    print(user3)
+    print(user3_pass)
     try:    
         os.chdir('C:\\Program Files\\Google\\Chrome\\Application')
         os.system('start cmd /k "chrome.exe --remote-debugging-port=9223 --user-data-dir=E:\chromedriver_win32\chromedata3"')
@@ -1614,7 +1673,7 @@ def start3():
     # click the item
     action.click(on_element = element3)
     # send keys
-    action.send_keys(e1.get())
+    action.send_keys(user3)
     # perform the operation
     action.perform()
     time.sleep(2)
@@ -1627,7 +1686,7 @@ def start3():
     # click the item
     action.click(on_element = element4)
     # send keys
-    action.send_keys(e2.get())
+    action.send_keys(user3_pass)
     # perform the operation
     action.perform()
     time.sleep(2)
@@ -2345,6 +2404,8 @@ def start3():
         pass
 
 def start4():
+    # print(user4)
+    # print(user4_pass)
     try:    
         os.chdir('C:\\Program Files\\Google\\Chrome\\Application')
         os.system('start cmd /k "chrome.exe --remote-debugging-port=9224 --user-data-dir=E:\chromedriver_win32\chromedata4"')
@@ -2381,7 +2442,7 @@ def start4():
     # click the item
     action.click(on_element = element3)
     # send keys
-    action.send_keys(e1.get())
+    action.send_keys(user1)
     # perform the operation
     action.perform()
     time.sleep(2)
@@ -2394,7 +2455,7 @@ def start4():
     # click the item
     action.click(on_element = element4)
     # send keys
-    action.send_keys(e2.get())
+    action.send_keys(user1_pass)
     # perform the operation
     action.perform()
     time.sleep(2)
@@ -3112,6 +3173,8 @@ def start4():
         pass
 
 def start5():
+    # print(user5)
+    # print(user5_pass)
     try:    
         os.chdir('C:\\Program Files\\Google\\Chrome\\Application')
         os.system('start cmd /k "chrome.exe --remote-debugging-port=9225 --user-data-dir=E:\chromedriver_win32\chromedata5"')
@@ -3148,7 +3211,7 @@ def start5():
     # click the item
     action.click(on_element = element3)
     # send keys
-    action.send_keys(e1.get())
+    action.send_keys(user2)
     # perform the operation
     action.perform()
     time.sleep(2)
@@ -3161,7 +3224,7 @@ def start5():
     # click the item
     action.click(on_element = element4)
     # send keys
-    action.send_keys(e2.get())
+    action.send_keys(user2_pass)
     # perform the operation
     action.perform()
     time.sleep(2)
@@ -3880,7 +3943,7 @@ def start5():
 
 #irctc login screen
 def login_screen():
-    global e1,e2
+    global e1,e2,listbox
     page1=Frame(root,bg='sky blue', width=1200, height=550)
     page1.place(x=0,y=0)
     font1=tkfont.Font(family='Times', size=15, weight="bold")
@@ -3911,7 +3974,7 @@ def login_screen():
     e2=Entry(f1,font=("Times",12,"bold"),textvariable=password)
     e2.place(x=490, y=10,width=200,height=30)
     #save button
-    save = Button(f1, text = 'Add',bg='#FFA500',activebackground='black',font=("Times",10,"bold"), command = lambda : Add())
+    save = Button(f1, text = 'Add',bg='#FFA500',activebackground='black',font=("Times",10,"bold"), command = lambda : [Add()])
     save.place(x=330, y=120,width=200,height=30)
 
     
@@ -3920,13 +3983,14 @@ def login_screen():
     f2.place(x=250,y=220,width=740,height=330)
 
     #frame 2 button delete update login 
-    delb = Button(f2, text = 'Delete',bg='#FFA500',activebackground='black',font=("Times",10,"bold"), command = lambda : delete())
+    delb = Button(f2, text = 'Delete',bg='#FFA500',activebackground='black',font=("Times",10,"bold"), command = lambda : [delete()])
     delb.place(x=530, y=80,width=150,height=30)
-    upd = Button(f2, text = 'Update',bg='#FFA500',activebackground='black',font=("Times",10,"bold"), command = lambda : update())
+    upd = Button(f2, text = 'Update',bg='#FFA500',activebackground='black',font=("Times",10,"bold"), command = lambda : [update()])
     upd.place(x=530, y=140,width=150,height=30)
-    login = Button(f2, text = 'LOGIN',bg='#FFA500',activebackground='black',font=("Times",10,"bold"), command = lambda : book())
+    login = Button(f2, text = 'LOGIN',bg='#FFA500',activebackground='black',font=("Times",10,"bold"), command = lambda : [getrow(),book()])
     login.place(x=530, y=200,width=150,height=30)
-
+    # getdata = Button(f2, text = 'get data',bg='#FFA500',activebackground='black',font=("Times",10,"bold"), command = lambda : getrow())
+    # getdata.place(x=530, y=260,width=150,height=30)
     
         
     
@@ -3942,10 +4006,57 @@ def login_screen():
         select=listbox.set(row_id)
         e1.insert(0,select['username'])
         e2.insert(0,select['password'])
-        temp_entry.insert(0,select['name'])
+        temp_entry.insert(0,select['No.'])
+
     
+    def getrow():
+        global user1,user2,user3,user4,user5
+        global user1_pass,user2_pass,user3_pass,user4_pass,user5_pass
+        row_id=listbox.selection()
+        user_list=[]
+        pass_list=[]
+        for item in row_id:
+            c1=listbox.item(item)
+            login_users=c1.get("values") 
+            user_list.append(login_users[1]) 
+            pass_list.append(login_users[2]) 
+
+        # print(user_list) #usernames list
+        # print(pass_list) #passwords list
+        try:
+            user1=user_list[0]
+            user1_pass=pass_list[0]
+            print(user1)
+        except:
+            print("not select user 1")
+
+        try:
+            user2=user_list[1]
+            user2_pass=pass_list[1]
+            print(user2)
+        except:
+            print("not select user 2")
+        try:
+            user3=user_list[2]
+            user3_pass=pass_list[2]
+            print(user3)
+        except:
+            print("not select user 3")
+        # user4=user_list[3]
+        # user4_pass=pass_list[3]
+
+        # user5=user_list[4]
+        # user5_pass=pass_list[4]
+
+        return user_list
+
+                
+            
+            
+            
     # add user and pass in database
     def Add():
+        global username,password
         username = e1.get()
         password = e2.get()
         name=temp_entry.get()
@@ -3958,7 +4069,7 @@ def login_screen():
             mycursor.execute(sql, val)
             mysqldb.commit()
             lastid = mycursor.lastrowid
-            messagebox.showinfo("information", "Employee inserted successfully...launch app again to watch")
+            messagebox.showinfo("information", "agent id inserted successfully...launch app again to watch")
             e1.delete(0, END)
             e2.delete(0, END)
             temp_entry.delete(0,END)
@@ -4020,24 +4131,27 @@ def login_screen():
         mycursor.execute("SELECT name,username,password FROM login")
         records = mycursor.fetchall()
         print(records)
+        
         for i, (name,username,password) in enumerate(records, start=1):
             listbox.insert("", "end", values=(name,username,password))
+            
             connection.close()
-    cols=("name","username","password")
+    cols=("No.","username","password")
     listbox=ttk.Treeview(f2,columns=cols,show='headings')
-    listbox.column('username', anchor=CENTER, width=30)
-    listbox.column('password', anchor=CENTER, width=30)
-    listbox.column('name', anchor=CENTER, width=20)
+    listbox.column('username', anchor=CENTER, width=50)
+    listbox.column('password', anchor=CENTER, width=50)
+    listbox.column('No.', anchor=CENTER, width=20)
     for col in cols:
         listbox.heading(col, text=col)
         listbox.grid(row=0,column=0,columnspan=1)
         listbox.place(width=500,height=330)
+    
     show()
-    listbox.bind("<Double-Button-1>",GetValue)
+    listbox.bind("<Button-1>",GetValue)
 
 #passanger data screen
 def passanger_screen():
-    global p1,a1,g1,p2,a2,g2,p3,a3,g3,p4,a4,g4,p5,a5,g5,p6,a6,g6,from_entry,to_entry,date_entry,passanger_value,c1,count,win
+    global p1,a1,g1,p2,a2,g2,p3,a3,g3,p4,a4,g4,p5,a5,g5,p6,a6,g6,from_entry,to_entry,date_entry,passanger_value,c1,count
     
     page2=Frame(root,bg='sky blue', width=1200, height=550)
     page2.place(x=0,y=0)
@@ -4075,7 +4189,7 @@ def passanger_screen():
 
     p_count = StringVar()
     q_data = StringVar()
-    W_count= StringVar()
+   
 
 
 
@@ -4106,7 +4220,7 @@ def passanger_screen():
 
     p_count.set(passanger_value["total"])
     q_data.set(passanger_value["qouta"])
-    W_count.set(passanger_value["windows"])
+    
 
     #from label & entry
     from_label=Label(pf1,text='From :',bg='sky blue',font=font1)
@@ -4346,26 +4460,10 @@ def passanger_screen():
     c1.place(x=10,y=290,width=40,height=25)
     c1.current(0)
 
-    #label3 bank details
-    #label for num of passangers
-    w_count=Label(pf2,text='windows open',bg='sky blue',font=font1)
-    w_count.place(x=10,y=320,width=120,height=25)
-    num_of_windows = [
-        "1",
-        "2",
-        "3",
-        "4",
-        "5",
-       
-    ] 
-        # Create Dropdown menu
-    w1 = ttk.Combobox(pf2,state="readonly",values=num_of_windows,textvariable=W_count) #readonly
-    w1.place(x=10,y=340,width=40,height=25)
-    w1.current(0)
     
     print(passanger_value)
     def pass_add():
-        global date,count,qouta,win
+        global date,count,qouta
         name = p1.get()
         name2 = p2.get()
         name3 = p3.get()
@@ -4393,7 +4491,7 @@ def passanger_screen():
         date = date_entry.get()
         count=c1.get()
         qouta=Quta_entry.get()
-        win=w1.get()
+        
 
         passanger_value["name"] = name
         passanger_value["name2"] = name2
@@ -4421,7 +4519,7 @@ def passanger_screen():
         passanger_value["date"] = date
         passanger_value["total"]=count
         passanger_value["qouta"]=qouta
-        passanger_value["windows"]=win
+        
         print("Quta_entry :", Quta_entry.get())
         print(passanger_value)
         mysqldb=mysql.connector.connect(host="localhost",user="root",password="deol9646",database="train_login")
@@ -4897,12 +4995,9 @@ def fourth_screen():
     test = Label(page4,text="HOME")
     test.place(x = 50, y = 50)
 
-thread1=multiprocessing.Process(target=start)
-thread2=multiprocessing.Process(target=start2)
-thread3=multiprocessing.Process(target=start3)
-thread4=multiprocessing.Process(target=start4)
-thread5=multiprocessing.Process(target=start5)
+
 if __name__ == "__main__":
+    
     #----root window----
     root = Tk()
     root.configure(bg='sky blue')
@@ -4912,6 +5007,7 @@ if __name__ == "__main__":
     root.geometry("1200x600+200+50")
     icon=PhotoImage(file='icon.png')
     root.iconphoto(False,icon)
+    
     Button1=Button(root,text='LOGIN',command=lambda:login_screen())
     Button1.place(x=10,y=570)
     Button2=Button(root,text='PASSSENGER',command=lambda:passanger_screen())
@@ -4924,35 +5020,15 @@ if __name__ == "__main__":
 
     
     def book():
-        if qouta=='TATKAL':
-            if win=="1":
-                start()
-            elif win=="2":
-                thread1.start()
-                thread2.start()
-
-                thread1.join()
-                thread2.join()
-            elif win=="3":
-                thread1.start()
-                thread2.start()
-                thread3.start()
-
-                thread1.join()
-                thread2.join()  
-                thread3.join() 
-            elif win=="4":
-                thread1.start()
-                thread2.start()
-                thread3.start()
-                thread4.start()
-
-                thread1.join()
-                thread2.join()  
-                thread3.join()  
-                thread4.join()
-
-            elif win=="4":
+        try:
+            
+            if qouta=='TATKAL':
+                
+                thread1=multiprocessing.Process(target=start,args=(user1,user1_pass,))
+                thread2=multiprocessing.Process(target=start2,args=(user2,user2_pass,))
+                thread3=multiprocessing.Process(target=start3,args=(user3,user3_pass,))
+                thread4=multiprocessing.Process(target=start4)
+                thread5=multiprocessing.Process(target=start5)
                 thread1.start()
                 thread2.start()
                 thread3.start()
@@ -4964,9 +5040,15 @@ if __name__ == "__main__":
                 thread3.join()  
                 thread4.join()
                 thread5.join()
-
-        elif qouta=='GENERAL':
-            start()
+        
+            # print(login_users)
+            
+            elif qouta=='GENERAL':
+                start(user1,user1_pass)
+            
+        except Exception as e:
+            print(e)
+            messagebox.showerror("LOOK", e)
     root.mainloop()
 
 
