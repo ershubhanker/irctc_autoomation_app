@@ -20,15 +20,15 @@ from PIL import Image,ImageFilter
 from functools import partial
 import pytesseract
 import os
-pytesseract.pytesseract.tesseract_cmd=r"C:\\Program Files\\Tesseract-OCR\\tesseract.exe"
-import mysql.connector
-connection=mysql.connector.connect(host='localhost',username='root',password='deol9646',database="train_login")
 from tkcalendar import DateEntry
 import multiprocessing
+pytesseract.pytesseract.tesseract_cmd=r"C:\\Program Files\\Tesseract-OCR\\tesseract.exe"
+import mysql.connector
+mysqldb=mysql.connector.connect(host='localhost',username='root',password='deol9646',database="train_login")
 #database connect
-my_conn = connection.cursor()
+mycursor = mysqldb.cursor()
 # create login table
-my_conn.execute('''create table if not exists login(username text ,password text ,name text)''')
+mycursor.execute('''create table if not exists login(username text ,password text ,name text)''')
 
 
 
@@ -197,7 +197,7 @@ def start(user1,user1_pass):
             print("blue image captcha show")
             logincaptcha2()
     except Exception as e:
-        print(e)
+        print('error in captcha load')
     
     def error_check():
         try:
@@ -663,7 +663,7 @@ def start(user1,user1_pass):
         
         #upi or QR
         try:
-            roserpay = driver.find_element(By.XPATH, '//*[@id="form-common"]/div[1]/div/div/div/div/div/button[1]/div/div[1]/div[1]')
+            roserpay = driver.find_element(By.XPATH, '//*[@id="form-common"]/div[1]/div[1]/div/div/div/div/button[1]/div/div[1]')
             roserpay.click()
             print('upi or QR')
             time.sleep(2)
@@ -922,12 +922,12 @@ def start2(user2,user2_pass):
     action.perform()
     time.sleep(2)
     print('password entered')
+    time.sleep(5)
     #image function for captcha
 
-    print("File location using os.getcwd():", os.getcwd())
-
+    #print("File location using os.getcwd():", os.getcwd())
     def  logincaptcha():
-        img=driver.find_element(By.ID, "nlpImgContainer") #By.ID, "nlpImgContainer"
+        img=driver.find_element(By.ID, "nlpImgContainer") #By.ID, "nlpImgContainer" '//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/div[4]/div/app-captcha/div/div/div/span[1]/img'
         img.screenshot(f"{var}\logo.png")
         im = Image.open(f"{var}\logo.png") #use PIL.Image.open if not work
         left = 0
@@ -963,23 +963,68 @@ def start2(user2,user2_pass):
         action.send_keys(captcha[18:22]) #[18:22]]
         action.perform()
         print('captcha enter')
+        time.sleep(1)
+        # click signup button 
+        signup = driver.find_element(By.XPATH, '//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/span/button')
+        signup.click()
+        print('signup')
+        time.sleep(5)
+    #logincaptcha()
+   
+
+    def logincaptcha2():
+        img=driver.find_element(By.XPATH,'//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/div[4]/div/app-captcha/div/div/div/span[1]/img').is_displayed()==True
+        img.screenshot(f"{var}\logo.png")
+        im = Image.open(f"{var}\logo.png") #use PIL.Image.open if not work
+
+        captcha = pytesseract.image_to_string(im) 
+        captcha = captcha.replace(" ", "").strip()
+        # save in abc.txt file
+        with open(f"{var}\\abc.txt",mode ='w') as file:     
+            file.write(captcha) 
+            print('result',captcha)
+            print('write result',captcha) #5:14 paints  [18:22] default  5:12match
+    
+        #get element for captcha enter
+        element5 = driver.find_element(By.XPATH, "//*[@id='nlpAnswer']")
+        print('find')
+        # create action chain object
+        action = ActionChains(driver)
+        # click the item
+        action.click(on_element = element5)
+        # enter captcha
+        action.send_keys(captcha) #[18:22]]
+        action.perform()
+        print('captcha enter')
         time.sleep(4)
         # click signup button 
         signup = driver.find_element(By.XPATH, '//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/span/button')
         signup.click()
         print('signup')
         time.sleep(10)
-    logincaptcha()
-    time.sleep(4)
-
- 
+    #logincaptcha2()
+    try:
+        if driver.find_element(By.ID, "nlpImgContainer").is_displayed()==True: 
+            print("first captcha show")
+            logincaptcha()
+        elif driver.find_element(By.XPATH,'//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/div[4]/div/app-captcha/div/div/div/span[1]/img').is_displayed()==True: 
+            print("blue image captcha show")
+            logincaptcha2()
+    except Exception as e:
+        print('error in captcha load')
+    
     def error_check():
         try:
             for i in range(2):
                 if driver.find_element(By.XPATH,'//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[1]').is_displayed()==True:
                     print('again enter')
                     time.sleep(5)
-                    logincaptcha()
+                    if driver.find_element(By.ID, "nlpImgContainer").is_displayed()==True: 
+                        print("error fill in first captcha")
+                        logincaptcha()
+                    elif driver.find_element(By.XPATH,'//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/div[4]/div/app-captcha/div/div/div/span[1]/img').is_displayed()==True: 
+                        print("error fill in second captcha")
+                        logincaptcha2()
                     
                 elif driver.find_element(By.XPATH,'//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[1]').is_displayed()==False:
                     print('captcha is correct')
@@ -1691,12 +1736,12 @@ def start3(user3,user3_pass):
     action.perform()
     time.sleep(2)
     print('password entered')
+    time.sleep(5)
     #image function for captcha
 
-    print("File location using os.getcwd():", os.getcwd())
-
+    #print("File location using os.getcwd():", os.getcwd())
     def  logincaptcha():
-        img=driver.find_element(By.ID, "nlpImgContainer") #By.ID, "nlpImgContainer"
+        img=driver.find_element(By.ID, "nlpImgContainer") #By.ID, "nlpImgContainer" '//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/div[4]/div/app-captcha/div/div/div/span[1]/img'
         img.screenshot(f"{var}\logo.png")
         im = Image.open(f"{var}\logo.png") #use PIL.Image.open if not work
         left = 0
@@ -1732,23 +1777,68 @@ def start3(user3,user3_pass):
         action.send_keys(captcha[18:22]) #[18:22]]
         action.perform()
         print('captcha enter')
+        time.sleep(1)
+        # click signup button 
+        signup = driver.find_element(By.XPATH, '//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/span/button')
+        signup.click()
+        print('signup')
+        time.sleep(5)
+    #logincaptcha()
+   
+
+    def logincaptcha2():
+        img=driver.find_element(By.XPATH,'//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/div[4]/div/app-captcha/div/div/div/span[1]/img').is_displayed()==True
+        img.screenshot(f"{var}\logo.png")
+        im = Image.open(f"{var}\logo.png") #use PIL.Image.open if not work
+
+        captcha = pytesseract.image_to_string(im) 
+        captcha = captcha.replace(" ", "").strip()
+        # save in abc.txt file
+        with open(f"{var}\\abc.txt",mode ='w') as file:     
+            file.write(captcha) 
+            print('result',captcha)
+            print('write result',captcha) #5:14 paints  [18:22] default  5:12match
+    
+        #get element for captcha enter
+        element5 = driver.find_element(By.XPATH, "//*[@id='nlpAnswer']")
+        print('find')
+        # create action chain object
+        action = ActionChains(driver)
+        # click the item
+        action.click(on_element = element5)
+        # enter captcha
+        action.send_keys(captcha) #[18:22]]
+        action.perform()
+        print('captcha enter')
         time.sleep(4)
         # click signup button 
         signup = driver.find_element(By.XPATH, '//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/span/button')
         signup.click()
         print('signup')
         time.sleep(10)
-    logincaptcha()
-    time.sleep(4)
-
- 
+    #logincaptcha2()
+    try:
+        if driver.find_element(By.ID, "nlpImgContainer").is_displayed()==True: 
+            print("first captcha show")
+            logincaptcha()
+        elif driver.find_element(By.XPATH,'//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/div[4]/div/app-captcha/div/div/div/span[1]/img').is_displayed()==True: 
+            print("blue image captcha show")
+            logincaptcha2()
+    except Exception as e:
+        print('error in captcha load')
+    
     def error_check():
         try:
             for i in range(2):
                 if driver.find_element(By.XPATH,'//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[1]').is_displayed()==True:
                     print('again enter')
                     time.sleep(5)
-                    logincaptcha()
+                    if driver.find_element(By.ID, "nlpImgContainer").is_displayed()==True: 
+                        print("error fill in first captcha")
+                        logincaptcha()
+                    elif driver.find_element(By.XPATH,'//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/div[4]/div/app-captcha/div/div/div/span[1]/img').is_displayed()==True: 
+                        print("error fill in second captcha")
+                        logincaptcha2()
                     
                 elif driver.find_element(By.XPATH,'//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[1]').is_displayed()==False:
                     print('captcha is correct')
@@ -2460,12 +2550,12 @@ def start4():
     action.perform()
     time.sleep(2)
     print('password entered')
+    time.sleep(5)
     #image function for captcha
 
-    print("File location using os.getcwd():", os.getcwd())
-
+    #print("File location using os.getcwd():", os.getcwd())
     def  logincaptcha():
-        img=driver.find_element(By.ID, "nlpImgContainer") #By.ID, "nlpImgContainer"
+        img=driver.find_element(By.ID, "nlpImgContainer") #By.ID, "nlpImgContainer" '//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/div[4]/div/app-captcha/div/div/div/span[1]/img'
         img.screenshot(f"{var}\logo.png")
         im = Image.open(f"{var}\logo.png") #use PIL.Image.open if not work
         left = 0
@@ -2501,23 +2591,68 @@ def start4():
         action.send_keys(captcha[18:22]) #[18:22]]
         action.perform()
         print('captcha enter')
+        time.sleep(1)
+        # click signup button 
+        signup = driver.find_element(By.XPATH, '//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/span/button')
+        signup.click()
+        print('signup')
+        time.sleep(5)
+    #logincaptcha()
+   
+
+    def logincaptcha2():
+        img=driver.find_element(By.XPATH,'//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/div[4]/div/app-captcha/div/div/div/span[1]/img').is_displayed()==True
+        img.screenshot(f"{var}\logo.png")
+        im = Image.open(f"{var}\logo.png") #use PIL.Image.open if not work
+
+        captcha = pytesseract.image_to_string(im) 
+        captcha = captcha.replace(" ", "").strip()
+        # save in abc.txt file
+        with open(f"{var}\\abc.txt",mode ='w') as file:     
+            file.write(captcha) 
+            print('result',captcha)
+            print('write result',captcha) #5:14 paints  [18:22] default  5:12match
+    
+        #get element for captcha enter
+        element5 = driver.find_element(By.XPATH, "//*[@id='nlpAnswer']")
+        print('find')
+        # create action chain object
+        action = ActionChains(driver)
+        # click the item
+        action.click(on_element = element5)
+        # enter captcha
+        action.send_keys(captcha) #[18:22]]
+        action.perform()
+        print('captcha enter')
         time.sleep(4)
         # click signup button 
         signup = driver.find_element(By.XPATH, '//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/span/button')
         signup.click()
         print('signup')
         time.sleep(10)
-    logincaptcha()
-    time.sleep(4)
-
- 
+    #logincaptcha2()
+    try:
+        if driver.find_element(By.ID, "nlpImgContainer").is_displayed()==True: 
+            print("first captcha show")
+            logincaptcha()
+        elif driver.find_element(By.XPATH,'//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/div[4]/div/app-captcha/div/div/div/span[1]/img').is_displayed()==True: 
+            print("blue image captcha show")
+            logincaptcha2()
+    except Exception as e:
+        print('error in captcha load')
+    
     def error_check():
         try:
             for i in range(2):
                 if driver.find_element(By.XPATH,'//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[1]').is_displayed()==True:
                     print('again enter')
                     time.sleep(5)
-                    logincaptcha()
+                    if driver.find_element(By.ID, "nlpImgContainer").is_displayed()==True: 
+                        print("error fill in first captcha")
+                        logincaptcha()
+                    elif driver.find_element(By.XPATH,'//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/div[4]/div/app-captcha/div/div/div/span[1]/img').is_displayed()==True: 
+                        print("error fill in second captcha")
+                        logincaptcha2()
                     
                 elif driver.find_element(By.XPATH,'//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[1]').is_displayed()==False:
                     print('captcha is correct')
@@ -3229,12 +3364,12 @@ def start5():
     action.perform()
     time.sleep(2)
     print('password entered')
+    time.sleep(5)
     #image function for captcha
 
-    print("File location using os.getcwd():", os.getcwd())
-
+    #print("File location using os.getcwd():", os.getcwd())
     def  logincaptcha():
-        img=driver.find_element(By.ID, "nlpImgContainer") #By.ID, "nlpImgContainer"
+        img=driver.find_element(By.ID, "nlpImgContainer") #By.ID, "nlpImgContainer" '//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/div[4]/div/app-captcha/div/div/div/span[1]/img'
         img.screenshot(f"{var}\logo.png")
         im = Image.open(f"{var}\logo.png") #use PIL.Image.open if not work
         left = 0
@@ -3270,23 +3405,68 @@ def start5():
         action.send_keys(captcha[18:22]) #[18:22]]
         action.perform()
         print('captcha enter')
+        time.sleep(1)
+        # click signup button 
+        signup = driver.find_element(By.XPATH, '//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/span/button')
+        signup.click()
+        print('signup')
+        time.sleep(5)
+    #logincaptcha()
+   
+
+    def logincaptcha2():
+        img=driver.find_element(By.XPATH,'//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/div[4]/div/app-captcha/div/div/div/span[1]/img').is_displayed()==True
+        img.screenshot(f"{var}\logo.png")
+        im = Image.open(f"{var}\logo.png") #use PIL.Image.open if not work
+
+        captcha = pytesseract.image_to_string(im) 
+        captcha = captcha.replace(" ", "").strip()
+        # save in abc.txt file
+        with open(f"{var}\\abc.txt",mode ='w') as file:     
+            file.write(captcha) 
+            print('result',captcha)
+            print('write result',captcha) #5:14 paints  [18:22] default  5:12match
+    
+        #get element for captcha enter
+        element5 = driver.find_element(By.XPATH, "//*[@id='nlpAnswer']")
+        print('find')
+        # create action chain object
+        action = ActionChains(driver)
+        # click the item
+        action.click(on_element = element5)
+        # enter captcha
+        action.send_keys(captcha) #[18:22]]
+        action.perform()
+        print('captcha enter')
         time.sleep(4)
         # click signup button 
         signup = driver.find_element(By.XPATH, '//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/span/button')
         signup.click()
         print('signup')
         time.sleep(10)
-    logincaptcha()
-    time.sleep(4)
-
- 
+    #logincaptcha2()
+    try:
+        if driver.find_element(By.ID, "nlpImgContainer").is_displayed()==True: 
+            print("first captcha show")
+            logincaptcha()
+        elif driver.find_element(By.XPATH,'//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/div[4]/div/app-captcha/div/div/div/span[1]/img').is_displayed()==True: 
+            print("blue image captcha show")
+            logincaptcha2()
+    except Exception as e:
+        print('error in captcha load')
+    
     def error_check():
         try:
             for i in range(2):
                 if driver.find_element(By.XPATH,'//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[1]').is_displayed()==True:
                     print('again enter')
                     time.sleep(5)
-                    logincaptcha()
+                    if driver.find_element(By.ID, "nlpImgContainer").is_displayed()==True: 
+                        print("error fill in first captcha")
+                        logincaptcha()
+                    elif driver.find_element(By.XPATH,'//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/div[4]/div/app-captcha/div/div/div/span[1]/img').is_displayed()==True: 
+                        print("error fill in second captcha")
+                        logincaptcha2()
                     
                 elif driver.find_element(By.XPATH,'//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[1]').is_displayed()==False:
                     print('captcha is correct')
@@ -4135,7 +4315,7 @@ def login_screen():
         for i, (name,username,password) in enumerate(records, start=1):
             listbox.insert("", "end", values=(name,username,password))
             
-            connection.close()
+            mysqldb.close()
     cols=("No.","username","password")
     listbox=ttk.Treeview(f2,columns=cols,show='headings')
     listbox.column('username', anchor=CENTER, width=50)
@@ -4148,7 +4328,7 @@ def login_screen():
     
     show()
     listbox.bind("<Button-1>",GetValue)
-
+    navigate()
 #passanger data screen
 def passanger_screen():
     global p1,a1,g1,p2,a2,g2,p3,a3,g3,p4,a4,g4,p5,a5,g5,p6,a6,g6,from_entry,to_entry,date_entry,passanger_value,c1,count
@@ -4373,7 +4553,7 @@ def passanger_screen():
 
     #berth
     label4=Label(pf2,text='Berth',bg='sky blue',font=font1)
-    label4.place(x=277,y=150,width=80,height=25)
+    label4.place(x=277,y=60,width=80,height=25)
     berth = [
         "No Choice",
         " ",
@@ -4526,7 +4706,7 @@ def passanger_screen():
         mycursor=mysqldb.cursor()
     
         try:
-            my_conn.execute('''create table if not exists passanger_data(name text ,age text ,gender text ,
+            mycursor.execute('''create table if not exists passanger_data(name text ,age text ,gender text ,
             name2 text ,age2 text ,gender2 text,
             name3 text ,age3 text ,gender3 text,
             name4 text ,age4 text ,gender4 text,
@@ -4582,7 +4762,7 @@ def passanger_screen():
             print(e)
             mysqldb.rollback()
             mysqldb.close()
-
+    navigate()
 def payment_screen():
     global payment_value,upibutton,Debitbutton,meth
     font1=tkfont.Font(family='Times', size=15, weight="bold")
@@ -4988,16 +5168,52 @@ def payment_screen():
         m1 = ttk.Combobox(page3,state="readonly",values=method,textvariable=p_method) #readonly
         m1.place(x=390,y=500,width=60,height=30)
         m1.current(0)
-    
+    navigate()
 def fourth_screen():
     page4=Frame(root,bg='green', width=1200, height=550)
     page4.place(x=0,y=0)
     test = Label(page4,text="HOME")
     test.place(x = 50, y = 50)
+def key_screen():
+    global keyentry
+    keyframe=Frame(root,bg="white")
+    keyframe.place(x=400,y=200,width=400,height=200)
+    keylabel=Label(keyframe,text='Enter Key ',bg='white',font= ("Courier", 10))
+    keylabel.place(x=60,y=60)
+    
+    keyentry=Entry(keyframe,bd=2,font= ("Courier", 12))
+    keyentry.place(x=150,y=60,width=150,height=25)
+    keysubmit=Button(keyframe,text="Submit",font= ("Courier", 12),bg='sky blue',activebackground="black"
+    ,activeforeground='sky blue', relief="ridge",command=lambda:submitkey())
+    keysubmit.place(x=150,y=100,width=90,height=30)
+
+    def submitkey():
+        k1='sarb'
+        if keyentry.get()==k1:
+            print('login success')
+            login_screen()
+        else:
+            print('key error')
+        
+        L_key=keyentry.get()
+        print(L_key)
+        mysqldb=mysql.connector.connect(host="localhost",user="root",password="deol9646",database="train_login")
+        mycursor=mysqldb.cursor()
+
+        try:
+            mycursor.execute('''create table if not exists licence_key(id int(15) auto_increment,L_key text, primary key(id))''')
+            sql = "INSERT INTO  licence_key (ID,L_KEY) VALUES (%s,%s)"
+            val = (0,L_key)
+            mycursor.execute(sql, val)
+            mysqldb.commit()
+        except Exception as e:
+            print(e)
+            mysqldb.rollback()
+            mysqldb.close()
+    
 
 
 if __name__ == "__main__":
-    
     #----root window----
     root = Tk()
     root.configure(bg='sky blue')
@@ -5007,18 +5223,35 @@ if __name__ == "__main__":
     root.geometry("1200x600+200+50")
     icon=PhotoImage(file='icon.png')
     root.iconphoto(False,icon)
+    # key()
+    def navigate():
+        Button1=Button(root,text='LOGIN',command=lambda:login_screen())
+        Button1.place(x=10,y=570)
+        Button2=Button(root,text='PASSSENGER',command=lambda:passanger_screen())
+        Button2.place(x=65,y=570)
+        Button3=Button(root,text='PAYMENT',command=lambda:payment_screen())
+        Button3.place(x=155,y=570)
+        Button3=Button(root,text='HOME',command=lambda:fourth_screen())
+        Button3.place(x=230,y=570)
     
-    Button1=Button(root,text='LOGIN',command=lambda:login_screen())
-    Button1.place(x=10,y=570)
-    Button2=Button(root,text='PASSSENGER',command=lambda:passanger_screen())
-    Button2.place(x=65,y=570)
-    Button3=Button(root,text='PAYMENT',command=lambda:payment_screen())
-    Button3.place(x=155,y=570)
-    Button3=Button(root,text='HOME',command=lambda:fourth_screen())
-    Button3.place(x=230,y=570)
+    mycursor.execute('''create table if not exists licence_key(id int(15) auto_increment,L_key text, primary key(id))''')
+    query="SELECT L_key FROM licence_key" 
+    mycursor.execute(query)
+    rows=mycursor.fetchall()
+    #print(rows[0][0])
+    for row in rows:
+        print('data',row[0])
+    try:
+        if row[0] =="sarb":
+            print('log in ')
+            navigate()
+    except:
+        print('not found')
+        key_screen()
 
-
+    mysqldb.close()
     
+    # key_screen()
     def book():
         try:
             
@@ -5049,6 +5282,9 @@ if __name__ == "__main__":
         except Exception as e:
             print(e)
             messagebox.showerror("LOOK", e)
+    
+    
+
     root.mainloop()
 
 
