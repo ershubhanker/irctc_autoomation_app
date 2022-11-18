@@ -42,8 +42,8 @@ method_pay={'method_p':""}
 var=os.getcwd()
 # a=f"{var}\logo.png"
 # print(a)
-global user1,user2,user3
-global user1_pass,user2_pass,user3_pass
+global user1,user2,user3,user4,user5
+global user1_pass,user2_pass,user3_pass,user4_pass,user5_pass
 
 #irctc website fuction
 def start(user1,user1_pass):
@@ -63,17 +63,7 @@ def start(user1,user1_pass):
     
     driver.maximize_window()
     driver.get("https://www.irctc.co.in/nget/train-search")
-
-    # click ok
-    try:
-        if driver.find_element(By.XPATH, "/html/body/app-root/app-home/div[1]/app-header/p-dialog[2]/div/div/div[2]/div/form/div[2]/button").is_displayed()==True:
-            element = driver.find_element(By.XPATH, "/html/body/app-root/app-home/div[1]/app-header/p-dialog[2]/div/div/div[2]/div/form/div[2]/button")
-            element.click()
-            time.sleep(2)
-        else:
-            pass
-    except :
-        print("ok not found")
+    
 
     #get element for login button
     element2 = driver.find_element(By.XPATH, '/html/body/app-root/app-home/div[1]/app-header/div[2]/div[2]/div[1]/a[1]')
@@ -94,7 +84,7 @@ def start(user1,user1_pass):
     # perform the operation
     action.perform()
     time.sleep(1)
-    print('username entered')
+    print('username 1 entered')
 
     # get element for password
     element4 = driver.find_element(By.XPATH, '/html/body/app-root/app-home/div[3]/app-login/p-dialog[1]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/div[2]/input')
@@ -107,7 +97,7 @@ def start(user1,user1_pass):
     # perform the operation
     action.perform()
     
-    print('password entered')
+    print('password 1 entered')
     time.sleep(5)
     #image function for captcha
 
@@ -148,12 +138,12 @@ def start(user1,user1_pass):
         # enter captcha
         action.send_keys(captcha[18:22]) #[18:22]]
         action.perform()
-        print('captcha enter')
+        print('captcha enter 1')
         time.sleep(1)
         # click signup button 
         signup = driver.find_element(By.XPATH, '//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/span/button')
         signup.click()
-        print('signup')
+        print('signup 1')
         time.sleep(5)
     #logincaptcha()
    
@@ -793,7 +783,7 @@ def start(user1,user1_pass):
         roserpay.click()
         print('Debit/credit card')
         time.sleep(2)
-#
+
         #click on card number
         card_number = driver.find_element(By.XPATH,'//*[@id="card_number"]')
         card_number.click()
@@ -866,8 +856,7 @@ def start(user1,user1_pass):
         pass
 
 def start2(user2,user2_pass):
-    print(user2)
-    print(user2_pass)
+   
     try:    
         os.chdir('C:\\Program Files\\Google\\Chrome\\Application')
         os.system('start cmd /k "chrome.exe --remote-debugging-port=9222 --user-data-dir=E:\chromedriver_win32\chromedata2"')
@@ -881,16 +870,7 @@ def start2(user2,user2_pass):
     driver.maximize_window()
     driver.get("https://www.irctc.co.in/nget/train-search")
 
-    # click ok
-    try:
-        if driver.find_element(By.XPATH, "/html/body/app-root/app-home/div[1]/app-header/p-dialog[2]/div/div/div[2]/div/form/div[2]/button").is_displayed()==True:
-            element = driver.find_element(By.XPATH, "/html/body/app-root/app-home/div[1]/app-header/p-dialog[2]/div/div/div[2]/div/form/div[2]/button")
-            element.click()
-            time.sleep(2)
-        else:
-            pass
-    except Exception as e:
-        print(e)
+
 
     #get element for login button
     element2 = driver.find_element(By.XPATH, '/html/body/app-root/app-home/div[1]/app-header/div[2]/div[2]/div[1]/a[1]')
@@ -908,7 +888,7 @@ def start2(user2,user2_pass):
     # perform the operation
     action.perform()
     time.sleep(2)
-    print('username entered')
+    print('username 2 entered ')
 
     # get element for password
     element4 = driver.find_element(By.XPATH, '/html/body/app-root/app-home/div[3]/app-login/p-dialog[1]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/div[2]/input')
@@ -921,15 +901,15 @@ def start2(user2,user2_pass):
     # perform the operation
     action.perform()
     time.sleep(2)
-    print('password entered')
+    print('password 2 entered')
     time.sleep(5)
     #image function for captcha
 
     #print("File location using os.getcwd():", os.getcwd())
     def  logincaptcha():
         img=driver.find_element(By.ID, "nlpImgContainer") #By.ID, "nlpImgContainer" '//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/div[4]/div/app-captcha/div/div/div/span[1]/img'
-        img.screenshot(f"{var}\logo.png")
-        im = Image.open(f"{var}\logo.png") #use PIL.Image.open if not work
+        img.screenshot(f"{var}\logo_2.png")
+        im = Image.open(f"{var}\logo_2.png") #use PIL.Image.open if not work
         left = 0
         top = 250
         right = 300
@@ -942,12 +922,12 @@ def start2(user2,user2_pass):
         # Cropped image of above dimension
         # (It will not change original image)
         im1 = im.crop((left, top, right, bottom))
-        im1.save(f"{var}\crop.png" ,quality=100)
+        im1.save(f"{var}\crop_2.png" ,quality=100)
         print('image address:',im1) 
         captcha = pytesseract.image_to_string(im1) 
         captcha = captcha.replace(" ", "").strip()
         # save in abc.txt file
-        with open(f"{var}\\abc.txt",mode ='w') as file:     
+        with open(f"{var}\\abc_2.txt",mode ='w') as file:     
             file.write(captcha) 
             print('result',captcha)
             print('write result',captcha[18:22]) #5:14 paints  [18:22] default  5:12match
@@ -974,13 +954,13 @@ def start2(user2,user2_pass):
 
     def logincaptcha2():
         img=driver.find_element(By.XPATH,'//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/div[4]/div/app-captcha/div/div/div/span[1]/img').is_displayed()==True
-        img.screenshot(f"{var}\logo.png")
-        im = Image.open(f"{var}\logo.png") #use PIL.Image.open if not work
+        img.screenshot(f"{var}\logo_2.png")
+        im = Image.open(f"{var}\logo_2.png") #use PIL.Image.open if not work
 
         captcha = pytesseract.image_to_string(im) 
         captcha = captcha.replace(" ", "").strip()
         # save in abc.txt file
-        with open(f"{var}\\abc.txt",mode ='w') as file:     
+        with open(f"{var}\\abc_2.txt",mode ='w') as file:     
             file.write(captcha) 
             print('result',captcha)
             print('write result',captcha) #5:14 paints  [18:22] default  5:12match
@@ -1029,7 +1009,7 @@ def start2(user2,user2_pass):
                 elif driver.find_element(By.XPATH,'//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[1]').is_displayed()==False:
                     print('captcha is correct')
         except:
-            print('captcha is corrects')
+            print('captcha is corrects 2')
     # label_show==False
     error_check()
    
@@ -1680,8 +1660,7 @@ def start2(user2,user2_pass):
         pass
 
 def start3(user3,user3_pass):
-    print(user3)
-    print(user3_pass)
+    
     try:    
         os.chdir('C:\\Program Files\\Google\\Chrome\\Application')
         os.system('start cmd /k "chrome.exe --remote-debugging-port=9223 --user-data-dir=E:\chromedriver_win32\chromedata3"')
@@ -1695,16 +1674,7 @@ def start3(user3,user3_pass):
     driver.maximize_window()
     driver.get("https://www.irctc.co.in/nget/train-search")
 
-    # click ok
-    try:
-        if driver.find_element(By.XPATH, "/html/body/app-root/app-home/div[1]/app-header/p-dialog[2]/div/div/div[2]/div/form/div[2]/button").is_displayed()==True:
-            element = driver.find_element(By.XPATH, "/html/body/app-root/app-home/div[1]/app-header/p-dialog[2]/div/div/div[2]/div/form/div[2]/button")
-            element.click()
-            time.sleep(2)
-        else:
-            pass
-    except Exception as e:
-        print(e)
+
 
     #get element for login button
     element2 = driver.find_element(By.XPATH, '/html/body/app-root/app-home/div[1]/app-header/div[2]/div[2]/div[1]/a[1]')
@@ -1722,7 +1692,7 @@ def start3(user3,user3_pass):
     # perform the operation
     action.perform()
     time.sleep(2)
-    print('username entered')
+    print('username 3 entered')
 
     # get element for password
     element4 = driver.find_element(By.XPATH, '/html/body/app-root/app-home/div[3]/app-login/p-dialog[1]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/div[2]/input')
@@ -1735,15 +1705,15 @@ def start3(user3,user3_pass):
     # perform the operation
     action.perform()
     time.sleep(2)
-    print('password entered')
+    print('password 3 entered')
     time.sleep(5)
     #image function for captcha
 
     #print("File location using os.getcwd():", os.getcwd())
     def  logincaptcha():
         img=driver.find_element(By.ID, "nlpImgContainer") #By.ID, "nlpImgContainer" '//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/div[4]/div/app-captcha/div/div/div/span[1]/img'
-        img.screenshot(f"{var}\logo.png")
-        im = Image.open(f"{var}\logo.png") #use PIL.Image.open if not work
+        img.screenshot(f"{var}\logo_3.png")
+        im = Image.open(f"{var}\logo_3.png") #use PIL.Image.open if not work
         left = 0
         top = 250
         right = 300
@@ -1756,12 +1726,12 @@ def start3(user3,user3_pass):
         # Cropped image of above dimension
         # (It will not change original image)
         im1 = im.crop((left, top, right, bottom))
-        im1.save(f"{var}\crop.png" ,quality=100)
+        im1.save(f"{var}\crop_3.png" ,quality=100)
         print('image address:',im1) 
         captcha = pytesseract.image_to_string(im1) 
         captcha = captcha.replace(" ", "").strip()
         # save in abc.txt file
-        with open(f"{var}\\abc.txt",mode ='w') as file:     
+        with open(f"{var}\\abc_3.txt",mode ='w') as file:     
             file.write(captcha) 
             print('result',captcha)
             print('write result',captcha[18:22]) #5:14 paints  [18:22] default  5:12match
@@ -1783,18 +1753,18 @@ def start3(user3,user3_pass):
         signup.click()
         print('signup')
         time.sleep(5)
-    #logincaptcha()
+  
    
 
     def logincaptcha2():
         img=driver.find_element(By.XPATH,'//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/div[4]/div/app-captcha/div/div/div/span[1]/img').is_displayed()==True
-        img.screenshot(f"{var}\logo.png")
-        im = Image.open(f"{var}\logo.png") #use PIL.Image.open if not work
+        img.screenshot(f"{var}\logo_3.png")
+        im = Image.open(f"{var}\logo_3.png") #use PIL.Image.open if not work
 
         captcha = pytesseract.image_to_string(im) 
         captcha = captcha.replace(" ", "").strip()
         # save in abc.txt file
-        with open(f"{var}\\abc.txt",mode ='w') as file:     
+        with open(f"{var}\\abc_3.txt",mode ='w') as file:     
             file.write(captcha) 
             print('result',captcha)
             print('write result',captcha) #5:14 paints  [18:22] default  5:12match
@@ -1816,7 +1786,7 @@ def start3(user3,user3_pass):
         signup.click()
         print('signup')
         time.sleep(10)
-    #logincaptcha2()
+
     try:
         if driver.find_element(By.ID, "nlpImgContainer").is_displayed()==True: 
             print("first captcha show")
@@ -1844,7 +1814,7 @@ def start3(user3,user3_pass):
                     print('captcha is correct')
         except:
             print('captcha is corrects')
-    # label_show==False
+    
     error_check()
    
     time.sleep(4)
@@ -1931,10 +1901,7 @@ def start3(user3,user3_pass):
     book = driver.find_element(By.XPATH, '//*[@id="divMain"]/div/app-train-list/div[4]/div/div[5]/div[1]/div[1]/app-train-avl-enq/div[2]/div/span/span[1]/button')
     book.click()
     time.sleep(8)
-    # #agree
-    # agree = driver.find_element(By.XPATH, '//*[@id="divMain"]/div/app-train-list/p-confirmdialog[1]/div/div/div[3]/button[1]/span[2]')
-    # agree.click()
-    # time.sleep(4)
+    
 
     
     
@@ -2493,9 +2460,8 @@ def start3(user3,user3_pass):
     while True:
         pass
 
-def start4():
-    # print(user4)
-    # print(user4_pass)
+def start4(user4,user4_pass):
+    
     try:    
         os.chdir('C:\\Program Files\\Google\\Chrome\\Application')
         os.system('start cmd /k "chrome.exe --remote-debugging-port=9224 --user-data-dir=E:\chromedriver_win32\chromedata4"')
@@ -2509,16 +2475,7 @@ def start4():
     driver.maximize_window()
     driver.get("https://www.irctc.co.in/nget/train-search")
 
-    # click ok
-    try:
-        if driver.find_element(By.XPATH, "/html/body/app-root/app-home/div[1]/app-header/p-dialog[2]/div/div/div[2]/div/form/div[2]/button").is_displayed()==True:
-            element = driver.find_element(By.XPATH, "/html/body/app-root/app-home/div[1]/app-header/p-dialog[2]/div/div/div[2]/div/form/div[2]/button")
-            element.click()
-            time.sleep(2)
-        else:
-            pass
-    except Exception as e:
-        print(e)
+
 
     #get element for login button
     element2 = driver.find_element(By.XPATH, '/html/body/app-root/app-home/div[1]/app-header/div[2]/div[2]/div[1]/a[1]')
@@ -2532,11 +2489,11 @@ def start4():
     # click the item
     action.click(on_element = element3)
     # send keys
-    action.send_keys(user1)
+    action.send_keys(user4)
     # perform the operation
     action.perform()
     time.sleep(2)
-    print('username entered')
+    print('username 4 entered')
 
     # get element for password
     element4 = driver.find_element(By.XPATH, '/html/body/app-root/app-home/div[3]/app-login/p-dialog[1]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/div[2]/input')
@@ -2545,19 +2502,19 @@ def start4():
     # click the item
     action.click(on_element = element4)
     # send keys
-    action.send_keys(user1_pass)
+    action.send_keys(user4_pass)
     # perform the operation
     action.perform()
     time.sleep(2)
-    print('password entered')
+    print('password 4 entered')
     time.sleep(5)
     #image function for captcha
 
     #print("File location using os.getcwd():", os.getcwd())
     def  logincaptcha():
         img=driver.find_element(By.ID, "nlpImgContainer") #By.ID, "nlpImgContainer" '//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/div[4]/div/app-captcha/div/div/div/span[1]/img'
-        img.screenshot(f"{var}\logo.png")
-        im = Image.open(f"{var}\logo.png") #use PIL.Image.open if not work
+        img.screenshot(f"{var}\logo_4.png")
+        im = Image.open(f"{var}\logo_4.png") #use PIL.Image.open if not work
         left = 0
         top = 250
         right = 300
@@ -2570,12 +2527,12 @@ def start4():
         # Cropped image of above dimension
         # (It will not change original image)
         im1 = im.crop((left, top, right, bottom))
-        im1.save(f"{var}\crop.png" ,quality=100)
+        im1.save(f"{var}\crop_4.png" ,quality=100)
         print('image address:',im1) 
         captcha = pytesseract.image_to_string(im1) 
         captcha = captcha.replace(" ", "").strip()
         # save in abc.txt file
-        with open(f"{var}\\abc.txt",mode ='w') as file:     
+        with open(f"{var}\\abc_4.txt",mode ='w') as file:     
             file.write(captcha) 
             print('result',captcha)
             print('write result',captcha[18:22]) #5:14 paints  [18:22] default  5:12match
@@ -3307,9 +3264,8 @@ def start4():
     while True:
         pass
 
-def start5():
-    # print(user5)
-    # print(user5_pass)
+def start5(user5,user5_pass):
+    
     try:    
         os.chdir('C:\\Program Files\\Google\\Chrome\\Application')
         os.system('start cmd /k "chrome.exe --remote-debugging-port=9225 --user-data-dir=E:\chromedriver_win32\chromedata5"')
@@ -3323,16 +3279,7 @@ def start5():
     driver.maximize_window()
     driver.get("https://www.irctc.co.in/nget/train-search")
 
-    # click ok
-    try:
-        if driver.find_element(By.XPATH, "/html/body/app-root/app-home/div[1]/app-header/p-dialog[2]/div/div/div[2]/div/form/div[2]/button").is_displayed()==True:
-            element = driver.find_element(By.XPATH, "/html/body/app-root/app-home/div[1]/app-header/p-dialog[2]/div/div/div[2]/div/form/div[2]/button")
-            element.click()
-            time.sleep(2)
-        else:
-            pass
-    except Exception as e:
-        print(e)
+
 
     #get element for login button
     element2 = driver.find_element(By.XPATH, '/html/body/app-root/app-home/div[1]/app-header/div[2]/div[2]/div[1]/a[1]')
@@ -3346,11 +3293,11 @@ def start5():
     # click the item
     action.click(on_element = element3)
     # send keys
-    action.send_keys(user2)
+    action.send_keys(user5)
     # perform the operation
     action.perform()
     time.sleep(2)
-    print('username entered')
+    print('username 5 entered')
 
     # get element for password
     element4 = driver.find_element(By.XPATH, '/html/body/app-root/app-home/div[3]/app-login/p-dialog[1]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/div[2]/input')
@@ -3359,19 +3306,19 @@ def start5():
     # click the item
     action.click(on_element = element4)
     # send keys
-    action.send_keys(user2_pass)
+    action.send_keys(user5_pass)
     # perform the operation
     action.perform()
     time.sleep(2)
-    print('password entered')
+    print('password 5 entered')
     time.sleep(5)
     #image function for captcha
 
     #print("File location using os.getcwd():", os.getcwd())
     def  logincaptcha():
         img=driver.find_element(By.ID, "nlpImgContainer") #By.ID, "nlpImgContainer" '//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/div[4]/div/app-captcha/div/div/div/span[1]/img'
-        img.screenshot(f"{var}\logo.png")
-        im = Image.open(f"{var}\logo.png") #use PIL.Image.open if not work
+        img.screenshot(f"{var}\logo_5.png")
+        im = Image.open(f"{var}\logo_5.png") #use PIL.Image.open if not work
         left = 0
         top = 250
         right = 300
@@ -3384,12 +3331,12 @@ def start5():
         # Cropped image of above dimension
         # (It will not change original image)
         im1 = im.crop((left, top, right, bottom))
-        im1.save(f"{var}\crop.png" ,quality=100)
+        im1.save(f"{var}\crop_5.png" ,quality=100)
         print('image address:',im1) 
         captcha = pytesseract.image_to_string(im1) 
         captcha = captcha.replace(" ", "").strip()
         # save in abc.txt file
-        with open(f"{var}\\abc.txt",mode ='w') as file:     
+        with open(f"{var}\\abc_5.txt",mode ='w') as file:     
             file.write(captcha) 
             print('result',captcha)
             print('write result',captcha[18:22]) #5:14 paints  [18:22] default  5:12match
@@ -3416,13 +3363,13 @@ def start5():
 
     def logincaptcha2():
         img=driver.find_element(By.XPATH,'//*[@id="login_header_disable"]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/div[4]/div/app-captcha/div/div/div/span[1]/img').is_displayed()==True
-        img.screenshot(f"{var}\logo.png")
-        im = Image.open(f"{var}\logo.png") #use PIL.Image.open if not work
+        img.screenshot(f"{var}\logo_5.png")
+        im = Image.open(f"{var}\logo_5.png") #use PIL.Image.open if not work
 
         captcha = pytesseract.image_to_string(im) 
         captcha = captcha.replace(" ", "").strip()
         # save in abc.txt file
-        with open(f"{var}\\abc.txt",mode ='w') as file:     
+        with open(f"{var}\\abc_5.txt",mode ='w') as file:     
             file.write(captcha) 
             print('result',captcha)
             print('write result',captcha) #5:14 paints  [18:22] default  5:12match
@@ -4222,11 +4169,18 @@ def login_screen():
             print(user3)
         except:
             print("not select user 3")
-        # user4=user_list[3]
-        # user4_pass=pass_list[3]
-
-        # user5=user_list[4]
-        # user5_pass=pass_list[4]
+        try:
+            user4=user_list[3]
+            user4_pass=pass_list[3]
+            print(user4)
+        except:
+            print("not select user 4")
+        try:
+            user5=user_list[4]
+            user5_pass=pass_list[4]
+            print(user5)
+        except:
+            print("not select user 5")
 
         return user_list
 
@@ -4329,6 +4283,8 @@ def login_screen():
     show()
     listbox.bind("<Button-1>",GetValue)
     navigate()
+
+
 #passanger data screen
 def passanger_screen():
     global p1,a1,g1,p2,a2,g2,p3,a3,g3,p4,a4,g4,p5,a5,g5,p6,a6,g6,from_entry,to_entry,date_entry,passanger_value,c1,count
@@ -5215,6 +5171,7 @@ def key_screen():
 
 if __name__ == "__main__":
     #----root window----
+    
     root = Tk()
     root.configure(bg='sky blue')
     root.title("IRCTC")
@@ -5253,35 +5210,33 @@ if __name__ == "__main__":
     
     # key_screen()
     def book():
-        try:
-            
-            if qouta=='TATKAL':
-                
-                thread1=multiprocessing.Process(target=start,args=(user1,user1_pass,))
-                thread2=multiprocessing.Process(target=start2,args=(user2,user2_pass,))
-                thread3=multiprocessing.Process(target=start3,args=(user3,user3_pass,))
-                thread4=multiprocessing.Process(target=start4)
-                thread5=multiprocessing.Process(target=start5)
-                thread1.start()
-                thread2.start()
-                thread3.start()
-                thread4.start()
-                thread5.start()
-
-                thread1.join()
-                thread2.join()  
-                thread3.join()  
-                thread4.join()
-                thread5.join()
         
-            # print(login_users)
             
-            elif qouta=='GENERAL':
-                start(user1,user1_pass)
+        if qouta=='TATKAL':
             
-        except Exception as e:
-            print(e)
-            messagebox.showerror("LOOK", e)
+            thread1=multiprocessing.Process(target=start,args=(user1,user1_pass,))
+            thread2=multiprocessing.Process(target=start2,args=(user2,user2_pass,))
+            thread3=multiprocessing.Process(target=start3,args=(user3,user3_pass,))
+            thread4=multiprocessing.Process(target=start4,args=(user4,user4_pass,))
+            thread5=multiprocessing.Process(target=start5,args=(user5,user5_pass,))
+            thread1.start()
+            thread2.start()
+            thread3.start()
+            thread4.start()
+            thread5.start()
+
+            thread1.join()
+            thread2.join()  
+            thread3.join()  
+            thread4.join()
+            thread5.join()
+    
+   
+        
+        elif qouta=='GENERAL':
+            start(user1,user1_pass)
+            
+        
     
     
 
