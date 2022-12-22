@@ -14,8 +14,11 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options 
+<<<<<<< HEAD
 from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import WebDriverException
+=======
+>>>>>>> 41690c6f99fe67aaf4f1663d1e6c82eb59dfbd29
 import time
 import PIL.Image
 from PIL import Image,ImageFilter
@@ -28,8 +31,11 @@ pytesseract.pytesseract.tesseract_cmd=r"C:\\Program Files\\Tesseract-OCR\\tesser
 import mysql.connector
 import cv2
 import sys
+<<<<<<< HEAD
 import requests
 import base64
+=======
+>>>>>>> 41690c6f99fe67aaf4f1663d1e6c82eb59dfbd29
 #passanger value dictionary
 passanger_value={'name':"",'age':"",'gender':"",'name2':"",'age2':"",'gender2':"",'name3':"",'age3':"",'gender3':"",'name4':"",
 'age4':"",'gender4':"",'name5':"",'age5':"",'gender5':"",'name6':"",'age6':"",'gender6':"",'ifrom':"",'ito':"",'date':"",'total':"",'qouta':""}
