@@ -1,0 +1,18 @@
+{
+   "ExtnDescription": {
+      "Description": "Extension Description",
+      "message": "הגדר את MSN בתור דף הבית שלך ואת Bing בתור מנוע החיפוש שלך"
+   },
+   "ExtnMarket": {
+      "Description": "Market",
+      "message": "he-il"
+   },
+   "ExtnName": {
+      "Description": "Extension name",
+      "message": "דף הבית של MSN ומנוע החיפוש של Bing"
+   },
+   "HomePage": {
+      "Description": "Homepage",
+      "message": "he-il"
+   }
+}

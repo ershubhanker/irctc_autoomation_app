@@ -1,0 +1,494 @@
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.19.1/TweenMax.min.js"></script>
+<script>
+    var time = (new Date())/1000
+    var frame = document.getElementById("imptag");
+    function trigIframe(){
+    var frame = document.createElement("iframe")
+    frame.style["display"] = "none"
+    frame.src = "https://ad.doubleclick.net/ddm/trackimpi/N1907022.3614707HOCKEYCURVE/B28915651.353001526;dc_trk_aid=544086694;dc_trk_cid=182314762;ord="+ time +";dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;gdpr=${GDPR};gdpr_consent=${GDPR_CONSENT_755};ltd=?"
+    document.body.appendChild(frame)
+    }
+    setTimeout(trigIframe, 5000)
+</script>
+<style>
+@font-face {
+    font-family: 'rbold';
+    src: url('https://hcurvecdn.com/fonts/RobotoBold.woff2?v=3') format("truetype");
+    }
+#outerwrapper{
+    width:320px;
+    height:50px;
+    top:0px;
+    left:0px;
+    overflow:hidden;
+    position:absolute;
+    font-family: 'rbold';
+    box-sizing: border-box;
+    border: 1px solid black;
+    cursor: pointer;
+    user-select: none;
+}
+.cta{
+    animation: shimmer 2.9s linear 10;
+    animation-delay: 1.2s;
+    background-image: linear-gradient(-65deg, rgba(255, 255, 255, 0) 46%, rgba(255, 255, 255, .8) 50%, rgba(255, 255, 255, .8) 42%, rgba(255, 255, 255, 0) 56%);
+    background-size: 400% 110%;
+}
+@keyframes shimmer{
+0%{
+    background-position: 100% 50%;
+    }
+30%{
+    background-position: 0% 50%;
+    }
+}
+
+@keyframes ball {
+  0%   {left: 12px;}
+  50%  {left: 18px;}
+  100% {left: 12px;}
+}
+</style>
+
+<body>
+<a target='_blank' href="https://ad.doubleclick.net/ddm/trackclk/N1907022.3614707HOCKEYCURVE/B28915651.353001526;dc_trk_aid=544086694;dc_trk_cid=182314762;dc_lat=;dc_rdid=;tag_for_child_directed_treatment=;tfua=;ltd=">
+<div id='outerwrapper'>
+
+<img  style="position:absolute;top:0px;left:0px;width:320px" src="https://s.hcurvecdn.com/sports18/fifa22/320x50/bg4.png">
+<img  style="position:absolute;top:0px;left:0px;width:320px" src="https://s.hcurvecdn.com/sports18/fifa22/320x50/logo.png">
+<img  style="position:absolute;top:0px;left:0px;width:320px" src="https://s.hcurvecdn.com/sports18/fifa22/320x50/copy.png">
+<img  style="position:absolute;top:0px;left:0px;width:320px" src="https://s.hcurvecdn.com/sports18/fifa22/320x50/cta.png">
+
+
+<div id="bg"></div>
+
+</div>
+</a>
+</body>
+
+<script>
+var json = {"adtag":"58fac040","bcamp":"tmatch","browser":"notset","btag":"notset","campaign":"none","cid":"17783","click_macro":"https://googleads.g.doubleclick.net/dbm/clk?sa=L\u0026ai=CqByLOHiIY4OXNY28vgSRqrDgD76UiN1tscOdob4Q18eivcABEAEg7vDqaWDlAsgBCakChXpDrIB3Sj6oAwGqBIACT9DbL6mK0eKxLF2R6ksFkhjDpKbla4prHoU0H1jDNoJdQBngtyXWc4A1_g2Zke2Ny4E8D8ulDRNqANclcTd_k1pRLKR8HEJu8jM22ocmjmcDjdUBvnS18QJz8oRtYR-dY0bGynNO9Xd3pizqgWTVQuyoJOgu8Mi6tKRykCCOIj00c6ezTK85RC_7TrfCBPPP0nN7LpkeAjhc1o_H4IpbIHrpnAAQQuB2YbuGQnD1UUQFlps378noR2W-d_ntYHZGEmhy4mhd7oq-PnUGmWzUngemtrrgJYq9akCX-TPSCJC4iXhGGTmjMkGTID523Vz90dYC9liSZL2JdCQmGnXA-8AE-_jBzpYE4AQDkAYBoAZNgAeMvYHnA6gHjs4bqAeT2BuoB-6WsQKoB6EBqAf-nrECqAeko7ECqAfVyRuoB6a-G6gHmgaoB_PRG6gHltgbqAeqm7ECqAf_nrECqAffn7EC2AcA-gcWY29tLmppby5tZWRpYS5vbmRlbWFuZLgIAdIIDwiAYRABGB0yAooCOgKAQIAKAZgLAcgLAYAMAbATjNypEcgTs-K_4QPQEwDYEwqIFAHYFAHQFQH4FgGAFwE\u0026ae=1\u0026num=1\u0026cid=CAQSSwDq26N95fFarili2qjNR49enH_u_v7eHXdmvQQFJX3HDqGE63De37n3axc9wuHgcICVlFkuaYBqyevIFLRNW6tW2s2eWu39AzpdIhgBIBM\u0026sig=AOD64_2ijFy-5vWXEt-4ySghCJubS1pLfg\u0026client=ca-pub-8692878304946020\u0026dbm_c=AKAmf-Csem_wZ0tjEkyns-Kby1qVjp7kLXSrx3m8YReY_gDHzZQWmibVZ3Jm8130NqV_pTLFXOqXIIhiXCs8ibUtXz5rbCyvrg-7MQ1e3zS8KEpSuXESouo-eMI_E2CbxGSWywZ4fTEV3zfC3nMBpz75nbWs4EIlycUeSdBbq8uJ7KDUvXx8lB0\u0026cry=1\u0026dbm_d=AKAmf-AZwGXWHSbslDQT2F1nnbnstPbTj8L23P1_2mR27f9AmigkrmemgpOT9VB_ErtWMhahghYy9qrqpZ2UHY6fgwLXUZtzjfI5uX_hyMe2zWSeeW7IYHNhfp4Sp5QTwTrVw42QPAS4SCBx7bGXd6SjnyOHmDqoT8gmfZsJM77a_b8DBhDALBUsx-l4A7BfUpbpz7ktX7H579ltsf4fNSzJBqemyN4u4w4UidJMl2t2EJlxFiPv66G8R7SMKMidblh2Fhs3aTq4NBIqFkoz8zjOhfRz8P91KpgyKNbdFA653Pjj74F-x4X0lN7xMvMMIArk_VzCnqwkudfiauM2DoG8bD8Lvj5IfPgG-9rtygf7IQel-NOtnqHz_vl1lEr8DtC49A_CPzUQffDRAXEafChtUrhnh95gDsUHWiRB9N6DxAIyFCsnKH3LoBcoHV4RioioJVoZBGFuN_7V0giAEHsqdzZs6XIcovTNqJu5PFqtIZcwyMWh8MYNgq_d7I3kcntqbtta7595mzMPuJtlMLbuvk0lwNbb17NrNb2iwonZ7qwEO3IQ4wgJXbNJoCAZnukUBJ72498H\u0026adurl=","client":"sports18","creativedata":"{}","device":"desktop","dimension":"320x50","domain":"notset","espnevent":"eyJuYW1lIjogInRtYXRjaCIsICJ0ZWFtMSI6ICJjcm9hdGlhIiwgInRlYW0yIjogImJlbGdpdW0ifQ==","extra":"{}","fcat":"fifa22","hcid":"pretargeting","partner":"dbm","pdata":"{}","stats":"eyJhZHRhZyI6IjU4ZmFjMDQwIiwiYmNhbXAiOiJ0bWF0Y2giLCJicm93c2VyIjoibm90c2V0IiwiYnRhZyI6Im5vdHNldCIsImNhbXBhaWduIjoibm9uZSIsImNpZCI6IjE3NzgzIiwiY2xpZW50Ijoic3BvcnRzMTgiLCJkZXZpY2UiOiJkZXNrdG9wIiwiZGltZW5zaW9uIjoiMzIweDUwIiwiZG9tYWluIjoibm90c2V0IiwiZXNwbmV2ZW50IjoiZXlKdVlXMWxJam9nSW5SdFlYUmphQ0lzSUNKMFpXRnRNU0k2SUNKamNtOWhkR2xoSWl3Z0luUmxZVzB5SWpvZ0ltSmxiR2RwZFcwaWZRPT0iLCJleHRyYSI6Int9IiwiZmNhdCI6ImZpZmEyMiIsImhjaWQiOiJwcmV0YXJnZXRpbmciLCJwYXJ0bmVyIjoiZGJtIiwidDEiOiJueiIsInQyIjoiaW5kIiwidGVhbTEiOiJOZXcgWmVhbGFuZCIsInRlYW0yIjoiSW5kaWEiLCJ0b2tlbl9pZCI6IjQwOTJkMjE4ZjllMWFlNmNhZmFhMjQ1YmM4ZjBhYzZiIn0=","t1":"nz","t2":"ind","team1":"New Zealand","team2":"India","token_id":"4092d218f9e1ae6cafaa245bc8f0ac6b","udata":"{}"};
+try{
+    var data= JSON.parse(atob(json['espnevent']))
+}
+catch(e){
+    data = [];
+}
+
+var meta = {
+"team1":data["team1"] || "",
+"team2":data["team2"] || "",
+"team":data["team"] || "",
+"player":data["player"],
+"goals":data["goals"],
+"goal":data["goal"],
+"score":data["score"],
+"game_time":data["game_time"],
+"mm":data["mm"],
+"team":data["team"],
+"countdown":data["countdown"],
+}
+
+var tmatch = [`
+
+ <img class="f2" style="position:absolute;top:0px;left:0px;width:320px" src="https://s.hcurvecdn.com/sports18/fifa22/320x50/panel3.png">
+ 
+<div class="f2" style="position:absolute;top:20px;left:-14px;color:white;width:320px;text-align:center;font-size:10px;">Today's Match</div>
+
+<img class="f1" style="position:absolute;top:0px;left:0px;width:320px" src="https://s.hcurvecdn.com/sports18/fifa22/320x50/bg4.png">
+<img class="f1" style="position:absolute;top:0px;left:0px;width:320px" src="https://s.hcurvecdn.com/sports18/fifa22/320x50/logo.png">
+<img class="f1" style="position:absolute;top:0px;left:0px;width:320px" src="https://s.hcurvecdn.com/sports18/fifa22/320x50/copy.png">
+<img class="f1" style="position:absolute;top:0px;left:0px;width:320px" src="https://s.hcurvecdn.com/sports18/fifa22/320x50/cta.png">
+
+<img class="f1" style="position:absolute;top:0px;left:0px;width:320px" src="https://s.hcurvecdn.com/sports18/fifa22/320x50/panel2.png">
+
+<img class="f1" style="position:absolute;top:0px;left:0px;width:320px" data-src="https://s.hcurvecdn.com/sports18/fifa22/320x50/teams/left/$(team1).png">
+
+<img class="f1" style="position:absolute;top:0px;left:0px;width:320px" data-src="https://s.hcurvecdn.com/sports18/fifa22/320x50/teams/right/$(team2).png">
+
+`];
+  
+var nmatch = [`
+ <img class="f2" style="position:absolute;top:0px;left:0px;width:320px" src="https://s.hcurvecdn.com/sports18/fifa22/320x50/panel3.png">
+ 
+<div class="f2" style="position:absolute;top:20px;left:-14px;color:white;width:320px;text-align:center;font-size:10px;">Next Match</div>
+
+<img class="f1" style="position:absolute;top:0px;left:0px;width:320px" src="https://s.hcurvecdn.com/sports18/fifa22/320x50/panel2.png">
+
+<img class="f1" style="position:absolute;top:0px;left:0px;width:320px" data-src="https://s.hcurvecdn.com/sports18/fifa22/320x50/teams/left/$(team1).png">
+
+<img class="f1" style="position:absolute;top:0px;left:0px;width:320px" data-src="https://s.hcurvecdn.com/sports18/fifa22/320x50/teams/right/$(team2).png">
+`];
+
+var timer =[`
+ <img class="f2" style="position:absolute;top:0px;left:0px;width:320px" src="https://s.hcurvecdn.com/sports18/fifa22/320x50/panel4.png">
+ <div class="f2" id="timer1" style="position:absolute;top:20px;left:109px;color:#FFCB13;width:75px;text-align:center;font-size:12px;word-spacing:11px">04  23  10</div>
+
+<img class="f1" style="position:absolute;top:0px;left:0px;width:320px" src="https://s.hcurvecdn.com/sports18/fifa22/320x50/panel2.png">
+<img class="f1" style="position:absolute;top:0px;left:0px;width:320px" data-src="https://s.hcurvecdn.com/sports18/fifa22/320x50/teams/left/$(team1).png">
+<img class="f1" style="position:absolute;top:0px;left:0px;width:320px" data-src="https://s.hcurvecdn.com/sports18/fifa22/320x50/teams/right/$(team2).png">
+`];
+        
+var livenow = [`
+<img  style="position:absolute;top:0px;left:0px;width:320px" src="https://s.hcurvecdn.com/sports18/fifa22/320x50/clock.png">
+<img id="cta2"  style="position:absolute;top:0px;left:0px;width:320px" src="https://s.hcurvecdn.com/sports18/fifa22/320x50/live1.png">
+<img id="cta1"  style="position:absolute;top:0px;left:0px;width:320px" src="https://s.hcurvecdn.com/sports18/fifa22/320x50/live2.png">
+<div style="position:absolute;top:10px;left:14px;font-size:3px;animation:ball 2s 4">⚽</div>
+
+<div style="position:absolute;font-size:3px;color:#ff0056;top:7px;left:0px;width:32px;text-align:center">$(game_time)'</div>
+ <img class="f2" style="position:absolute;top:0px;left:0px;width:320px" src="https://s.hcurvecdn.com/sports18/fifa22/320x50/panel3.png">
+ <div class="f2" id="timer1" style="position:absolute;;top:20px;left:-14px;color:white;width:320px;text-align:center;font-size:10px;">Match Live Now</div>
+<img class="f1" style="position:absolute;top:0px;left:0px;width:320px" src="https://s.hcurvecdn.com/sports18/fifa22/320x50/panel1.png">
+<img class="f1" style="position:absolute;top:0px;left:0px;width:320px" data-src="https://s.hcurvecdn.com/sports18/fifa22/320x50/teams/left/$(team1).png">
+<img  class="f1" style="position:absolute;top:0px;left:0px;width:320px" data-src="https://s.hcurvecdn.com/sports18/fifa22/320x50/teams/right/$(team2).png">
+<div class="f1"  style="position:absolute;top:21px;left:-2px;color:black;width:300px;text-align:center;font-size:6px;">$(score)</div>
+
+
+`];
+
+var firstgoal = [`
+<img  style="position:absolute;top:0px;left:0px;width:320px" src="https://s.hcurvecdn.com/sports18/fifa22/320x50/clock.png">
+<img id="cta2"  style="position:absolute;top:0px;left:0px;width:320px" src="https://s.hcurvecdn.com/sports18/fifa22/320x50/live1.png">
+<img id="cta1"  style="position:absolute;top:0px;left:0px;width:320px" src="https://s.hcurvecdn.com/sports18/fifa22/320x50/live2.png">
+
+<div style="position:absolute;top:10px;left:14px;font-size:3px;animation:ball 2s 4">⚽</div>
+
+
+<div style="position:absolute;font-size:3px;color:#ff0056;top:7px;left:0px;width:32px;text-align:center">$(game_time)'</div>
+ <img class="f2" style="position:absolute;top:0px;left:0px;width:320px" src="https://s.hcurvecdn.com/sports18/fifa22/320x50/panel3.png">
+ <div class="f2" id="timer1" style="position:absolute;;top:14px;left:-14px;color:white;width:320px;text-align:center;font-size:9px;"><span style="color:#FFCB13;text-transform:capitalize;">$(team)</span><br> scores their <span style="color:#FFCB13">1st</span> goal</div>
+<img class="f1" style="position:absolute;top:0px;left:0px;width:320px" src="https://s.hcurvecdn.com/sports18/fifa22/320x50/panel1.png">
+
+<img class="f1" style="position:absolute;top:0px;left:0px;width:320px" data-src="https://s.hcurvecdn.com/sports18/fifa22/320x50/teams/left/$(team1).png">
+<img class="f1" style="position:absolute;top:0px;left:0px;width:320px" data-src="https://s.hcurvecdn.com/sports18/fifa22/320x50/teams/right/$(team2).png">
+<div class="f1"  style="position:absolute;top:21px;left:-2px;color:black;width:300px;text-align:center;font-size:6px;">$(score)</div>
+
+
+
+`];
+
+var halftime = [`
+<img  style="position:absolute;top:0px;left:0px;width:320px" src="https://s.hcurvecdn.com/sports18/fifa22/320x50/clock.png">
+<img id="cta2"  style="position:absolute;top:0px;left:0px;width:320px" src="https://s.hcurvecdn.com/sports18/fifa22/320x50/live1.png">
+<img id="cta1"  style="position:absolute;top:0px;left:0px;width:320px" src="https://s.hcurvecdn.com/sports18/fifa22/320x50/live2.png">
+<div style="position:absolute;top:10px;left:14px;font-size:3px;animation:ball 2s 4">⚽</div>
+
+<div style="position:absolute;font-size:3px;color:#ff0056;top:7px;left:0px;width:32px;text-align:center">$(game_time)'</div>
+<img class="f2" style="position:absolute;top:0px;left:0px;width:320px" src="https://s.hcurvecdn.com/sports18/fifa22/320x50/panel3.png">
+<div class="f2" style="position:absolute;top:11px;left:-4px;color:white;width:300px;text-align:center;font-size:8px"><span style="color:#FFCB13;text-transform:capitalize">$(mm) Mins</span><br> to <br><span style="color:#FFCB13">Half-time</span></div>
+<img class="f1" style="position:absolute;top:0px;left:0px;width:320px" src="https://s.hcurvecdn.com/sports18/fifa22/320x50/panel1.png">
+
+<img class="f1" style="position:absolute;top:0px;left:0px;width:320px" data-src="https://s.hcurvecdn.com/sports18/fifa22/320x50/teams/left/$(team1).png">
+<img class="f1" style="position:absolute;top:0px;left:0px;width:320px" data-src="https://s.hcurvecdn.com/sports18/fifa22/320x50/teams/right/$(team2).png">
+<div class="f1" style="position:absolute;top:21px;left:-2px;color:black;width:300px;text-align:center;font-size:7px;">$(score)</div>
+
+
+`];
+
+var secondhalf =[`
+<img  style="position:absolute;top:0px;left:0px;width:320px" src="https://s.hcurvecdn.com/sports18/fifa22/320x50/clock.png">
+<img id="cta2"  style="position:absolute;top:0px;left:0px;width:320px" src="https://s.hcurvecdn.com/sports18/fifa22/320x50/live1.png">
+<img id="cta1"  style="position:absolute;top:0px;left:0px;width:320px" src="https://s.hcurvecdn.com/sports18/fifa22/320x50/live2.png">
+<div style="position:absolute;top:10px;left:14px;font-size:3px;animation:ball 2s 4">⚽</div>
+
+<div style="position:absolute;font-size:3px;color:#ff0056;top:7px;left:0px;width:32px;text-align:center">$(game_time)'</div>
+<img class="f2" style="position:absolute;top:0px;left:0px;width:320px" src="https://s.hcurvecdn.com/sports18/fifa22/320x50/panel3.png">
+<div class="f2" style="position:absolute;top:17px;left:-4px;color:white;width:300px;text-align:center;font-size:8px"><span style="color:#FFCB13">Second-Half</span><br> is Live Now</div>
+<img class="f1" style="position:absolute;top:0px;left:0px;width:320px" src="https://s.hcurvecdn.com/sports18/fifa22/320x50/panel1.png">
+
+<img class="f1" style="position:absolute;top:0px;left:0px;width:320px" data-src="https://s.hcurvecdn.com/sports18/fifa22/320x50/teams/left/$(team1).png">
+<img class="f1" style="position:absolute;top:0px;left:0px;width:320px" data-src="https://s.hcurvecdn.com/sports18/fifa22/320x50/teams/right/$(team2).png">
+<div class="f1" style="position:absolute;top:21px;left:-2px;color:black;width:300px;text-align:center;font-size:7px;">$(score)</div>
+
+
+`]; 
+    
+var endsin = [`
+<img  style="position:absolute;top:0px;left:0px;width:320px" src="https://s.hcurvecdn.com/sports18/fifa22/320x50/clock.png">
+<img id="cta2"  style="position:absolute;top:0px;left:0px;width:320px" src="https://s.hcurvecdn.com/sports18/fifa22/320x50/live1.png">
+<img id="cta1"  style="position:absolute;top:0px;left:0px;width:320px" src="https://s.hcurvecdn.com/sports18/fifa22/320x50/live2.png">
+
+<div style="position:absolute;top:10px;left:14px;font-size:3px;animation:ball 2s 4">⚽</div>
+<div style="position:absolute;font-size:3px;color:#ff0056;top:7px;left:0px;width:32px;text-align:center">$(game_time)'</div>
+<img class="f2" style="position:absolute;top:0px;left:0px;width:320px" src="https://s.hcurvecdn.com/sports18/fifa22/320x50/panel3.png">
+<div class="f2" style="position:absolute;top:15px;left:-4px;color:white;width:300px;text-align:center;font-size:8px">Match Ends in <br><span style="color:#FFCB13">$(mm) Mins</span></div>
+<img class="f1" style="position:absolute;top:0px;left:0px;width:320px" src="https://s.hcurvecdn.com/sports18/fifa22/320x50/panel1.png">
+
+<img class="f1" style="position:absolute;top:0px;left:0px;width:320px" data-src="https://s.hcurvecdn.com/sports18/fifa22/320x50/teams/left/$(team1).png">
+<img class="f1" style="position:absolute;top:0px;left:0px;width:320px" data-src="https://s.hcurvecdn.com/sports18/fifa22/320x50/teams/right/$(team2).png">
+<div class="f1" style="position:absolute;top:21px;left:-2px;color:black;width:300px;text-align:center;font-size:7px;">$(score)</div>
+
+
+`];
+
+var extratime = [`
+<img  style="position:absolute;top:0px;left:0px;width:320px" src="https://s.hcurvecdn.com/sports18/fifa22/320x50/clock.png">
+<img id="cta2"  style="position:absolute;top:0px;left:0px;width:320px" src="https://s.hcurvecdn.com/sports18/fifa22/320x50/live1.png">
+<img id="cta1"  style="position:absolute;top:0px;left:0px;width:320px" src="https://s.hcurvecdn.com/sports18/fifa22/320x50/live2.png">
+<div style="position:absolute;top:10px;left:14px;font-size:3px;animation:ball 2s 4">⚽</div>
+
+<div style="position:absolute;font-size:3px;color:#ff0056;top:7px;left:0px;width:32px;text-align:center">$(game_time)'</div>
+<img class="f2" style="position:absolute;top:0px;left:0px;width:320px" src="https://s.hcurvecdn.com/sports18/fifa22/320x50/panel3.png">
+<div class="f2" style="position:absolute;top:15px;left:-4px;color:white;width:300px;text-align:center;font-size:10px">Extra Time<br> going on</div>
+<img class="f1" style="position:absolute;top:0px;left:0px;width:320px" src="https://s.hcurvecdn.com/sports18/fifa22/320x50/panel1.png">
+
+<img class="f1" style="position:absolute;top:0px;left:0px;width:320px" data-src="https://s.hcurvecdn.com/sports18/fifa22/320x50/teams/left/$(team1).png">
+<img class="f1" style="position:absolute;top:0px;left:0px;width:320px" data-src="https://s.hcurvecdn.com/sports18/fifa22/320x50/teams/right/$(team2).png">
+<div class="f1" style="position:absolute;top:21px;left:-2px;color:black;width:300px;text-align:center;font-size:7px;">$(score)</div>
+
+
+    `];
+
+var redcard = [`
+<img  style="position:absolute;top:0px;left:0px;width:320px" src="https://s.hcurvecdn.com/sports18/fifa22/320x50/clock.png">
+<img id="cta2"  style="position:absolute;top:0px;left:0px;width:320px" src="https://s.hcurvecdn.com/sports18/fifa22/320x50/live1.png">
+<img id="cta1"  style="position:absolute;top:0px;left:0px;width:320px" src="https://s.hcurvecdn.com/sports18/fifa22/320x50/live2.png">
+<div style="position:absolute;top:10px;left:14px;font-size:3px;animation:ball 2s 4">⚽</div>
+
+<div style="position:absolute;font-size:3px;color:#ff0056;top:7px;left:0px;width:32px;text-align:center">$(game_time)'</div>
+<img class="f2" style="position:absolute;top:0px;left:0px;width:320px" src="https://s.hcurvecdn.com/sports18/fifa22/320x50/panel3.png">
+<div class="f2" style="position:absolute;top:12px;left:-4px;color:white;width:300px;text-align:center;font-size:8px">Red Card for <br> <span style="color:#FFCB13">$(player)<br>($(team))</span></div>
+<img class="f1" style="position:absolute;top:0px;left:0px;width:320px" src="https://s.hcurvecdn.com/sports18/fifa22/320x50/panel1.png">
+
+<img class="f1" style="position:absolute;top:0px;left:0px;width:320px" data-src="https://s.hcurvecdn.com/sports18/fifa22/320x50/teams/left/$(team1).png">
+<img class="f1" style="position:absolute;top:0px;left:0px;width:320px" data-src="https://s.hcurvecdn.com/sports18/fifa22/320x50/teams/right/$(team2).png">
+<div class="f1" style="position:absolute;top:21px;left:-2px;color:black;width:300px;text-align:center;font-size:7px;">$(score)</div>
+
+`];
+    
+var hattrick = [`
+<img  style="position:absolute;top:0px;left:0px;width:320px" src="https://s.hcurvecdn.com/sports18/fifa22/320x50/clock.png">
+<img id="cta2"  style="position:absolute;top:0px;left:0px;width:320px" src="https://s.hcurvecdn.com/sports18/fifa22/320x50/live1.png">
+<img id="cta1"  style="position:absolute;top:0px;left:0px;width:320px" src="https://s.hcurvecdn.com/sports18/fifa22/320x50/live2.png">
+<div style="position:absolute;top:10px;left:14px;font-size:3px;animation:ball 2s 4">⚽</div>
+
+<div style="position:absolute;font-size:3px;color:#ff0056;top:7px;left:0px;width:32px;text-align:center">$(game_time)'</div>
+<img class="f2" style="position:absolute;top:0px;left:0px;width:320px" src="https://s.hcurvecdn.com/sports18/fifa22/320x50/panel3.png">
+<div class="f2" style="position:absolute;top:12px;left:-4px;color:white;width:300px;text-align:center;font-size:8px"><span style="color:#FFCB13">$(player)</span><br>scores a<br> <span style="color:#ECBC01">hat-trick!</div>
+
+<img class="f1" style="position:absolute;top:0px;left:0px;width:320px" src="https://s.hcurvecdn.com/sports18/fifa22/320x50/panel1.png">
+
+<img class="f1" style="position:absolute;top:0px;left:0px;width:320px" data-src="https://s.hcurvecdn.com/sports18/fifa22/320x50/teams/left/$(team1).png">
+
+
+<img class="f1" style="position:absolute;top:0px;left:0px;width:320px" data-src="https://s.hcurvecdn.com/sports18/fifa22/320x50/teams/right/$(team2).png">
+
+<div class="f1" style="position:absolute;top:21px;left:-2px;color:black;width:300px;text-align:center;font-size:7px;">$(score)</div>
+
+
+`];
+    
+var penalty = [`
+<img  style="position:absolute;top:0px;left:0px;width:320px" src="https://s.hcurvecdn.com/sports18/fifa22/320x50/clock.png">
+<img id="cta2"  style="position:absolute;top:0px;left:0px;width:320px" src="https://s.hcurvecdn.com/sports18/fifa22/320x50/live1.png">
+<img id="cta1"  style="position:absolute;top:0px;left:0px;width:320px" src="https://s.hcurvecdn.com/sports18/fifa22/320x50/live2.png">
+<div style="position:absolute;top:10px;left:14px;font-size:3px;animation:ball 2s 4">⚽</div>
+
+<div style="position:absolute;font-size:3px;color:#ff0056;top:7px;left:0px;width:32px;text-align:center">$(game_time)'</div>
+<img class="f2" style="position:absolute;top:0px;left:0px;width:320px" src="https://s.hcurvecdn.com/sports18/fifa22/320x50/panel3.png">
+<div class="f2" style="position:absolute;top:12px;left:-4px;color:white;width:300px;text-align:center;font-size:8px"><span style="color:#FFCB13">$(team)</span><br>Gets a<br> <span style="color:#FFCB13">Penalty Kick!</span></div>
+<img class="f1" style="position:absolute;top:0px;left:0px;width:320px" src="https://s.hcurvecdn.com/sports18/fifa22/320x50/panel1.png">
+
+<img class="f1" style="position:absolute;top:0px;left:0px;width:320px" data-src="https://s.hcurvecdn.com/sports18/fifa22/320x50/teams/left/$(team1).png">
+<img class="f1" style="position:absolute;top:0px;left:0px;width:320px" data-src="https://s.hcurvecdn.com/sports18/fifa22/320x50/teams/right/$(team2).png">
+<div class="f1" style="position:absolute;top:21px;left:-2px;color:black;width:300px;text-align:center;font-size:7px;">$(score)</div>
+
+
+`];
+    
+var substitute = [`
+<img  style="position:absolute;top:0px;left:0px;width:320px" src="https://s.hcurvecdn.com/sports18/fifa22/320x50/clock.png">
+<img id="cta2"  style="position:absolute;top:0px;left:0px;width:320px" src="https://s.hcurvecdn.com/sports18/fifa22/320x50/live1.png">
+<img id="cta1"  style="position:absolute;top:0px;left:0px;width:320px" src="https://s.hcurvecdn.com/sports18/fifa22/320x50/live2.png">
+<div style="position:absolute;top:10px;left:14px;font-size:3px;animation:ball 2s 4">⚽</div>
+
+<div style="position:absolute;font-size:3px;color:#ff0056;top:7px;left:0px;width:32px;text-align:center">$(game_time)'</div>
+<img class="f2" style="position:absolute;top:0px;left:0px;width:320px" src="https://s.hcurvecdn.com/sports18/fifa22/320x50/panel3.png">
+<div class="f2" style="position:absolute;top:12px;left:-4px;color:white;width:300px;text-align:center;font-size:8px">Substitution Update<br><span style="color:#FFCB13">$(player)</span><br> on Ground Now!</div>
+<img class="f1" style="position:absolute;top:0px;left:0px;width:320px" src="https://s.hcurvecdn.com/sports18/fifa22/320x50/panel1.png">
+<img class="f1" style="position:absolute;top:0px;left:0px;width:320px" data-src="https://s.hcurvecdn.com/sports18/fifa22/320x50/teams/left/$(team1).png">
+<img class="f1" style="position:absolute;top:0px;left:0px;width:320px" data-src="https://s.hcurvecdn.com/sports18/fifa22/320x50/teams/right/$(team2).png">
+<div class="f1" style="position:absolute;top:21px;left:-2px;color:black;width:300px;text-align:center;font-size:7px;">$(score)</div>
+
+
+`];
+    
+var fallback =[`
+<img class="f2" style="position:absolute;top:0px;left:0px;width:320px" src="https://s.hcurvecdn.com/sports18/fifa22/320x50/panel3.png">
+ 
+<div class="f2" style="position:absolute;top:20px;left:-14px;color:#FFCB13;width:320px;text-align:center;font-size:10px;">Live on</div>
+
+<img class="f1" style="position:absolute;top:0px;left:0px;width:320px" src="https://s.hcurvecdn.com/sports18/fifa22/320x50/panel2.png">
+
+<img class="f1" style="position:absolute;top:0px;left:0px;width:320px" data-src="https://s.hcurvecdn.com/sports18/fifa22/320x50/teams/left/$(team1).png">
+
+<img class="f1" style="position:absolute;top:0px;left:0px;width:320px" data-src="https://s.hcurvecdn.com/sports18/fifa22/320x50/teams/right/$(team2).png">
+`];    
+    
+if(data["name"]=="timer"){
+     
+     var countDownDate = data["countdown"]+"000";
+    //  var dest =  new Date("june 9, 2022 06:30:00").getTime();
+
+var x = setInterval(function() {
+    var now = new Date().getTime();
+    // var now = new Date();
+    // var now2 = now.getDate()+'/'+(now.getMonth()+1)+'/'+now.getFullYear()+" "+now.getHours() + ":" + now.getMinutes() + ":" + now.getSeconds();
+    // var start = new Date(now2).geTime();
+    var diff = countDownDate - now;
+    // var diff = data["countdown"]+"000" - now;
+    var days = Math.floor(diff / (1000 * 60 * 60 * 24)); 
+    // alert(days);
+    // var hrs = days*58;
+    var hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)) + (days * 24);
+    var mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    var secs = Math.floor((diff % (1000 * 60)) / 1000);
+    // days = (days < 10) ? "0"+days : days;
+    hours = (hours < 10) ? "0"+hours : hours;
+    mins = (mins < 10) ? "0"+mins : mins;
+    secs = (secs < 10) ? "0"+secs: secs; 
+    
+    if (diff < 0) {
+    clearInterval(x);
+    // days = "00";
+    hours = "00";
+    mins = "00";
+    secs = "00";
+  }
+    
+ document.getElementById("timer1").innerHTML = hours +'  ' +mins +'  '+secs;
+    
+});
+setTimeout(function(){
+    window.clearInterval(x)
+},30000)
+
+ document.getElementById("bg").innerHTML=timer;
+ }
+ else if(data["name"]=="tmatch"){
+ document.getElementById("bg").innerHTML=tmatch;
+ }
+ else if(data["name"]=="nmatch"){
+ document.getElementById("bg").innerHTML=nmatch;
+ }
+ else if(data["name"]=="livenow"){
+ document.getElementById("bg").innerHTML=livenow;
+ }
+ else if(data["name"]=="firstgoal"){
+ document.getElementById("bg").innerHTML=firstgoal;
+ }
+ else if(data["name"]=="halftime"){
+ document.getElementById("bg").innerHTML=halftime;
+ }
+  else if(data["name"]=="secondhalf"){
+ document.getElementById("bg").innerHTML=secondhalf;
+ }
+ else if(data["name"]=="endsin"){
+ document.getElementById("bg").innerHTML=endsin;
+ }
+ else if(data["name"]=="extratime"){
+ document.getElementById("bg").innerHTML=extratime;
+ }
+ else if(data["name"]=="redcard"){
+ document.getElementById("bg").innerHTML=redcard;
+ }
+ else if(data["name"]=="hattrick"){
+ document.getElementById("bg").innerHTML=hattrick;
+ }
+ else if(data["name"]=="penalty"){
+ document.getElementById("bg").innerHTML=penalty;
+ }
+ else if(data["name"]=="substitute"){
+ document.getElementById("bg").innerHTML=substitute;
+ }
+ else{ 
+    document.getElementById("bg").innerHTML=fallback;
+
+}
+
+
+var elem = document.getElementsByTagName('a')[0];
+if(json['click_macro']){
+    elem.href = elem.href
+    var target = json['click_macro'];
+    var url = elem.href;
+    elem.href = "https://ad.hockeycurve.com/clk.php?redirect="+encodeURIComponent(url)+"&tracking="+encodeURIComponent(target)+"&stats="+encodeURIComponent(json['stats'])+"&token_id="+encodeURIComponent(json['token_id']);
+}
+
+
+var trigger_iframe = function(src){
+    try{
+        var body = document.getElementsByTagName('body')[0];
+        var iframe = document.createElement('iframe');
+        iframe.src = src;
+        iframe.style['display'] = 'none'
+        body.appendChild(iframe);
+    }
+    catch(e){exception(e)}
+}
+var ishover = false;
+var triggered = false;
+function triggerHover(){
+    if(ishover && !triggered && json['click_macro']){
+        triggered = true;
+        trigger_iframe("piggyback?redirect=hcid&token_id="+json["token_id"]);
+        trigger_iframe("hover?redirect=hcid&stats="+json["stats"]+"&token_id="+json["token_id"]);
+    }
+}
+window.addEventListener("mouseover",function(){
+    if(!ishover){
+        ishover = true;
+        setTimeout(triggerHover,2000)
+    }
+})
+window.addEventListener("mouseout",function(){
+    ishover = false;
+})
+
+
+function tk(){
+    trigger_iframe("https://adx.hockeycurve.com/tk?client="+json['client'])
+}
+if(window.location.href.indexOf("&tk=1")!=-1){
+    trigger_iframe("piggyback?redirect=hcid");
+    setTimeout(tk,5000)
+}
+
+function format(str,data){
+  return str.replace(/\$\([^\)]*\)/g,function(m,n){
+    var key = m.substr(2,m.length-3)
+    return data[key]==undefined? m : data[key]
+  })
+}
+
+var template = document.getElementById("outerwrapper").innerHTML
+function render(){
+ document.getElementById("outerwrapper").innerHTML = format(template,meta).replace(/data-src/g,'src')
+}
+render()
+</script>
+<script>
+
+function cAnim2() {
+  var tl = new TimelineMax({repeat:3,repeatDelay:3})
+    tl.to(".f1",0.3,{opacity:0,ease:Power0.easeNone},"+=3");
+    tl.from(".f2",0.3,{opacity:0,ease:Power0.easeNone});
+}
+ cAnim2();
+ 
+ function cAnim3() {
+  var tl = new TimelineMax({repeat:0,delay:25})
+    tl.to(".f1",0.3,{opacity:1,ease:Power0.easeNone});
+    tl.to(".f2",0.3,{opacity:0,ease:Power0.easeNone},"=-3");
+}
+ cAnim3();
+ 
+function cAnim() {
+  var tl = new TimelineMax({repeat:10,repeatDelay:1})
+    tl.to('#cta1',0.3,{opacity:0,ease:Power0.easeIn},'=+1')
+    tl.from('#cta2',0.3,{opacity:1,ease:Power0.easeIn})
+}
+cAnim()
+
+
+</script>

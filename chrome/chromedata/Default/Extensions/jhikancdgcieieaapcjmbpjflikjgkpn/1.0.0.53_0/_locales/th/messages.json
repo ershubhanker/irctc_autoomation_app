@@ -1,0 +1,18 @@
+{
+   "ExtnDescription": {
+      "Description": "Extension Description",
+      "message": "ตั้ง MSN เป็นโฮมเพจของคุณ และ Bing เป็นโปรแกรมค้นหาของคุณ"
+   },
+   "ExtnMarket": {
+      "Description": "Market",
+      "message": "th-th"
+   },
+   "ExtnName": {
+      "Description": "Extension name",
+      "message": "โฮมเพจ MSN และโปรแกรมค้นหา Bing"
+   },
+   "HomePage": {
+      "Description": "Homepage",
+      "message": "th-th"
+   }
+}

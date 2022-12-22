@@ -1,0 +1,18 @@
+{
+   "ExtnDescription": {
+      "Description": "Extension Description",
+      "message": "Establece MSN como tu página de inicio y Bing como tu motor de búsqueda"
+   },
+   "ExtnMarket": {
+      "Description": "Market",
+      "message": "es-419"
+   },
+   "ExtnName": {
+      "Description": "Extension name",
+      "message": "Página de inicio MSN y motor de búsqueda Bing"
+   },
+   "HomePage": {
+      "Description": "Homepage",
+      "message": "es-xl"
+   }
+}

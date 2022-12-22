@@ -1,0 +1,18 @@
+{
+   "ExtnDescription": {
+      "Description": "Extension Description",
+      "message": "Set MSN as your homepage and Bing as your search engine"
+   },
+   "ExtnMarket": {
+      "Description": "Market",
+      "message": "en-gb"
+   },
+   "ExtnName": {
+      "Description": "Extension name",
+      "message": "MSN + Bing for Chrome"
+   },
+   "HomePage": {
+      "Description": "Homepage",
+      "message": "en-gb"
+   }
+}
