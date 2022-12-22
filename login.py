@@ -22,24 +22,12 @@ class Login_screen(Passanger_screen):
     def login_screen(self):
         # print()
         #print("Quta_entry :",Passanger_screen._qouta)
-<<<<<<< HEAD
         page1=Frame(self.root,bg='sky blue', width=700, height=290)
-=======
-<<<<<<< HEAD
-        page1=Frame(self.root,bg='sky blue', width=700, height=290)
-=======
-        page1=Frame(self.root,bg='sky blue', width=1200, height=550)
->>>>>>> 41690c6f99fe67aaf4f1663d1e6c82eb59dfbd29
->>>>>>> 1f7b9bd93eb137a10a592b9a9ba6e517c4a5b3c8
         page1.place(x=0,y=0)
         font1=tkfont.Font(family='Times', size=15, weight="bold")
 
         #frame 1 for username and password detail
         f1=Frame(page1 ,bg='sky blue',bd=5,highlightbackground="white", highlightthickness=1)
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 1f7b9bd93eb137a10a592b9a9ba6e517c4a5b3c8
         f1.place(x=10,y=15,width=555,height=50)
         #labels
         label1=Label(page1,text='Login Details',bg='sky blue',font=font1)
@@ -48,19 +36,6 @@ class Login_screen(Passanger_screen):
         label2.place(x=25, y=7)
         label3=Label(f1,text='Password :',bg='sky blue',font=("Times",12,"bold"))
         label3.place(x=200, y=7)
-<<<<<<< HEAD
-=======
-=======
-        f1.place(x=140,y=20,width=880,height=200)
-        #labels
-        label1=Label(page1,text='Login Details',bg='sky blue',font=font1)
-        label1.place(x=170, y=10)
-        label2=Label(f1,text='Irctc ID :',bg='sky blue',font=("Times",12,"bold"))
-        label2.place(x=100, y=10)
-        label3=Label(f1,text='Password :',bg='sky blue',font=("Times",12,"bold"))
-        label3.place(x=400, y=10)
->>>>>>> 41690c6f99fe67aaf4f1663d1e6c82eb59dfbd29
->>>>>>> 1f7b9bd93eb137a10a592b9a9ba6e517c4a5b3c8
         temp = StringVar()
         
         # temp_entry=Entry(f1,font=("Times",11,"bold"),textvariable=temp)
@@ -70,10 +45,6 @@ class Login_screen(Passanger_screen):
         self.password = StringVar()
         #username entry
         self.e1=Entry(f1,font=("Times",12,"bold"),textvariable=self.username)
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 1f7b9bd93eb137a10a592b9a9ba6e517c4a5b3c8
         self.e1.place(x=90, y=6,width=100,height=25)
         #password entry
         self.e2=Entry(f1,font=("Times",12,"bold"),textvariable=self.password)
@@ -95,51 +66,13 @@ class Login_screen(Passanger_screen):
 
         cols=("No.","username","password")
         self.listbox=ttk.Treeview(self.root,columns=cols,show='headings')
-<<<<<<< HEAD
-=======
-=======
-        self.e1.place(x=180, y=10,width=200,height=30)
-        #password entry
-        self.e2=Entry(f1,font=("Times",12,"bold"),textvariable=self.password)
-        self.e2.place(x=490, y=10,width=200,height=30)
-        #save button
-        save = Button(f1, text = 'Add',bg='#FFA500',activebackground='black',font=("Times",10,"bold"),command=lambda:[self.Add()])
-        save.place(x=330, y=120,width=200,height=30)
-
-        
-        # frame 2 for list view for login data
-        f2=Frame(page1,bg='sky blue')
-        f2.place(x=250,y=220,width=740,height=330)
-
-        #frame 2 button delete update login 
-        delb = Button(f2, text = 'Delete',bg='#FFA500',activebackground='black',font=("Times",10,"bold"),command=lambda:[self.delete()])
-        delb.place(x=530, y=80,width=150,height=30)
-        upd = Button(f2, text = 'Update',bg='#FFA500',activebackground='black',font=("Times",10,"bold"),command=lambda:[self.update()])
-        upd.place(x=530, y=140,width=150,height=30)
-        login = Button(f2, text = 'LOGIN',bg='#FFA500',activebackground='black',font=("Times",10,"bold"),command=lambda:[self.getrow(),self.book()])
-        login.place(x=530, y=200,width=150,height=30)
-
-        cols=("No.","username","password")
-        self.listbox=ttk.Treeview(f2,columns=cols,show='headings')
->>>>>>> 41690c6f99fe67aaf4f1663d1e6c82eb59dfbd29
->>>>>>> 1f7b9bd93eb137a10a592b9a9ba6e517c4a5b3c8
         self.listbox.column('username', anchor=CENTER, width=50)
         self.listbox.column('password', anchor=CENTER, width=50)
         self.listbox.column('No.', anchor=CENTER, width=20)
         for col in cols:
             self.listbox.heading(col, text=col)
-<<<<<<< HEAD
             self.listbox.place(x=10,y=65)
             self.listbox.place(width=400,height=220)
-=======
-<<<<<<< HEAD
-            self.listbox.place(x=10,y=65)
-            self.listbox.place(width=400,height=220)
-=======
-            self.listbox.grid(row=0,column=0,columnspan=1)
-            self.listbox.place(width=500,height=330)
->>>>>>> 41690c6f99fe67aaf4f1663d1e6c82eb59dfbd29
->>>>>>> 1f7b9bd93eb137a10a592b9a9ba6e517c4a5b3c8
         
         self.show()
         

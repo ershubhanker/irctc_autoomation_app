@@ -180,15 +180,7 @@ def start3(user3,user3_pass,passanger_value,upi_value,method_pay,debit_value):
         else:
             pass
     def check_captcha():
-<<<<<<< HEAD
         # for i in range(0,5):
-=======
-<<<<<<< HEAD
-        # for i in range(0,5):
-=======
-        for i in range(0,5):
->>>>>>> 41690c6f99fe67aaf4f1663d1e6c82eb59dfbd29
->>>>>>> 1f7b9bd93eb137a10a592b9a9ba6e517c4a5b3c8
             try:
                 if driver.find_element(By.ID, "nlpImgContainer").is_displayed()==True: 
                     print("first captcha show")
@@ -274,19 +266,8 @@ def start3(user3,user3_pass,passanger_value,upi_value,method_pay,debit_value):
     time.sleep(1)
     # create action chain object
     action = ActionChains(driver)
-<<<<<<< HEAD
     # # click the date
     action.key_down(Keys.CONTROL).send_keys('A').key_up(Keys.CONTROL).perform()
-=======
-<<<<<<< HEAD
-    # # click the date
-    action.key_down(Keys.CONTROL).send_keys('A').key_up(Keys.CONTROL).perform()
-=======
-    # click the date
-    action.click(on_element = date_e)
-    action.double_click(on_element = date_e)
->>>>>>> 41690c6f99fe67aaf4f1663d1e6c82eb59dfbd29
->>>>>>> 1f7b9bd93eb137a10a592b9a9ba6e517c4a5b3c8
     # write date
     action.send_keys(date)
     action.perform()

@@ -11,10 +11,6 @@ class Tickets_screen:
 
     def tickets_screen(self):
         self.root.title("Total Tickets")
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 1f7b9bd93eb137a10a592b9a9ba6e517c4a5b3c8
         page4=Frame(self.root,bg='sky blue', width=700, height=290)
         page4.place(x=0,y=0)
         font1=tkfont.Font(family='Times', size=20, weight="bold")
@@ -23,19 +19,6 @@ class Tickets_screen:
         f1.place(x=10,y=5,width=555,height=240)
         b1=Button(page4,text='Delete Ticket',bg='#FFA500',activebackground='black',font=("Times",15,"bold"),command=lambda:delete())
         b1.place(x=180,y=250,width=150,height=30)
-<<<<<<< HEAD
-=======
-=======
-        page4=Frame(self.root,bg='sky blue', width=1200, height=550)
-        page4.place(x=0,y=0)
-        font1=tkfont.Font(family='Times', size=20, weight="bold")
-        t1=Label(page4,text="SAVE TICKETS",font=font1,bg='sky blue',fg='grey',bd=10)
-        t1.place(x=500,y=100,width=200,height=40)
-        #frame 1 
-        f1=Frame(page4 ,bg='sky blue',bd=5,highlightbackground="white", highlightthickness=1)
-        f1.place(x=220,y=150,width=780,height=300)
->>>>>>> 41690c6f99fe67aaf4f1663d1e6c82eb59dfbd29
->>>>>>> 1f7b9bd93eb137a10a592b9a9ba6e517c4a5b3c8
         def get1(event):
             row_id1=listbox.selection()[0]
             select=listbox.set(row_id1)
@@ -158,15 +141,7 @@ class Tickets_screen:
         listbox.column('TOTAL TICKETS', anchor=CENTER, width=50)
         for col in cols:
             listbox.heading(col, text=col)
-<<<<<<< HEAD
             listbox.place(width=545,height=230)
-=======
-<<<<<<< HEAD
-            listbox.place(width=545,height=230)
-=======
-            listbox.place(width=770,height=290)
->>>>>>> 41690c6f99fe67aaf4f1663d1e6c82eb59dfbd29
->>>>>>> 1f7b9bd93eb137a10a592b9a9ba6e517c4a5b3c8
         
         def show1():
             mysqldb = mysql.connector.connect(host="localhost", user="root", password="deol9646", database="train_login")
@@ -181,10 +156,6 @@ class Tickets_screen:
                 mysqldb.close()
         show1()
         
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> 1f7b9bd93eb137a10a592b9a9ba6e517c4a5b3c8
         def delete():
             row_id1=listbox.selection()[0]
             select=listbox.set(row_id1)
@@ -205,10 +176,5 @@ class Tickets_screen:
                 print(e)
                 mysqldb.rollback()
                 mysqldb.close()
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 41690c6f99fe67aaf4f1663d1e6c82eb59dfbd29
->>>>>>> 1f7b9bd93eb137a10a592b9a9ba6e517c4a5b3c8
         
         listbox.bind("<Double-Button-1>",get1)
