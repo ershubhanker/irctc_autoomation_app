@@ -1,0 +1,14 @@
+{
+   "ExtnMarket": {
+      "Description": "Market",
+      "message": "lv-lv"
+   },
+   "ExtnName": {
+      "Description": "Extension name",
+      "message": "MSN + Bing for Chrome"
+   },
+   "HomePage": {
+      "Description": "Homepage",
+      "message": "en-us"
+   }
+}

@@ -1,0 +1,18 @@
+{
+   "ExtnDescription": {
+      "Description": "Extension Description",
+      "message": "Установить MSN в качестве домашней страницы и Bing в качестве поисковой системы"
+   },
+   "ExtnMarket": {
+      "Description": "Market",
+      "message": "ru-ru"
+   },
+   "ExtnName": {
+      "Description": "Extension name",
+      "message": "Домашняя страница MSN и поиск Bing"
+   },
+   "HomePage": {
+      "Description": "Homepage",
+      "message": "ru-ru"
+   }
+}

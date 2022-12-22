@@ -1,0 +1,18 @@
+{
+   "ExtnDescription": {
+      "Description": "Extension Description",
+      "message": "Defina o MSN como sua home page e Bing como seu mecanismo de pesquisa"
+   },
+   "ExtnMarket": {
+      "Description": "Market",
+      "message": "pt-br"
+   },
+   "ExtnName": {
+      "Description": "Extension name",
+      "message": "Home Page do MSN e Mecanismo de Pesquisa do Bing"
+   },
+   "HomePage": {
+      "Description": "Homepage",
+      "message": "pt-br"
+   }
+}

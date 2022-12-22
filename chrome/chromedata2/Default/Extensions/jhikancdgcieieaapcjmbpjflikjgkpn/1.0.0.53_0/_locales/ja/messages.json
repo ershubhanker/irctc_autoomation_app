@@ -1,0 +1,18 @@
+{
+   "ExtnDescription": {
+      "Description": "Extension Description",
+      "message": "MSN をホームページに設定し、Bing を検索エンジンに設定する"
+   },
+   "ExtnMarket": {
+      "Description": "Market",
+      "message": "ja-jp"
+   },
+   "ExtnName": {
+      "Description": "Extension name",
+      "message": "MSN ホームページと Bing 検索エンジン"
+   },
+   "HomePage": {
+      "Description": "Homepage",
+      "message": "ja-jp"
+   }
+}

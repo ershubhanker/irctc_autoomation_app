@@ -17,28 +17,18 @@ opt.add_experimental_option("debuggerAddress",'localhost:9222')
 driver=webdriver.Chrome(executable_path=r"E:\\chromedriver_win32\\chromedriver.exe",chrome_options=opt)
 
 
-driver.maximize_window()
-driver.get("https://checkout.razorpay.com/orders/order_KbFikMZG6JiALT?x_ranid=KbFijl3RTloKTB")
+# driver.maximize_window()
+driver.get("https://checkout.razorpay.com/orders/order_KlVMTRcZdxzK1Z?x_ranid=KlVMT51ycN8qFG")
+time.sleep(3)
+#enter iframe
+iframe = driver.find_element(By.XPATH,"//iframe[@class='razorpay-checkout-frame']")
+driver.switch_to.frame(iframe)
 
 #upi or QR
 try:
-    roserpay = driver.find_element(By.XPATH, '//*[@id="form-common"]/div[1]/div/div/div/div/div/button[1]/div/div[1]')
+    roserpay = driver.find_element(By.XPATH, '//*[@id="form-common"]/div[1]/div[1]/div/div/div/div/button[1]/div/div[1]/div[1]/div[1]')
     roserpay.click()
-    print('upi choose roserpay')
-    time.sleep(2)
+    print('upi or QR')
+    time.sleep(1)
 except:
     print('take in your hands')
-
-
-#click and add upi
-conti_confirm = driver.find_element(By.XPATH,'//*[@id="vpa-upi"]')
-conti_confirm.click()
-print('add payment number')
-# create action chain object
-action = ActionChains(driver)
-# click the item
-action.click(on_element = conti_confirm)
-# send keys
-action.send_keys('sarbdeol@ybl')
-action.perform()
-time.sleep(2)

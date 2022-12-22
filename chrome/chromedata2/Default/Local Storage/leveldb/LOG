@@ -1,0 +1,6 @@
+2022/12/22-10:12:54.265 1f34 Reusing MANIFEST E:\PYTHON\train_ticket_v2\chrome\chromedata2\Default\Local Storage\leveldb/MANIFEST-000001
+2022/12/22-10:12:54.272 1f34 Recovering log #46
+2022/12/22-10:12:54.274 1f34 Reusing old log E:\PYTHON\train_ticket_v2\chrome\chromedata2\Default\Local Storage\leveldb/000046.log 
+2022/12/22-10:14:59.013 1f34 Level-0 table #49: started
+2022/12/22-10:14:59.096 1f34 Level-0 table #49: 24682 bytes OK
+2022/12/22-10:14:59.142 1f34 Delete type=0 #46
