@@ -25,14 +25,30 @@ mycursor.execute('''create table if not exists upi_data(id int(15) auto_incremen
 mycursor.execute('''create table if not exists licence_key(id int(15) auto_increment,L_key text, primary key(id))''')
 # Bottom keys
 def navigate():
+<<<<<<< HEAD
     
     login = Login_screen(root)
     
+=======
+<<<<<<< HEAD
+    
+    login = Login_screen(root)
+    
+=======
+    global keys
+    login = Login_screen(root)
+   
+>>>>>>> 41690c6f99fe67aaf4f1663d1e6c82eb59dfbd29
+>>>>>>> 1f7b9bd93eb137a10a592b9a9ba6e517c4a5b3c8
     passanger=Passanger_screen(root,passanger_value)
     payment=Payment_screen(root,upi_value,debit_value,method_pay)
     tickets=Tickets_screen(root,passanger_value)
     
     Button1=Button(root,text='LOGIN',command=lambda:login.login_screen())
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 1f7b9bd93eb137a10a592b9a9ba6e517c4a5b3c8
     Button1.place(x=10,y=290)
     Button2=Button(root,text='PASSSENGER',command=lambda:passanger.passanger_screen())
     Button2.place(x=65,y=290)
@@ -41,6 +57,19 @@ def navigate():
     Button3=Button(root,text='TICKETS',command=lambda:tickets.tickets_screen())
     Button3.place(x=230,y=290)
     
+<<<<<<< HEAD
+=======
+=======
+    Button1.place(x=10,y=570)
+    Button2=Button(root,text='PASSSENGER',command=lambda:passanger.passanger_screen())
+    Button2.place(x=65,y=570)
+    Button3=Button(root,text='PAYMENT',command=lambda:payment.payment_screen())
+    Button3.place(x=155,y=570)
+    Button3=Button(root,text='TICKETS',command=lambda:tickets.tickets_screen())
+    Button3.place(x=230,y=570)
+
+>>>>>>> 41690c6f99fe67aaf4f1663d1e6c82eb59dfbd29
+>>>>>>> 1f7b9bd93eb137a10a592b9a9ba6e517c4a5b3c8
     
 
 if __name__ == "__main__":
@@ -51,8 +80,17 @@ if __name__ == "__main__":
     root.title("IRCTC")
     root.rowconfigure(0, weight=1)
     root.columnconfigure(0, weight=1)
+<<<<<<< HEAD
     root.geometry("575x320+200+50")
     root.resizable(False,False)
+=======
+<<<<<<< HEAD
+    root.geometry("575x320+200+50")
+    root.resizable(False,False)
+=======
+    root.geometry("1200x600+200+50")
+>>>>>>> 41690c6f99fe67aaf4f1663d1e6c82eb59dfbd29
+>>>>>>> 1f7b9bd93eb137a10a592b9a9ba6e517c4a5b3c8
     icon=PhotoImage(file='icon.png')
     root.iconphoto(False,icon)
 
@@ -79,7 +117,15 @@ if __name__ == "__main__":
 
     
     
+<<<<<<< HEAD
     
+=======
+<<<<<<< HEAD
+    
+=======
+        
+>>>>>>> 41690c6f99fe67aaf4f1663d1e6c82eb59dfbd29
+>>>>>>> 1f7b9bd93eb137a10a592b9a9ba6e517c4a5b3c8
     root.mainloop()
 
     
