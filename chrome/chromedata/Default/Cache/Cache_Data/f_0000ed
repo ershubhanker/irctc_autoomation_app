@@ -1121,21 +1121,28 @@ const setPlaceholderMaxHeight = () => {
            position: absolute;
            padding: ${mediaObj.cross.padding};">
        
-           <div style="width: 100%; height: ${mediaObj.bannerHeight}">
+           <div style="cursor:pointer;width: 100%; height: ${mediaObj.bannerHeight}" id="disha-image">
              <img
-               src="https://dishav3.ap-south-1.linodeobjects.com/tatkal.jpg"
+               src="https://dishav3.ap-south-1.linodeobjects.com/IRCTC-banner-4.gif"
                style="width: 100%; height: 100%; border-radius: 8px"
                alt=""
                decoding = "async"
              />
            </div>
+           <div style="    display: flex;
+           justify-content: center;
+           align-items: center;
+           column-gap: 6px;
+           width:96%;
+           margin: 0px auto;
+           ">
            <div
              style="
                display: flex;
                justify-content: center;
                align-items: center;
                background: #0068ff;
-               width: 90%;
+               width: 50%;
                margin: 0 auto;
                border-radius: 10px;
                padding: ${mediaObj.button.padding} 0px;
@@ -1170,9 +1177,64 @@ const setPlaceholderMaxHeight = () => {
                  color: white;
                "
              >
-               Book Train Ticket
+               Book Ticket
              </p>
            </div>
+
+
+
+
+
+
+           <div
+             style="
+               display: flex;
+               justify-content: center;
+               align-items: center;
+               background: #0068ff;
+               width: 50%;
+               margin: 0 auto;
+               border-radius: 10px;
+               padding: ${mediaObj.button.padding} 0px;
+               cursor: pointer;
+             "
+             id="disha-banner-button2"
+           >
+             <div
+               style="
+                 width: ${mediaObj.button.icon};
+                 height: ${mediaObj.button.icon};
+                 border-radius: 50%;
+                 background: transparent;
+                 display: flex;
+                 justify-content: center;
+                 align-items: center;
+               "
+             >
+               <img
+                 src="https://dishav3.ap-south-1.linodeobjects.com/disha-support.png"
+                 alt=""
+                 style="width: 80%"
+                 decoding = "async"
+               />
+             </div>
+             <p
+               style="
+                 margin: 0;
+                 margin-left: ${mediaObj.button.marginLeft};
+                 font-family: sans-serif;
+                 font-size: ${mediaObj.button.font};
+                 color: white;
+               "
+             >
+               Support
+             </p>
+           </div>
+           </div>
+
+
+
+
            <div style=" text-align: center;
            font-family: sans-serif;">
            
@@ -1227,7 +1289,7 @@ const setPlaceholderMaxHeight = () => {
           border: 0px;
           transform: scale(${mediaObj.videoAd.scale});
           margin-top: ${mediaObj.videoAd.margin};
-          display:block;
+          display:none;
           "></iframe>  
  
           <div id='div-gpt-ad-1666354032325-0' style='min-width: 300px; min-height: 250px;'>
@@ -1256,8 +1318,24 @@ const setPlaceholderMaxHeight = () => {
     //   ></iframe>
     // </div>
 
+    const openSupport = () => {
+      let urlDeskTop = `https://irctc.corover.ai/eticket/?support=true`;
+      let urlMobile = `https://irctc.corover.ai/eticket/?support=true/#web`;
+      let url = "";
+      if (isMobile) url = urlMobile;
+      else url = urlDeskTop;
+
+      if (!isOpen && !initialized) {
+        botOpenWithURL(url);
+      } else {
+        if (!isOpen) botOpen();
+      }
+    };
+
     document.body.appendChild(placeholderCard);
     document.getElementById("disha-banner-button").onclick = botOpen;
+    document.getElementById("disha-banner-button2").onclick = openSupport;
+    document.getElementById("disha-image").onclick = botOpen;
 
     const openBanner = (bool) => {
       if (isMobile) {
@@ -2060,8 +2138,8 @@ const setPlaceholderMaxHeight = () => {
     }
   }
 
-  // setVideoAd(true);
-  setYoutubeAd();
+  setVideoAd(true);
+  // setYoutubeAd();
 
   // /////////////////
 
@@ -2579,15 +2657,15 @@ const setPlaceholderMaxHeight = () => {
       if (window.location.href != oldUrl) {
         let s = true;
         if (window.location.href.includes("train-search")) {
-          setYoutubeAd();
+          setVideoAd();
           // const iframe = document.getElementById("book-ticket-iframe");
           // if (iframe) iframe.style.display = "none";
         } else if (window.location.href.includes("enquiry/pnr-enquiry")) {
-          setYoutubeAd2(true);
+          setVideoAd2(true);
           // const iframe = document.getElementById("book-ticket-iframe");
           // if (iframe) iframe.style.display = "none";
         } else if (window.location.href.includes("booking/train-list")) {
-          setYoutubeAdTrains();
+          setVideoAdTrains();
           s = false;
         } else {
           setVideoAd2(false);
@@ -2660,7 +2738,7 @@ const setPlaceholderMaxHeight = () => {
     }
   };
 
-  setSecondVideoAdinIframe();
+  // setSecondVideoAdinIframe();
 
   document.head.insertAdjacentHTML(
     "beforeend",

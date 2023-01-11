@@ -12,6 +12,7 @@ class Login_screen(Passanger_screen):
         self.root = root
         
         
+        
         self.username = ""
         self.password = ""
         Passanger_screen.__init__(self,root,passanger_value)
@@ -227,6 +228,7 @@ class Login_screen(Passanger_screen):
     def book(self):
         print('book')
         
+        
         if passanger_value['qouta']=='TATKAL':
             print(passanger_value)
             thread1=multiprocessing.Process(target=start1,args=(self.user1,self.user1_pass,passanger_value,upi_value,method_pay,debit_value))
@@ -234,6 +236,9 @@ class Login_screen(Passanger_screen):
             # thread3=multiprocessing.Process(target=start3,args=(self.user3,self.user3_pass,passanger_value,upi_value,method_pay,debit_value))
             # thread4=multiprocessing.Process(target=start4,args=(self.user4,self.user4_pass,passanger_value,upi_value,method_pay,debit_value))
             # thread5=multiprocessing.Process(target=start5,args=(self.user5,self.user5_pass,passanger_value,upi_value,method_pay,debit_value))
+           
+            
+
             thread1.start()
             thread2.start()
             # thread3.start()
@@ -242,6 +247,7 @@ class Login_screen(Passanger_screen):
 
             thread1.join()
             thread2.join()  
+           
             # thread3.join()  
             # thread4.join()
             # thread5.join()
@@ -249,7 +255,12 @@ class Login_screen(Passanger_screen):
 
         
         elif passanger_value['qouta']=='GENERAL':
-            start1(self.user1,self.user1_pass,passanger_value,upi_value,method_pay,debit_value)
+            # start1(self.user1,self.user1_pass,passanger_value,upi_value,method_pay,debit_value)
+            thread1=multiprocessing.Process(target=start1,args=(self.user1,self.user1_pass,passanger_value,upi_value,method_pay,debit_value))
+           
+            thread1.start()
+           
+            thread1.join()
 
     
     

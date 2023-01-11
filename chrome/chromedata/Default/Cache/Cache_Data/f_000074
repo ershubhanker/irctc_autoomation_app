@@ -112,9 +112,10 @@ const setPlaceholderMaxHeight = () => {
     let heightCubeDisha = parseFloat(stylesCubeDisha.height.split("px")[0]);
     let topCubeDisha = parseFloat(stylesCubeDisha.top.split("px")[0]);
     let totalMarginFromTop = heightCubeDisha + topCubeDisha - 28.0;
-
-    let pla = document.getElementById("disha-placeholder-card");
-    pla.style.maxHeight = `calc(100vh - ${totalMarginFromTop}px)`;
+    if (topCubeDisha < 400) {
+      let pla = document.getElementById("disha-placeholder-card");
+      pla.style.maxHeight = `calc(100vh - ${totalMarginFromTop}px)`;
+    }
   }
 };
 
@@ -177,7 +178,7 @@ const setPlaceholderMaxHeight = () => {
       videoAd: {
         height: "270px",
         width: "100%",
-        margin: "-23px",
+        margin: "-32px",
         scale: "1.0",
       },
       belowAD: {
@@ -212,7 +213,7 @@ const setPlaceholderMaxHeight = () => {
         videoAd: {
           height: "270px",
           width: "100%",
-          margin: "-30px",
+          margin: "-36px",
           scale: "0.9",
         },
         belowAD: {
@@ -250,7 +251,7 @@ const setPlaceholderMaxHeight = () => {
         videoAd: {
           height: "270px",
           width: "100%",
-          margin: "-23px",
+          margin: "-32px",
           scale: "1.0",
         },
         belowAD: {
@@ -288,7 +289,7 @@ const setPlaceholderMaxHeight = () => {
         videoAd: {
           height: "270px",
           width: "100%",
-          margin: "-23px",
+          margin: "-32px",
           scale: "1.0",
         },
         belowAD: {
@@ -1120,21 +1121,28 @@ const setPlaceholderMaxHeight = () => {
            position: absolute;
            padding: ${mediaObj.cross.padding};">
        
-           <div style="width: 100%; height: ${mediaObj.bannerHeight}">
+           <div style="cursor:pointer;width: 100%; height: ${mediaObj.bannerHeight}" id="disha-image">
              <img
-               src="https://dishav3.ap-south-1.linodeobjects.com/tatkal.jpg"
+               src="https://dishav3.ap-south-1.linodeobjects.com/IRCTC-banner-4.gif"
                style="width: 100%; height: 100%; border-radius: 8px"
                alt=""
                decoding = "async"
              />
            </div>
+           <div style="    display: flex;
+           justify-content: center;
+           align-items: center;
+           column-gap: 6px;
+           width:96%;
+           margin: 0px auto;
+           ">
            <div
              style="
                display: flex;
                justify-content: center;
                align-items: center;
                background: #0068ff;
-               width: 90%;
+               width: 50%;
                margin: 0 auto;
                border-radius: 10px;
                padding: ${mediaObj.button.padding} 0px;
@@ -1169,9 +1177,64 @@ const setPlaceholderMaxHeight = () => {
                  color: white;
                "
              >
-               Book Train Ticket
+               Book Ticket
              </p>
            </div>
+
+
+
+
+
+
+           <div
+             style="
+               display: flex;
+               justify-content: center;
+               align-items: center;
+               background: #0068ff;
+               width: 50%;
+               margin: 0 auto;
+               border-radius: 10px;
+               padding: ${mediaObj.button.padding} 0px;
+               cursor: pointer;
+             "
+             id="disha-banner-button2"
+           >
+             <div
+               style="
+                 width: ${mediaObj.button.icon};
+                 height: ${mediaObj.button.icon};
+                 border-radius: 50%;
+                 background: transparent;
+                 display: flex;
+                 justify-content: center;
+                 align-items: center;
+               "
+             >
+               <img
+                 src="https://dishav3.ap-south-1.linodeobjects.com/disha-support.png"
+                 alt=""
+                 style="width: 80%"
+                 decoding = "async"
+               />
+             </div>
+             <p
+               style="
+                 margin: 0;
+                 margin-left: ${mediaObj.button.marginLeft};
+                 font-family: sans-serif;
+                 font-size: ${mediaObj.button.font};
+                 color: white;
+               "
+             >
+               Support
+             </p>
+           </div>
+           </div>
+
+
+
+
            <div style=" text-align: center;
            font-family: sans-serif;">
            
@@ -1226,7 +1289,7 @@ const setPlaceholderMaxHeight = () => {
           border: 0px;
           transform: scale(${mediaObj.videoAd.scale});
           margin-top: ${mediaObj.videoAd.margin};
-          display:block;
+          display:none;
           "></iframe>  
  
           <div id='div-gpt-ad-1666354032325-0' style='min-width: 300px; min-height: 250px;'>
@@ -1255,8 +1318,24 @@ const setPlaceholderMaxHeight = () => {
     //   ></iframe>
     // </div>
 
+    const openSupport = () => {
+      let urlDeskTop = `https://irctc.corover.ai/eticket/?support=true`;
+      let urlMobile = `https://irctc.corover.ai/eticket/?support=true/#web`;
+      let url = "";
+      if (isMobile) url = urlMobile;
+      else url = urlDeskTop;
+
+      if (!isOpen && !initialized) {
+        botOpenWithURL(url);
+      } else {
+        if (!isOpen) botOpen();
+      }
+    };
+
     document.body.appendChild(placeholderCard);
     document.getElementById("disha-banner-button").onclick = botOpen;
+    document.getElementById("disha-banner-button2").onclick = openSupport;
+    document.getElementById("disha-image").onclick = botOpen;
 
     const openBanner = (bool) => {
       if (isMobile) {
@@ -2060,8 +2139,194 @@ const setPlaceholderMaxHeight = () => {
   }
 
   setVideoAd(true);
+  // setYoutubeAd();
 
   // /////////////////
+
+  function setYoutubeAd() {
+    try {
+      let leftover = document.querySelectorAll("#adContainer1")[0];
+      let parent = leftover.parentElement;
+      parent.removeChild(leftover);
+    } catch (err) {}
+    if (!isMobile) {
+      try {
+        let adContainer = document.createElement("div");
+        adContainer.id = "adContainer1";
+        adContainer.style.cssText = `
+             display: flex;
+             justify-content: center;
+             align-items: center;
+             width: fit-content;
+             border: 1px solid gainsboro;
+             padding: 12px 12px;
+             border-radius: 10px;
+             box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+             column-gap: 30px;
+             margin: 25px auto;
+             `;
+        document
+          .querySelectorAll("div.container")[3]
+          .insertBefore(
+            adContainer,
+            document.querySelectorAll("div.container")[3].childNodes[0]
+          );
+        adContainer.innerHTML = `
+             <span
+           >
+           </span>
+               <div id="div-gpt-ad-1664429992698-0"></div>
+               <div id="div-ub-irctc" style="margin:0; width:320px;
+               height:180px;    margin: 0 auto; overflow:hidden;">
+               <iframe width="100%" height="100%" src="https://www.youtube.com/embed/gQcqoZvIieg?controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+               </div>
+               <div id="div-gpt-ad-1664430029564-0"></div>
+               <span
+             >
+             </span>
+               `;
+        unibots.cmd.push(() => {
+          unibotsPlayer("irctc");
+        });
+        let firstAd = document.getElementById("div-gpt-ad-1664429992698-0");
+        const firstAdScript = document.createElement("script");
+        firstAdScript.innerHTML = `
+           googletag.cmd.push(function () {
+             googletag.display("div-gpt-ad-1664429992698-0");
+           });
+     `;
+        firstAd.appendChild(firstAdScript);
+        let thirdAd = document.getElementById("div-gpt-ad-1664430029564-0");
+        const thirdAdScript = document.createElement("script");
+        thirdAdScript.innerHTML = `
+           googletag.cmd.push(function () {
+             googletag.display("div-gpt-ad-1664430029564-0");
+           });
+     `;
+        thirdAd.appendChild(thirdAdScript);
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      try {
+        let videoDiv = document.createElement("div");
+        videoDiv.id = "div-ub-irctc";
+        videoDiv.style.cssText = `
+         width:320px;
+         height:180px;
+         margin: 0 auto;
+         `;
+
+        videoDiv.innerHTML = `
+         <iframe width="100%" height="100%" src="https://www.youtube.com/embed/gQcqoZvIieg?controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+         `;
+        // document.body.appendChild(videoDiv);
+        document
+          .querySelectorAll(".clearfix")[3]
+          .insertAdjacentElement("afterend", videoDiv);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  }
+
+  function setYoutubeAd2(isPnr) {
+    try {
+      let videoDiv = document.createElement("div");
+      videoDiv.id = "div-ub-irctc";
+      videoDiv.style.cssText = `
+       width:320px;
+       height:180px;
+       margin: 0 auto;
+       `;
+
+      videoDiv.innerHTML = `
+       <iframe width="100%" height="100%" src="https://www.youtube.com/embed/gQcqoZvIieg?controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+       `;
+
+      if (isMobile) {
+        if (isPnr) {
+          document
+            .querySelectorAll(".pnrbox")[0]
+            .insertAdjacentElement("afterend", videoDiv);
+        } else {
+          document.body.appendChild(videoDiv);
+        }
+      } else {
+        try {
+          let leftover = document.querySelectorAll("#adContainer1")[0];
+
+          let parent = leftover.parentElement;
+          parent.removeChild(leftover);
+        } catch (e) {}
+
+        let adContainer = document.createElement("div");
+        adContainer.id = "adContainer1";
+        adContainer.style.cssText = `
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         width: fit-content;
+         border: 1px solid gainsboro;
+         padding: 12px 12px;
+         border-radius: 10px;
+         box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+         column-gap: 30px;
+         margin: 25px auto;
+         `;
+        if (isPnr)
+          document
+            .querySelectorAll(".pnrbox")[0]
+            .insertAdjacentElement("afterend", adContainer);
+        else
+          document
+            .querySelector(".footer-icons")
+            .insertAdjacentElement("beforebegin", adContainer);
+
+        adContainer.innerHTML = `
+ 
+         <span
+       >
+         
+       </span>
+ 
+           <div id="div-gpt-ad-1664429992698-0"></div>
+           <div id="div-ub-irctc" style="margin:0; width:320px;
+           height:180px;    margin: 0 auto; overflow:hidden;">
+           <iframe width="100%" height="100%" src="https://www.youtube.com/embed/gQcqoZvIieg?controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+           </div>
+           <div id="div-gpt-ad-1664430029564-0"></div>
+ 
+           <span
+         >
+           
+         </span>
+ 
+           `;
+
+        let firstAd = document.getElementById("div-gpt-ad-1664429992698-0");
+        const firstAdScript = document.createElement("script");
+        firstAdScript.innerHTML = `
+       googletag.cmd.push(function () {
+         googletag.display("div-gpt-ad-1664429992698-0");
+       });
+ `;
+        firstAd.appendChild(firstAdScript);
+
+        let thirdAd = document.getElementById("div-gpt-ad-1664430029564-0");
+        const thirdAdScript = document.createElement("script");
+        thirdAdScript.innerHTML = `
+       googletag.cmd.push(function () {
+         googletag.display("div-gpt-ad-1664430029564-0");
+       });
+ `;
+
+        thirdAd.appendChild(thirdAdScript);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   function setVideoAd2(isPnr) {
     try {
@@ -2274,6 +2539,96 @@ const setPlaceholderMaxHeight = () => {
     }
   }
 
+  function setYoutubeAdTrains() {
+    try {
+      setVideoAdHeader();
+      let videoDiv = document.createElement("div");
+      videoDiv.id = "div-ub-irctc";
+      videoDiv.style.cssText = `
+       width:320px;
+       height:180px;
+       margin: 0 auto;
+       `;
+
+      videoDiv.innerHTML = `
+       <iframe width="100%" height="100%" src="https://www.youtube.com/embed/gQcqoZvIieg?controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+       `;
+      if (isMobile) {
+        document.body.appendChild(videoDiv);
+      } else {
+        try {
+          let leftover = document.querySelectorAll("#adContainer1")[0];
+
+          let parent = leftover.parentElement;
+          parent.removeChild(leftover);
+        } catch (e) {}
+
+        let trainsDiv = document.querySelector(".tbis-div ");
+
+        let adContainer = document.createElement("div");
+        adContainer.id = "adContainer1";
+        adContainer.style.cssText = `
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         width: fit-content;
+         border: 1px solid gainsboro;
+         padding: 12px 12px;
+         border-radius: 10px;
+         box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+         column-gap: 30px;
+         margin: 25px auto;
+         `;
+
+        trainsDiv.insertAdjacentElement("beforeend", adContainer);
+
+        adContainer.innerHTML = `
+ 
+         <span
+       >
+         
+       </span>
+ 
+           <div id="div-gpt-ad-1664429992698-0"></div>
+           <div id="div-ub-irctc" style="margin:0; width:320px;
+           height:180px;    margin: 0 auto; overflow:hidden;">
+           <iframe width="100%" height="100%" src="https://www.youtube.com/embed/gQcqoZvIieg?controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+           </div>
+           <div id="div-gpt-ad-1664430029564-0"></div>
+ 
+           <span
+         >
+           
+         </span>
+ 
+           `;
+
+        let firstAd = document.getElementById("div-gpt-ad-1664429992698-0");
+        const firstAdScript = document.createElement("script");
+        firstAdScript.innerHTML = `
+       googletag.cmd.push(function () {
+         googletag.display("div-gpt-ad-1664429992698-0");
+       });
+ `;
+        firstAd.appendChild(firstAdScript);
+
+        let thirdAd = document.getElementById("div-gpt-ad-1664430029564-0");
+        const thirdAdScript = document.createElement("script");
+        thirdAdScript.innerHTML = `
+       googletag.cmd.push(function () {
+         googletag.display("div-gpt-ad-1664430029564-0");
+       });
+ `;
+
+        thirdAd.appendChild(thirdAdScript);
+
+        // ///////////
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   const reloadADs = (all) => {
     defineGPTslots(all);
     googletag.cmd.push(function () {
@@ -2302,7 +2657,7 @@ const setPlaceholderMaxHeight = () => {
       if (window.location.href != oldUrl) {
         let s = true;
         if (window.location.href.includes("train-search")) {
-          setVideoAd(false);
+          setVideoAd();
           // const iframe = document.getElementById("book-ticket-iframe");
           // if (iframe) iframe.style.display = "none";
         } else if (window.location.href.includes("enquiry/pnr-enquiry")) {
@@ -2383,7 +2738,7 @@ const setPlaceholderMaxHeight = () => {
     }
   };
 
-  setSecondVideoAdinIframe();
+  // setSecondVideoAdinIframe();
 
   document.head.insertAdjacentHTML(
     "beforeend",

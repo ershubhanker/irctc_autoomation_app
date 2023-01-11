@@ -30,6 +30,12 @@ import cv2
 import sys
 import requests
 import base64
+from time import strftime
+from datetime import datetime
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+# from fp.fp import FreeProxy
+# from fake_useragent import UserAgent
 #passanger value dictionary
 passanger_value={'name':"",'age':"",'gender':"",'name2':"",'age2':"",'gender2':"",'name3':"",'age3':"",'gender3':"",'name4':"",
 'age4':"",'gender4':"",'name5':"",'age5':"",'gender5':"",'name6':"",'age6':"",'gender6':"",'ifrom':"",'ito':"",'date':"",'total':"",'qouta':""}
@@ -39,3 +45,13 @@ method_pay={'method_p':""}
 counter_value={'tatkal_counter':""}
 var=os.getcwd()
 #print(var)
+
+import datetime as dt
+# start= datetime.now().strftime("%H:%M:%S")
+# time.sleep(4)
+# end=datetime.now().strftime("%H:%M:%S")
+# start_dt = dt.datetime.strptime(start, '%H:%M:%S')
+# end_dt = dt.datetime.strptime(end, '%H:%M:%S')
+# diff = (end_dt - start_dt) 
+# diff.seconds/60 
+# print(diff)

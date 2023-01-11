@@ -41,7 +41,6 @@ def navigate():
     Button3=Button(root,text='TICKETS',command=lambda:tickets.tickets_screen())
     Button3.place(x=230,y=290)
     
-    
 
 if __name__ == "__main__":
     # ----root window----
@@ -55,13 +54,15 @@ if __name__ == "__main__":
     root.resizable(False,False)
     icon=PhotoImage(file='icon.png')
     root.iconphoto(False,icon)
-
+    lbl=Label(root,font=('digital-7',15,'bold'),background='sky blue',foreground='black')
+    lbl.place(x=430,y=290,width=150,height=25)
     mycursor.execute('''create table if not exists licence_key(id int(15) auto_increment,L_key text, primary key(id))''')
     query="SELECT L_key FROM licence_key" 
     mycursor.execute(query)
     rows=mycursor.fetchall()
     for row in rows:
         print('data',row[0])
+        
     try:
         if row[0] =="sarb":
             print('log in ')
@@ -73,9 +74,18 @@ if __name__ == "__main__":
         
         keys= Keys_screen(root,l1)
         keys.key_screen()
+    def Time():
+        string=strftime('%H:%M:%S %p')
+        lbl.config(text=string)
+        lbl.after(1000,Time)
 
+    Time()
     navigate()
     
+    
+    # Time()
+    
+
 
     
     

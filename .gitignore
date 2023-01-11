@@ -1,0 +1,4 @@
+/logging_module/config/* 
+/logging_module/mappinglist/* 
+/logging_module/logs/* 
+/logging_module/root.log

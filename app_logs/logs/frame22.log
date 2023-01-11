@@ -1,0 +1,111 @@
+2023-01-10 09:44:31,367 frame22 INFO     opening browser
+2023-01-10 09:45:01,529 frame22 INFO     getting element for login button
+2023-01-10 09:45:03,560 frame22 ERROR    Unable to locate element login button
+Traceback (most recent call last):
+  File "e:\PYTHON\irctc_v3\frame2.py", line 77, in start2
+    wait.until(EC.element_to_be_clickable((By.XPATH, '/html/body/app-root/app-home/div[1]/app-header/div[1]/div[3]/div/a[2]'))).click()
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\selenium\webdriver\support\wait.py", line 71, in until
+    value = method(self._driver)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\selenium\webdriver\support\expected_conditions.py", line 297, in __call__
+    element = visibility_of_element_located(self.locator)(driver)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\selenium\webdriver\support\expected_conditions.py", line 128, in __call__
+    return _element_if_visible(_find_element(driver, self.locator))
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\selenium\webdriver\support\expected_conditions.py", line 415, in _find_element
+    raise e
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\selenium\webdriver\support\expected_conditions.py", line 411, in _find_element
+    return driver.find_element(*by)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 976, in find_element
+    return self.execute(Command.FIND_ELEMENT, {
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 321, in execute
+    self.error_handler.check_response(response)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 242, in check_response
+    raise exception_class(message, screen, stacktrace)
+selenium.common.exceptions.NoSuchWindowException: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=108.0.5359.128)
+
+2023-01-10 09:45:05,596 frame22 INFO     username click
+2023-01-10 09:45:05,596 frame22 ERROR    error in username enter
+Traceback (most recent call last):
+  File "e:\PYTHON\irctc_v3\frame2.py", line 96, in start2
+    element3=wait.until(EC.presence_of_element_located((By.XPATH, '/html/body/app-root/app-home/div[3]/app-login/p-dialog[1]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/div[1]/input')))
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\selenium\webdriver\support\wait.py", line 71, in until
+    value = method(self._driver)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\selenium\webdriver\support\expected_conditions.py", line 64, in __call__
+    return _find_element(driver, self.locator)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\selenium\webdriver\support\expected_conditions.py", line 415, in _find_element
+    raise e
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\selenium\webdriver\support\expected_conditions.py", line 411, in _find_element
+    return driver.find_element(*by)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 976, in find_element
+    return self.execute(Command.FIND_ELEMENT, {
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 321, in execute
+    self.error_handler.check_response(response)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 242, in check_response
+    raise exception_class(message, screen, stacktrace)
+selenium.common.exceptions.NoSuchWindowException: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=108.0.5359.128)
+
+2023-01-10 09:45:05,604 frame22 INFO     password element find
+2023-01-10 09:45:05,604 frame22 ERROR    error in password enter
+Traceback (most recent call last):
+  File "e:\PYTHON\irctc_v3\frame2.py", line 114, in start2
+    element4=wait.until(EC.presence_of_element_located((By.XPATH, '/html/body/app-root/app-home/div[3]/app-login/p-dialog[1]/div/div/div[2]/div[2]/div/div[2]/div[2]/div[2]/form/div[2]/input')))
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\selenium\webdriver\support\wait.py", line 71, in until
+    value = method(self._driver)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\selenium\webdriver\support\expected_conditions.py", line 64, in __call__
+    return _find_element(driver, self.locator)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\selenium\webdriver\support\expected_conditions.py", line 415, in _find_element
+    raise e
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\selenium\webdriver\support\expected_conditions.py", line 411, in _find_element
+    return driver.find_element(*by)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 976, in find_element
+    return self.execute(Command.FIND_ELEMENT, {
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\selenium\webdriver\remote\webdriver.py", line 321, in execute
+    self.error_handler.check_response(response)
+  File "C:\Users\dell\AppData\Local\Programs\Python\Python39\lib\site-packages\selenium\webdriver\remote\errorhandler.py", line 242, in check_response
+    raise exception_class(message, screen, stacktrace)
+selenium.common.exceptions.NoSuchWindowException: Message: no such window: target window already closed
+from unknown error: web view not found
+  (Session info: chrome=108.0.5359.128)
+
+2023-01-10 09:45:05,620 frame22 INFO     getting login captcha
+2023-01-10 09:59:56,853 frame22 INFO     opening browser
+2023-01-10 10:00:17,530 frame22 INFO     getting element for login button
+2023-01-10 10:00:21,833 frame22 INFO     username click
+2023-01-10 10:00:24,413 frame22 INFO     username entered
+2023-01-10 10:00:24,413 frame22 INFO     password element find
+2023-01-10 10:00:24,973 frame22 INFO     password entered
+2023-01-10 10:00:24,973 frame22 INFO     getting login captcha
+2023-01-10 10:00:41,077 frame22 INFO     captcha entered
+2023-01-10 10:00:48,353 frame22 INFO     login done
+2023-01-10 10:00:48,353 frame22 INFO     getting FROM route element
+2023-01-10 10:00:50,534 frame22 INFO     getting TO route element
+2023-01-10 10:00:54,182 frame22 INFO     getting date element
+2023-01-10 10:00:55,343 frame22 INFO     tatkal click
+2023-01-10 10:00:56,111 frame22 INFO     train search start
+2023-01-10 10:00:56,463 frame22 INFO     train select page
+2023-01-10 10:00:56,463 frame22 INFO     refresh train button
+2023-01-10 10:01:02,435 frame22 INFO     choose train button
+2023-01-10 10:01:02,627 frame22 INFO     book button click
+2023-01-10 10:01:06,077 frame22 INFO     -------passanger detail filling page-------- 
+2023-01-10 10:01:06,077 frame22 INFO     passanger 1 detail filling
+2023-01-10 10:01:06,804 frame22 INFO     name enter
+2023-01-10 10:01:09,434 frame22 INFO     age enter
+2023-01-10 10:01:09,858 frame22 INFO     gender select
+2023-01-10 10:01:10,322 frame22 INFO     food choose
+2023-01-10 10:01:10,322 frame22 INFO     upi payment start
+2023-01-10 10:01:29,969 frame22 INFO     upi payment captcha page
+2023-01-10 10:01:39,702 frame22 INFO     upi payment captcha enter
+2023-01-10 10:01:41,969 frame22 INFO     upi continue_button
+2023-01-10 10:01:45,066 frame22 INFO     Multiple Payment Service
+2023-01-10 10:01:45,474 frame22 INFO     roserpay method
+2023-01-10 10:01:45,650 frame22 INFO     getting pay & book button
+2023-01-10 10:01:52,843 frame22 INFO     getting payment page
+2023-01-10 10:01:56,955 frame22 INFO     click upi or QR
+2023-01-10 10:01:57,267 frame22 INFO     click upi add button
+2023-01-10 10:01:57,939 frame22 INFO     upi added 
+2023-01-10 10:02:13,746 frame22 INFO     pay button click
+2023-01-10 10:02:16,026 frame22 INFO     mobile link sending
+2023-01-10 10:02:16,034 frame22 INFO     0:02:18

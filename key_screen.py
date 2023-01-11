@@ -11,9 +11,9 @@ class Keys_screen:
     def key_screen(self):
         
         keyframe=Frame(self.root,bg="white")
-        keyframe.place(x=400,y=200,width=400,height=200)
+        keyframe.place(x=80,y=50,width=400,height=200)
         keylabel=Label(keyframe,text='Enter Key ',bg='white',font= ("Courier", 10))
-        keylabel.place(x=0,y=60)
+        keylabel.place(x=10,y=60)
         
         keyentry=Entry(keyframe,bd=2,font= ("Courier", 12))
         keyentry.place(x=150,y=60,width=150,height=25)

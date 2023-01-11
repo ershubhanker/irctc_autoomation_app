@@ -1,0 +1,1 @@
+{"logger_check1": ["SocketHandler", "RotatingFileHandler"], "logger_check2": ["SocketHandler", "RotatingFileHandler"]}
